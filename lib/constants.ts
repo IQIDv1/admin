@@ -1,5 +1,5 @@
-export const APP_NAME = "IQID Admin";
-export const APP_DESCRIPTION = "Admin dashboard for IQID's Quiddy";
+export const APP_NAME = "Quiddy";
+export const APP_DESCRIPTION = "IQID Quiddy";
 export const APP_ICON = "/assets/icons/favicon.ico";
 export const APP_LOGO = "/assets/images/IQID-logo.png";
 export const APP_LOGO_CIRCLE = "/assets/images/IQID-logo-round.png";
@@ -8,6 +8,12 @@ export const THEMES = {
   DARK: "dark",
   LIGHT: "light",
   SYSTEM: "system",
+} as const;
+
+export const DATABASE_TABLES = {
+  ORGANIZATIONS: "organizations",
+  MEMBERS: "members",
+  INVITES: "invites",
 } as const;
 
 export const OPENAI_COMPLETIONS_MODEL = "gpt-4-turbo";
@@ -66,17 +72,19 @@ export const STATES = [
   "wyoming",
 ] as const;
 
-export const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-export const NEXT_PUBLIC_SUPABASE_ANON_KEY =
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-export const NEXT_PUBLIC_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-export const OPENAI_API_KEY = process.env.OPENAI_API_KEY!;
+export const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "";
 
-if (
-  !SUPABASE_SERVICE_ROLE_KEY ||
-  !NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  !NEXT_PUBLIC_SUPABASE_URL ||
-  !OPENAI_API_KEY
-) {
-  throw new Error("Missing required environment variables");
-}
+// export const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+// export const NEXT_PUBLIC_SUPABASE_ANON_KEY =
+//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+// export const NEXT_PUBLIC_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+// export const OPENAI_API_KEY = process.env.OPENAI_API_KEY!;
+
+// if (
+//   !SUPABASE_SERVICE_ROLE_KEY ||
+//   !NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+//   !NEXT_PUBLIC_SUPABASE_URL ||
+//   !OPENAI_API_KEY
+// ) {
+//   throw new Error("Missing required environment variables");
+// }

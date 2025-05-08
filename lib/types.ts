@@ -1,4 +1,10 @@
-// import type { Database } from "./database.types";
+import type { Database } from "./database.types";
+
+export type Organization = Database["public"]["Tables"]["organizations"]["Row"];
+export type Member = Database["public"]["Tables"]["members"]["Row"];
+export type Invite = Database["public"]["Tables"]["invites"]["Row"];
+
+export type THEMES = "dark" | "light";
 
 // export type ChatSession = Database["public"]["Tables"]["chat_sessions"]["Row"];
 // export type ChatMessage = Database["public"]["Tables"]["chat_messages"]["Row"];
@@ -10,8 +16,3 @@
 // export type FeedbackRating = "positive" | "negative";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface ApiResponse<T = any> {
-  success: boolean;
-  data?: T;
-  error?: string;
-}

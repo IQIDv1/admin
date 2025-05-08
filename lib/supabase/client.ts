@@ -1,13 +1,16 @@
 import { createBrowserClient } from "@supabase/ssr";
-import {
-  NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  NEXT_PUBLIC_SUPABASE_URL,
-} from "../constants";
-// import { Database } from "../database.types";
+import { Database } from "../database.types";
 
 export function createClient() {
-  //   return createBrowserClient<Database>(
-  return createBrowserClient(
+  const NEXT_PUBLIC_SUPABASE_ANON_KEY: string =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+  const NEXT_PUBLIC_SUPABASE_URL: string =
+    process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+
+  if (!NEXT_PUBLIC_SUPABASE_ANON_KEY || !NEXT_PUBLIC_SUPABASE_URL) {
+    throw new Error("Missing Supabase Environment Variables");
+  }
+  return createBrowserClient<Database>(
     NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY
   );

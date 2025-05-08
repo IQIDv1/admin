@@ -1,9 +1,23 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Legend } from "recharts"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from "react";
+import {
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+  Legend,
+} from "recharts";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const hourlyData = [
   { time: "00:00", emailsSent: 12, dataRetrieved: 45, draftsCreated: 8 },
@@ -11,7 +25,7 @@ const hourlyData = [
   { time: "02:00", emailsSent: 5, dataRetrieved: 20, draftsCreated: 3 },
   // ... add more hourly data points
   { time: "23:00", emailsSent: 15, dataRetrieved: 50, draftsCreated: 10 },
-]
+];
 
 const weeklyData = [
   { day: "Mon", emailsSent: 120, dataRetrieved: 450, draftsCreated: 80 },
@@ -21,22 +35,31 @@ const weeklyData = [
   { day: "Fri", emailsSent: 140, dataRetrieved: 480, draftsCreated: 90 },
   { day: "Sat", emailsSent: 90, dataRetrieved: 300, draftsCreated: 60 },
   { day: "Sun", emailsSent: 70, dataRetrieved: 250, draftsCreated: 45 },
-]
+];
 
 export function Overview() {
-  const [timeRange, setTimeRange] = useState("24h")
+  const [timeRange, setTimeRange] = useState("24h");
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-purple">Overview</CardTitle>
-        <CardDescription>Agent activity over the last {timeRange === "24h" ? "24 hours" : "week"}</CardDescription>
+        <CardTitle className="text-primary">Overview</CardTitle>
+        <CardDescription>
+          Agent activity over the last{" "}
+          {timeRange === "24h" ? "24 hours" : "week"}
+        </CardDescription>
         <Tabs value={timeRange} onValueChange={setTimeRange}>
           <TabsList>
-            <TabsTrigger value="24h" className="text-purple hover:bg-purple/10">
+            <TabsTrigger
+              value="24h"
+              className="text-primary hover:bg-purple/10"
+            >
               Last 24 Hours
             </TabsTrigger>
-            <TabsTrigger value="week" className="text-purple hover:bg-purple/10">
+            <TabsTrigger
+              value="week"
+              className="text-primary hover:bg-purple/10"
+            >
               Last Week
             </TabsTrigger>
           </TabsList>
@@ -61,13 +84,27 @@ export function Overview() {
             />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="emailsSent" stroke="hsl(267, 100%, 50%)" name="Emails Sent" />
-            <Line type="monotone" dataKey="dataRetrieved" stroke="hsl(267, 100%, 70%)" name="Data Retrieved" />
-            <Line type="monotone" dataKey="draftsCreated" stroke="hsl(267, 100%, 90%)" name="Drafts Created" />
+            <Line
+              type="monotone"
+              dataKey="emailsSent"
+              stroke="hsl(267, 100%, 50%)"
+              name="Emails Sent"
+            />
+            <Line
+              type="monotone"
+              dataKey="dataRetrieved"
+              stroke="hsl(267, 100%, 70%)"
+              name="Data Retrieved"
+            />
+            <Line
+              type="monotone"
+              dataKey="draftsCreated"
+              stroke="hsl(267, 100%, 90%)"
+              name="Drafts Created"
+            />
           </LineChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>
-  )
+  );
 }
-
