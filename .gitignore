@@ -50,12 +50,7 @@ next-env.d.ts
 *.swo
 
 # Supabase
-# This .gitignore is handled in the supabase directory
-# /supabase/.temp
-# /supabase/config.toml
-# .supabase
-# .branches
-# .temp
+sqldumps/
 
 # dotenvx
 .env.keys
