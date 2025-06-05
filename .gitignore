@@ -47,6 +47,7 @@ next-env.d.ts
 
 # Supabase
 sqldumps/
+supabase/seed.sql
 
 # dotenvx
 .env.keys

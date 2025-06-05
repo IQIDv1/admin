@@ -1,0 +1,59 @@
+-- SQL script to create tables for local dev
+-- You will need to create an auth user first using scripts/create_local_user.js,
+-- and then use the auth.users.id in the inserts below.
+
+-- 1. Create an organization
+INSERT INTO public.organizations (
+  id,                   -- we can let Postgres pick a default, or specify our own
+  name,
+  domain,
+  sso_provider_id,
+  sso_provider_name
+) VALUES (
+  '55a9b012-8dba-48c6-9cc6-ec3b774287d9',
+  'Local IQID Dev',               -- org name
+  'iqid.io',                      -- domain (must be UNIQUE)
+  gen_random_uuid(),              -- sso_provider_id (just a placeholder)
+  'google'                        -- sso_provider_name must be 'google' or 'microsoft'
+);
+
+INSERT INTO public.members (
+  id,
+  organization_id,
+  email,
+  first_name,
+  last_name,
+  display_name,
+  role,
+  active,
+  settings
+) VALUES (
+  '43a275eb-611d-46e7-b91a-5e4489ee042c',  -- this must match auth.users.id
+  '55a9b012-8dba-48c6-9cc6-ec3b774287d9',  -- the org we just made
+  'local.developer@iqid.io',
+  'Local',
+  'Dev',
+  'Local Dev',
+  'owner',        -- CHECK (role = ANY (['admin','staff','owner']))
+  true,           -- mark active
+  '{}'::jsonb     -- default settings
+);
+
+-- 3. Create an invite for another colleague
+INSERT INTO public.invites (
+  id,
+  organization_id,
+  email,
+  role,
+  invited_by,     -- must be an existing members.id
+  accepted,
+  expires_at
+) VALUES (
+  gen_random_uuid(),
+  '55a9b012-8dba-48c6-9cc6-ec3b774287d9',  -- same org
+  'another.dev@iqid.io',                   -- who you’re “inviting”
+  'admin',                                 -- one of ['owner','admin','staff']
+  '43a275eb-611d-46e7-b91a-5e4489ee042c',  -- invited by the “Local Dev” user
+  false,                                   -- not yet accepted
+  now() + interval '7 days'
+);

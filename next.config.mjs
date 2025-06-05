@@ -1,24 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // eslint: {
-  //   ignoreDuringBuilds: true,
-  // },
-  // typescript: {
-  //   ignoreBuildErrors: true,
-  // },
-  // images: {
-  //   unoptimized: true,
-  // },
-  // experimental: {
-  //   webpackBuildWorker: true,
-  //   parallelServerBuildTraces: true,
-  //   parallelServerCompiles: true,
-  // },
   reactStrictMode: true,
-  // env: {
-  //   NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-  //   NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  // },
+  env: {
+    NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
+  },
 };
 
 export default nextConfig;

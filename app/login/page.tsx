@@ -11,8 +11,10 @@ import { APP_LOGO, APP_NAME, NEXT_PUBLIC_SITE_URL } from "@/lib/constants";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@/lib/supabase/client";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { useSearchParams } from "next/navigation";
 import { z } from "zod";
+import {EMAIL, PASSWORD} from "@/scripts/local-user-credentials";
 
 const loginSchema = z.object({
   email: z
@@ -21,6 +23,21 @@ const loginSchema = z.object({
     .email("Invalid email address")
     .transform((val) => val.toLowerCase()),
 });
+
+const authLocalDev = async (supabase: SupabaseClient) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: EMAIL,
+    password: PASSWORD,
+  });
+  if (error) {
+    console.error("Local auth error:", error);
+    throw new Error("Local authentication failed");
+  }
+  if (data.user) {
+    console.log("Local auth successful:", data.user);
+    window.location.href = `${NEXT_PUBLIC_SITE_URL}`;
+  }
+};
 
 export default function Login() {
   const { toast } = useToast();
@@ -72,6 +89,13 @@ export default function Login() {
       if (!data || !data.success) {
         errorMessage = "Invalid domain";
         throw new Error();
+      }
+
+      // Bypass SSO for local development
+      const nodeEnv = process.env.NEXT_PUBLIC_NODE_ENV;
+      const appEnv = process.env.NEXT_PUBLIC_APP_ENV;
+      if (nodeEnv === "development" && appEnv === "local") {
+        return await authLocalDev(supabase);
       }
 
       const { data: signInData, error: signInError } =
