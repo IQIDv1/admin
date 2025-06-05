@@ -4,6 +4,9 @@ export const APP_ICON = "/assets/icons/favicon.ico";
 export const APP_LOGO = "/assets/images/IQID-logo.png";
 export const APP_LOGO_CIRCLE = "/assets/images/IQID-logo-round.png";
 
+export const LOCAL_DEV_EMAIL = 'local.developer@iqid.io';
+export const LOCAL_DEV_PASSWORD = 'Testing123!';
+
 export const THEMES = {
   DARK: "dark",
   LIGHT: "light",

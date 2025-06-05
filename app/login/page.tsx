@@ -7,14 +7,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { APP_LOGO, APP_NAME, NEXT_PUBLIC_SITE_URL } from "@/lib/constants";
+import {
+  APP_LOGO,
+  APP_NAME,
+  LOCAL_DEV_EMAIL,
+  LOCAL_DEV_PASSWORD,
+  NEXT_PUBLIC_SITE_URL
+} from "@/lib/constants";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@/lib/supabase/client";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { useSearchParams } from "next/navigation";
 import { z } from "zod";
-import {EMAIL, PASSWORD} from "@/scripts/local-user-credentials";
 
 const loginSchema = z.object({
   email: z
@@ -26,8 +31,8 @@ const loginSchema = z.object({
 
 const authLocalDev = async (supabase: SupabaseClient) => {
   const { data, error } = await supabase.auth.signInWithPassword({
-    email: EMAIL,
-    password: PASSWORD,
+    email: LOCAL_DEV_EMAIL,
+    password: LOCAL_DEV_PASSWORD,
   });
   if (error) {
     console.error("Local auth error:", error);
