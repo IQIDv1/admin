@@ -140,12 +140,344 @@ export type Database = {
         }
         Relationships: []
       }
+      student_academic: {
+        Row: {
+          academic_program: string | null
+          academic_standing: string | null
+          created_at: string
+          enrollment_status: string | null
+          gpa: number | null
+          id: string
+          sap_status: string | null
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          academic_program?: string | null
+          academic_standing?: string | null
+          created_at?: string
+          enrollment_status?: string | null
+          gpa?: number | null
+          id?: string
+          sap_status?: string | null
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          academic_program?: string | null
+          academic_standing?: string | null
+          created_at?: string
+          enrollment_status?: string | null
+          gpa?: number | null
+          id?: string
+          sap_status?: string | null
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_academic_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_current_aid: {
+        Row: {
+          created_at: string
+          federal_direct_subsidized: number | null
+          federal_direct_unsubsidized: number | null
+          federal_pell_grant: number | null
+          id: string
+          institutional_aid: number | null
+          state_aid: number | null
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          federal_direct_subsidized?: number | null
+          federal_direct_unsubsidized?: number | null
+          federal_pell_grant?: number | null
+          id?: string
+          institutional_aid?: number | null
+          state_aid?: number | null
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          federal_direct_subsidized?: number | null
+          federal_direct_unsubsidized?: number | null
+          federal_pell_grant?: number | null
+          id?: string
+          institutional_aid?: number | null
+          state_aid?: number | null
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_current_aid_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_financial_aid: {
+        Row: {
+          award_status: string | null
+          cost_of_attendance: number | null
+          created_at: string
+          dependency_status: string | null
+          fafsa_submission_date: string | null
+          id: string
+          outstanding_requirements: string | null
+          remaining_aid_eligibility: number | null
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          award_status?: string | null
+          cost_of_attendance?: number | null
+          created_at?: string
+          dependency_status?: string | null
+          fafsa_submission_date?: string | null
+          id?: string
+          outstanding_requirements?: string | null
+          remaining_aid_eligibility?: number | null
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          award_status?: string | null
+          cost_of_attendance?: number | null
+          created_at?: string
+          dependency_status?: string | null
+          fafsa_submission_date?: string | null
+          id?: string
+          outstanding_requirements?: string | null
+          remaining_aid_eligibility?: number | null
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_fin_aid_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_interactions_summary: {
+        Row: {
+          created_at: string
+          id: string
+          interaction_link: string | null
+          student_id: string
+          summary: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          interaction_link?: string | null
+          student_id: string
+          summary?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          interaction_link?: string | null
+          student_id?: string
+          summary?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_interactions_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_loans: {
+        Row: {
+          acceptance_status: string | null
+          amount: number | null
+          created_at: string
+          id: string
+          loan_type: string
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          acceptance_status?: string | null
+          amount?: number | null
+          created_at?: string
+          id?: string
+          loan_type: string
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          acceptance_status?: string | null
+          amount?: number | null
+          created_at?: string
+          id?: string
+          loan_type?: string
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_loans_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_payments: {
+        Row: {
+          authorized_payer: string | null
+          created_at: string
+          id: string
+          payer_email: string | null
+          payment_declined_reason: string | null
+          payment_plan_date: string | null
+          payment_plan_status: string | null
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          authorized_payer?: string | null
+          created_at?: string
+          id?: string
+          payer_email?: string | null
+          payment_declined_reason?: string | null
+          payment_plan_date?: string | null
+          payment_plan_status?: string | null
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          authorized_payer?: string | null
+          created_at?: string
+          id?: string
+          payer_email?: string | null
+          payment_declined_reason?: string | null
+          payment_plan_date?: string | null
+          payment_plan_status?: string | null
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_payments_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      students: {
+        Row: {
+          banner_student_id: string | null
+          citizenship_status: string | null
+          created_at: string
+          email: string | null
+          first_name: string
+          id: string
+          last_name: string
+          organization_id: string
+          phone: string | null
+          student_type: string | null
+          updated_at: string
+        }
+        Insert: {
+          banner_student_id?: string | null
+          citizenship_status?: string | null
+          created_at?: string
+          email?: string | null
+          first_name: string
+          id?: string
+          last_name: string
+          organization_id: string
+          phone?: string | null
+          student_type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          banner_student_id?: string | null
+          citizenship_status?: string | null
+          created_at?: string
+          email?: string | null
+          first_name?: string
+          id?: string
+          last_name?: string
+          organization_id?: string
+          phone?: string | null
+          student_type?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "students_org_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      studentstest: {
+        Row: {
+          created_at: string
+          email_address: string
+          first_name: string
+          id: string
+          last_name: string
+          original_id: string
+        }
+        Insert: {
+          created_at?: string
+          email_address: string
+          first_name: string
+          id?: string
+          last_name: string
+          original_id: string
+        }
+        Update: {
+          created_at?: string
+          email_address?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          original_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      current_user_org_id: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
@@ -266,3 +598,4 @@ export const Constants = {
     Enums: {},
   },
 } as const
+
