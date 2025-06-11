@@ -1,18 +1,15 @@
 import type { Database } from "./database.types";
 
-export type Organization = Database["public"]["Tables"]["organizations"]["Row"];
-export type Member = Database["public"]["Tables"]["members"]["Row"];
 export type Invite = Database["public"]["Tables"]["invites"]["Row"];
+export type Member = Database["public"]["Tables"]["members"]["Row"];
+export type Organization = Database["public"]["Tables"]["organizations"]["Row"];
+export type OrganizationMailbox = Database["public"]["Tables"]["organization_mailboxes"]["Row"];
+export type Student = Database["public"]["Tables"]["students"]["Row"];
+export type StudentAcademic = Database["public"]["Tables"]["student_academic"]["Row"];
+export type StudentCurrentAid = Database["public"]["Tables"]["student_current_aid"]["Row"];
+export type StudentFinancialAid = Database["public"]["Tables"]["student_financial_aid"]["Row"];
+export type StudentInteractionsSummary = Database["public"]["Tables"]["student_interactions_summary"]["Row"];
+export type StudentLoan = Database["public"]["Tables"]["student_loans"]["Row"];
+export type StudentPayment = Database["public"]["Tables"]["student_payments"]["Row"];
 
 export type THEMES = "dark" | "light";
-
-// export type ChatSession = Database["public"]["Tables"]["chat_sessions"]["Row"];
-// export type ChatMessage = Database["public"]["Tables"]["chat_messages"]["Row"];
-// export type Document = Database["public"]["Tables"]["documents"]["Row"];
-// export type Feedback = Database["public"]["Tables"]["feedback"]["Row"];
-// export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
-// export type UserRole = "user" | "admin";
-// export type MessageRole = "user" | "assistant" | "system";
-// export type FeedbackRating = "positive" | "negative";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -107,6 +107,50 @@ export type Database = {
           },
         ]
       }
+      organization_mailboxes: {
+        Row: {
+          connection_settings: Json
+          created_at: string
+          email_address: string
+          id: string
+          is_active: boolean
+          last_synced_at: string | null
+          organization_id: string
+          provider: string
+          updated_at: string
+        }
+        Insert: {
+          connection_settings: Json
+          created_at?: string
+          email_address: string
+          id?: string
+          is_active?: boolean
+          last_synced_at?: string | null
+          organization_id: string
+          provider: string
+          updated_at?: string
+        }
+        Update: {
+          connection_settings?: Json
+          created_at?: string
+          email_address?: string
+          id?: string
+          is_active?: boolean
+          last_synced_at?: string | null
+          organization_id?: string
+          provider?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_mailboxes_org_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organizations: {
         Row: {
           created_at: string

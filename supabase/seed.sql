@@ -159,5 +159,4 @@ INSERT INTO public.organization_mailboxes (
     "tenant_id":     "${MAIL_TENANT_ID}",
     "group_id":      "${MAIL_GROUP_ID}"
   }'::jsonb
-)
-ON CONFLICT (organization_id, email_address) DO NOTHING;
+);
