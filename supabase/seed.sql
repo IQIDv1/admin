@@ -143,3 +143,21 @@ INSERT INTO public.invites (
   false,
   now() + interval '7 days'
 );
+
+-- Update the connection_settings for the organization_mailboxes table
+-- Before running the seed, the CLIENT_ID, CLIENT_SECRET, TENANT_ID, and GROUP_ID
+-- variables have to be manually edited in the SQL file.
+INSERT INTO public.organization_mailboxes (
+  organization_id, provider, email_address, connection_settings
+) VALUES (
+  '55a9b012-8dba-48c6-9cc6-ec3b774287d9',
+  'microsoft',
+  'Eric@acceleratedequityinsights.com',
+  '{
+    "client_id":     "${MAIL_CLIENT_ID}",
+    "client_secret": "${MAIL_CLIENT_SECRET}",
+    "tenant_id":     "${MAIL_TENANT_ID}",
+    "group_id":      "${MAIL_GROUP_ID}"
+  }'::jsonb
+)
+ON CONFLICT (organization_id, email_address) DO NOTHING;
