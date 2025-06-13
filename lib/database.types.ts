@@ -107,6 +107,95 @@ export type Database = {
           },
         ]
       }
+      organization_inbound_messages: {
+        Row: {
+          body: string | null
+          created_at: string
+          embedding: string | null
+          id: string
+          message_id: string | null
+          organization_id: string
+          provider: string
+          received_at: string
+          recipient_address: string
+          sender_address: string
+          subject: string | null
+          thread_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          message_id?: string | null
+          organization_id: string
+          provider: string
+          received_at: string
+          recipient_address: string
+          sender_address: string
+          subject?: string | null
+          thread_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          message_id?: string | null
+          organization_id?: string
+          provider?: string
+          received_at?: string
+          recipient_address?: string
+          sender_address?: string
+          subject?: string | null
+          thread_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_inbound_messages_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organization_inbound_messages_students: {
+        Row: {
+          created_at: string
+          inbound_message_id: string
+          student_id: string
+        }
+        Insert: {
+          created_at?: string
+          inbound_message_id: string
+          student_id: string
+        }
+        Update: {
+          created_at?: string
+          inbound_message_id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_inbound_messages_students_inbound_message_id_fkey"
+            columns: ["inbound_message_id"]
+            isOneToOne: false
+            referencedRelation: "organization_inbound_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_inbound_messages_students_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organization_mailboxes: {
         Row: {
           connection_settings: Json
@@ -144,6 +233,101 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "organization_mailboxes_org_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organization_outbound_message_versions: {
+        Row: {
+          body: string | null
+          created_at: string
+          embedding: string | null
+          feedback: string | null
+          id: string
+          liked: boolean | null
+          outbound_message_id: string
+          subject: string | null
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          embedding?: string | null
+          feedback?: string | null
+          id?: string
+          liked?: boolean | null
+          outbound_message_id: string
+          subject?: string | null
+          updated_at?: string
+          version: number
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          embedding?: string | null
+          feedback?: string | null
+          id?: string
+          liked?: boolean | null
+          outbound_message_id?: string
+          subject?: string | null
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_outbound_message_versions_outbound_message_id_fkey"
+            columns: ["outbound_message_id"]
+            isOneToOne: false
+            referencedRelation: "organization_outbound_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organization_outbound_messages: {
+        Row: {
+          created_at: string
+          id: string
+          inbound_message_id: string
+          is_sent: boolean
+          organization_id: string
+          provider_message_id: string | null
+          sent_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          inbound_message_id: string
+          is_sent?: boolean
+          organization_id: string
+          provider_message_id?: string | null
+          sent_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          inbound_message_id?: string
+          is_sent?: boolean
+          organization_id?: string
+          provider_message_id?: string | null
+          sent_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_outbound_messages_inbound_message_id_fkey"
+            columns: ["inbound_message_id"]
+            isOneToOne: false
+            referencedRelation: "organization_inbound_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_outbound_messages_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
