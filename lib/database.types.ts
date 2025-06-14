@@ -9,6 +9,41 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      inbound_message_embeddings: {
+        Row: {
+          chunk_index: number
+          created_at: string
+          embedding: string
+          id: string
+          message_id: string
+          updated_at: string
+        }
+        Insert: {
+          chunk_index: number
+          created_at?: string
+          embedding: string
+          id?: string
+          message_id: string
+          updated_at?: string
+        }
+        Update: {
+          chunk_index?: number
+          created_at?: string
+          embedding?: string
+          id?: string
+          message_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inbound_message_embeddings_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "organization_inbound_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       invites: {
         Row: {
           accepted: boolean
@@ -111,7 +146,6 @@ export type Database = {
         Row: {
           body: string | null
           created_at: string
-          embedding: string | null
           id: string
           message_id: string | null
           organization_id: string
@@ -126,7 +160,6 @@ export type Database = {
         Insert: {
           body?: string | null
           created_at?: string
-          embedding?: string | null
           id?: string
           message_id?: string | null
           organization_id: string
@@ -141,7 +174,6 @@ export type Database = {
         Update: {
           body?: string | null
           created_at?: string
-          embedding?: string | null
           id?: string
           message_id?: string | null
           organization_id?: string

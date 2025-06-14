@@ -1,5 +1,6 @@
 import type { Database } from "./database.types";
 
+export type InboundMessageEmbedding = Database["public"]["Tables"]["inbound_message_embeddings"]["Row"];
 export type Invite = Database["public"]["Tables"]["invites"]["Row"];
 export type Member = Database["public"]["Tables"]["members"]["Row"];
 export type Organization = Database["public"]["Tables"]["organizations"]["Row"];
