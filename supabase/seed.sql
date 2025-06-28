@@ -1763,3 +1763,1304 @@ INSERT INTO public.student_academic (id, student_id, enrollment_status, academic
 VALUES ('2e004d9a-ebc5-4d3c-813c-6b20d75fbb02', 'ebf71b92-c913-48db-8e29-9bae35dae51e', 'Graduated', 'Business', 'Suspended', 3.99, 'Met')
 ON CONFLICT (id) DO NOTHING;
 
+-- Auto-generated seed for inbound messages and student mappings
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '46f18bdc-903f-4389-9543-992f76ea53d7', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'emerson.white59@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for emerson.white59@example.edu', 'Hi, could you update me on any missing documents for student ID f711290a-4d23-40dd-8010-e8c0d681b074?', 'microsoft', 'd54ddef6-eef2-44ff-834c-045ffc73a10a', '81a1f7f1-a546-4d98-af86-dc7191391f26', '2025-06-26T01:10:14.022119'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '46f18bdc-903f-4389-9543-992f76ea53d7', 'f711290a-4d23-40dd-8010-e8c0d681b074'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '6c86c129-6eb7-4a40-be1b-543811e8de07', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'FAFSA question for riley.smith97@example.edu', 'Hi, could you update me on any missing documents for student ID 7843791b-2a55-415c-9962-558938f63d28?', 'microsoft', '2cc45a93-3a63-423d-84b8-29ff9afd783d', '3a1aa0ad-79c0-4d68-82da-81f60f45f790', '2025-06-25T10:03:14.022861'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '6c86c129-6eb7-4a40-be1b-543811e8de07', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'a3404f2a-0dd1-45b6-ad9f-7f7e5bef0bc9', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for riley.smith97@example.edu', 'Hey, can you confirm receipt of my transcript for student ID 7843791b-2a55-415c-9962-558938f63d28? Thanks.', 'microsoft', '6d5645f5-b01e-4773-bd77-9341d3fb72ef', 'afff5ac8-e2f2-414c-a2ed-5dc83f8ec9c2', '2025-06-26T22:37:14.023578'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'a3404f2a-0dd1-45b6-ad9f-7f7e5bef0bc9', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'aa07dbd7-64a9-45c1-aada-8836726390d5', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for riley.smith97@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 7843791b-2a55-415c-9962-558938f63d28. Thanks.', 'microsoft', '58281c27-55d9-47e0-82ab-5b2512ab6dd1', '0017a5f0-1fe2-4861-bf0f-0824e9a56bf9', '2025-06-25T01:29:14.023724'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'aa07dbd7-64a9-45c1-aada-8836726390d5', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'bcc39dd1-81a2-492a-91b0-34850933239a', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.williams73@example.edu', 'finaid@montevallo.edu', 'Missing documents for parker.williams73@example.edu', 'Hey, can you confirm receipt of my transcript for student ID 78381907-b7ad-4c1d-881e-a3cd0ca092dd? Thanks.', 'microsoft', 'ae436c61-ab16-4209-a706-2172f693e92b', '3b87a81c-af3e-455d-854b-e6be7525bf43', '2025-06-27T17:27:14.023864'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'bcc39dd1-81a2-492a-91b0-34850933239a', '78381907-b7ad-4c1d-881e-a3cd0ca092dd'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'c43f34ad-9972-403b-97dd-16af67a76818', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'kerry.johnson14@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for kerry.johnson14@example.edu', 'Hey, can you confirm receipt of my transcript for student ID 6256be68-0512-42e9-afc2-8c2627cee1e7? Thanks.', 'microsoft', '0af6aea2-b1fc-4ad3-b12e-9bd370cb86b3', '72288836-17b4-466e-9421-0c84a336c094', '2025-06-27T03:58:14.024068'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'c43f34ad-9972-403b-97dd-16af67a76818', '6256be68-0512-42e9-afc2-8c2627cee1e7'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'a4e05c31-67c5-4628-bf6b-f383b76be624', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.davis52@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for parker.davis52@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 71f26f96-af68-4a9a-89c3-1186c2bed0e6. Thanks.', 'microsoft', 'dc170c1f-b5f8-4def-9709-9e9cb74e7cd0', 'd94e54cb-e712-4029-90ce-bfcfe3432f59', '2025-06-27T10:14:14.024114'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'a4e05c31-67c5-4628-bf6b-f383b76be624', '71f26f96-af68-4a9a-89c3-1186c2bed0e6'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '16d8ebb3-5c96-4fa5-9723-a3fe0a5e2ac2', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'FAFSA question for dakota.anderson41@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID c8bf63c3-f60c-4fc5-a8fd-cb9363993b99).', 'microsoft', '7ace02b8-7a9a-4d34-bc61-f41ca04ee0c1', '2945a509-3bf5-417a-b056-1d609635afc5', '2025-06-25T19:45:14.024159'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '16d8ebb3-5c96-4fa5-9723-a3fe0a5e2ac2', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '1c5880fb-56c2-41cd-9211-7746cabda737', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'kerry.johnson14@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for kerry.johnson14@example.edu', 'Hello team, I need assistance with my loan disbursement for ID 6256be68-0512-42e9-afc2-8c2627cee1e7.', 'microsoft', '934b8fca-3919-4761-bb76-f33535ec9502', '109e4564-b7af-47df-b170-2353d396b9e3', '2025-06-27T05:07:14.024210'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '1c5880fb-56c2-41cd-9211-7746cabda737', '6256be68-0512-42e9-afc2-8c2627cee1e7'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'cd2476a7-1d3d-4ef5-ab92-1bbc9b8a330e', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'kerry.johnson14@example.edu', 'finaid@montevallo.edu', 'Missing documents for kerry.johnson14@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 6256be68-0512-42e9-afc2-8c2627cee1e7).', 'microsoft', '6761b4f3-e02e-4718-999e-f646d34118dd', 'bccb4ccd-a997-4e51-8ae2-408706b20ef8', '2025-06-25T06:54:14.024370'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'cd2476a7-1d3d-4ef5-ab92-1bbc9b8a330e', '6256be68-0512-42e9-afc2-8c2627cee1e7'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '22d3adef-8ef6-42aa-8afd-3adfe6ca00b6', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'FAFSA question for micah.lopez20@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 25560219-73f8-4f7b-98ae-96b0a9e1986f. Thanks.', 'microsoft', 'c033df15-b4fe-4112-8c26-d31b42f592f4', '505d8fa7-a7f4-4877-8e23-5c498dff681e', '2025-06-26T19:25:14.024451'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '22d3adef-8ef6-42aa-8afd-3adfe6ca00b6', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'da0d8ba4-4fa7-4783-a31a-edc74e56c4ee', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.williams73@example.edu', 'finaid@montevallo.edu', 'Missing documents for parker.williams73@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 78381907-b7ad-4c1d-881e-a3cd0ca092dd).', 'microsoft', '855e51db-5cff-4003-92f1-9f9517209905', '5493f8d3-a5bc-47e2-bd9d-bc8014196128', '2025-06-26T12:49:14.024482'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'da0d8ba4-4fa7-4783-a31a-edc74e56c4ee', '78381907-b7ad-4c1d-881e-a3cd0ca092dd'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '9aa5248f-3986-445c-b872-f51891ba7cff', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'casey.martinez47@example.edu', 'finaid@montevallo.edu', 'FAFSA question for casey.martinez47@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID b5fc5a1f-095e-40fd-9744-7f0ae1479cc4).', 'microsoft', 'c3b7fa14-549a-4ded-96ef-b2294919e8be', '75e4729e-3cce-4632-be40-c8f34ec72670', '2025-06-25T13:06:14.024528'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '9aa5248f-3986-445c-b872-f51891ba7cff', 'b5fc5a1f-095e-40fd-9744-7f0ae1479cc4'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '6db356d9-7d0d-4d13-80c6-da3d5ccc9cba', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'kerry.johnson14@example.edu', 'finaid@montevallo.edu', 'FAFSA question for kerry.johnson14@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 6256be68-0512-42e9-afc2-8c2627cee1e7).', 'microsoft', '3c6a9f5e-01d6-470f-a390-9ff68fdfa2a9', '421aa22d-0159-42ed-aead-ba4f3267e4f7', '2025-06-27T01:21:14.024567'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '6db356d9-7d0d-4d13-80c6-da3d5ccc9cba', '6256be68-0512-42e9-afc2-8c2627cee1e7'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '1fbe63b4-146a-403f-9ca3-c2721bcfae50', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'finley.jackson49@example.edu', 'finaid@montevallo.edu', 'FAFSA question for finley.jackson49@example.edu', 'Hey, can you confirm receipt of my transcript for student ID 14c0fa81-2347-410c-9182-910107145267? Thanks.', 'microsoft', '953ac954-5ac1-4d05-9771-f207f77c33c0', '275453a1-b315-480f-ac26-5a4a11d333c8', '2025-06-26T04:02:14.024613'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '1fbe63b4-146a-403f-9ca3-c2721bcfae50', '14c0fa81-2347-410c-9182-910107145267'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '95180ad5-66d6-48b2-825e-f68a8b9ff1a8', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'Missing documents for dakota.anderson41@example.edu', 'Hi, could you update me on any missing documents for student ID c8bf63c3-f60c-4fc5-a8fd-cb9363993b99?', 'microsoft', '439800e8-1b3d-4ff3-b2e0-8f4555789705', '0cfdeebc-a1d0-4313-b1aa-d032ea4c96a7', '2025-06-27T08:13:14.024640'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '95180ad5-66d6-48b2-825e-f68a8b9ff1a8', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'f297d746-2cc2-46d5-99dc-4062904da389', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for riley.smith97@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 7843791b-2a55-415c-9962-558938f63d28).', 'microsoft', '85489ee3-8fa6-4461-b7f0-87eb2a1e95ca', 'b07526d4-b85b-49b1-b803-6704f89ecfa0', '2025-06-26T06:40:14.024665'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'f297d746-2cc2-46d5-99dc-4062904da389', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '9a89d03e-1bea-4c93-a661-b11be971ae1d', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.davis52@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for parker.davis52@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 71f26f96-af68-4a9a-89c3-1186c2bed0e6. Thanks.', 'microsoft', '0aea5bb9-ece2-48ef-bfb9-4919a6c3709f', '80851b20-f58e-412f-aad7-5b6848bb71e9', '2025-06-26T20:08:14.024690'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '9a89d03e-1bea-4c93-a661-b11be971ae1d', '71f26f96-af68-4a9a-89c3-1186c2bed0e6'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '03569ac8-d097-4fbd-94c4-5cb6c65f9b65', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for micah.lopez20@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 25560219-73f8-4f7b-98ae-96b0a9e1986f. Thanks.', 'microsoft', '566b94a2-0143-4fe6-bad8-36d94d37ee9e', 'de16e5ef-fb80-43f5-a703-4a5eebf5f45a', '2025-06-26T01:04:14.024718'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '03569ac8-d097-4fbd-94c4-5cb6c65f9b65', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '5a79d377-957c-4bfa-849d-37b19f4dab43', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'emerson.white59@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for emerson.white59@example.edu', 'Hello team, I need assistance with my loan disbursement for ID f711290a-4d23-40dd-8010-e8c0d681b074.', 'microsoft', '60e9c9e7-3d65-4acd-97e9-6e6aa313b51b', '4653f5b9-2016-4287-a58d-f6a6ba310635', '2025-06-26T11:38:14.024742'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '5a79d377-957c-4bfa-849d-37b19f4dab43', 'f711290a-4d23-40dd-8010-e8c0d681b074'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '986b93ce-aa1e-4800-a22b-10a60ab6d3af', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'kerry.johnson14@example.edu', 'finaid@montevallo.edu', 'Missing documents for kerry.johnson14@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 6256be68-0512-42e9-afc2-8c2627cee1e7).', 'microsoft', '7dde12d9-2638-47bf-b19d-d641348fc6c4', 'bec36a6b-8b9c-4616-827b-f48a63293fec', '2025-06-27T13:06:14.024765'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '986b93ce-aa1e-4800-a22b-10a60ab6d3af', '6256be68-0512-42e9-afc2-8c2627cee1e7'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '96250afd-93b8-4cbc-a5e8-b9dcbaf336f1', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for micah.lopez20@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 25560219-73f8-4f7b-98ae-96b0a9e1986f. Thanks.', 'microsoft', 'bd7590f6-6b81-40f7-9209-67fac3f5e827', '460968ff-663e-4931-af9c-9e7f55a13339', '2025-06-27T03:14:14.024789'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '96250afd-93b8-4cbc-a5e8-b9dcbaf336f1', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '796e9904-74c0-49a9-81a4-b2149560efba', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.williams73@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for parker.williams73@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 78381907-b7ad-4c1d-881e-a3cd0ca092dd).', 'microsoft', '2d8b159c-d37d-4e45-a2a6-b9d7aa0460b0', '285be27e-9488-4d8a-bb40-c2429008168a', '2025-06-26T10:11:14.024820'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '796e9904-74c0-49a9-81a4-b2149560efba', '78381907-b7ad-4c1d-881e-a3cd0ca092dd'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'cb2b1103-d794-4624-b164-079a17ec4eee', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.williams73@example.edu', 'finaid@montevallo.edu', 'FAFSA question for parker.williams73@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 78381907-b7ad-4c1d-881e-a3cd0ca092dd).', 'microsoft', '4c098244-0942-4c3c-b768-7e1ab26b22c4', 'bc208195-e6ad-49ec-9dd6-175eca9d8b61', '2025-06-25T01:25:14.024856'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'cb2b1103-d794-4624-b164-079a17ec4eee', '78381907-b7ad-4c1d-881e-a3cd0ca092dd'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'c540f3ba-dfa7-4f44-9ffc-6a049eeb421a', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'taylor.thompson60@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for taylor.thompson60@example.edu', 'Hey, can you confirm receipt of my transcript for student ID a870439b-ccf2-48ef-b635-9026027a1177? Thanks.', 'microsoft', '33b19c9a-d0e7-43ff-bdf5-7fb3d000407a', 'e963a8b0-015a-4eb0-9aa5-d66b7de3c245', '2025-06-27T03:24:14.024902'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'c540f3ba-dfa7-4f44-9ffc-6a049eeb421a', 'a870439b-ccf2-48ef-b635-9026027a1177'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '6d0699a2-2e75-4178-a8e5-964f74f54a51', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for micah.lopez20@example.edu', 'Hey, can you confirm receipt of my transcript for student ID 25560219-73f8-4f7b-98ae-96b0a9e1986f? Thanks.', 'microsoft', 'fb1e5be1-c10d-46b0-80b3-5b6458affa0a', '6a7ca57b-7ab1-45d8-bfd2-385461f1a8a8', '2025-06-25T08:13:14.024929'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '6d0699a2-2e75-4178-a8e5-964f74f54a51', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'f6cec8f1-f599-49fc-a4ef-dacdada3002e', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'taylor.thompson60@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for taylor.thompson60@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is a870439b-ccf2-48ef-b635-9026027a1177. Thanks.', 'microsoft', 'ea77cef3-0bf3-4198-b568-4be1e76ac2e2', '4101b6a8-a660-4486-9c3d-260c0eaa24cf', '2025-06-27T02:47:14.025018'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'f6cec8f1-f599-49fc-a4ef-dacdada3002e', 'a870439b-ccf2-48ef-b635-9026027a1177'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '9a830b2e-3116-4faf-98c1-f8e4cb420a77', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'FAFSA question for micah.lopez20@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 25560219-73f8-4f7b-98ae-96b0a9e1986f).', 'microsoft', 'e3828e8d-564c-43b1-88db-b3f6a368a568', '42c0abbd-d90a-4739-a190-afa71b65b6b5', '2025-06-27T05:55:14.025180'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '9a830b2e-3116-4faf-98c1-f8e4cb420a77', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'fb7a096d-4d19-40a6-b53e-2883bd7e1c91', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.davis52@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for parker.davis52@example.edu', 'Hi, could you update me on any missing documents for student ID 71f26f96-af68-4a9a-89c3-1186c2bed0e6?', 'microsoft', '92ba43f8-b781-402b-ab90-711dc4f08c0b', 'f2db9121-1b60-4019-9a27-f6f4934c3b08', '2025-06-26T21:58:14.025236'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'fb7a096d-4d19-40a6-b53e-2883bd7e1c91', '71f26f96-af68-4a9a-89c3-1186c2bed0e6'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '4905b5fe-748a-4ffc-b3a1-e4d00b42f496', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.davis52@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for parker.davis52@example.edu', 'Hi, could you update me on any missing documents for student ID 71f26f96-af68-4a9a-89c3-1186c2bed0e6?', 'microsoft', '7dc49ac5-386c-422e-a215-38e7b346ee2d', 'cd6cbfbe-71f9-49d3-84af-59336268e7f9', '2025-06-25T11:08:14.025264'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '4905b5fe-748a-4ffc-b3a1-e4d00b42f496', '71f26f96-af68-4a9a-89c3-1186c2bed0e6'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '1b4b8851-51ac-461a-83ee-825782f1dd34', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.williams73@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for parker.williams73@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 78381907-b7ad-4c1d-881e-a3cd0ca092dd. Thanks.', 'microsoft', '7c6f9654-d191-4802-a493-e3f5449d894d', '4e65df4c-109b-424b-984c-411f637928e2', '2025-06-26T20:38:14.025289'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '1b4b8851-51ac-461a-83ee-825782f1dd34', '78381907-b7ad-4c1d-881e-a3cd0ca092dd'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'f236afed-432f-4ef0-94ed-8a9fbe5eb9f3', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'emerson.white59@example.edu', 'finaid@montevallo.edu', 'Missing documents for emerson.white59@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is f711290a-4d23-40dd-8010-e8c0d681b074. Thanks.', 'microsoft', '959dd2fa-7e5a-4bf9-a1d3-a16c51b9d41d', '70dd7234-a167-4564-b4e9-96654a9618a5', '2025-06-25T18:58:14.025360'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'f236afed-432f-4ef0-94ed-8a9fbe5eb9f3', 'f711290a-4d23-40dd-8010-e8c0d681b074'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '418edd24-b273-482b-b866-85d6d076bca3', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'taylor.thompson60@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for taylor.thompson60@example.edu', 'Hello team, I need assistance with my loan disbursement for ID a870439b-ccf2-48ef-b635-9026027a1177.', 'microsoft', 'd66cd9fe-42ad-4da1-8bd5-a1c0d2e8a65a', '78baeff4-8ca5-4b9e-97b1-95122f21eb4b', '2025-06-27T18:01:14.025404'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '418edd24-b273-482b-b866-85d6d076bca3', 'a870439b-ccf2-48ef-b635-9026027a1177'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'c8112d26-4bb0-49b6-8686-c9f17ada81bb', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for dakota.anderson41@example.edu', 'Hello team, I need assistance with my loan disbursement for ID c8bf63c3-f60c-4fc5-a8fd-cb9363993b99.', 'microsoft', 'c09e71e4-a8f4-4990-83e7-33b70828e791', '567a06d2-c309-40b6-be0c-34d6f6154bb7', '2025-06-25T20:09:14.025446'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'c8112d26-4bb0-49b6-8686-c9f17ada81bb', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '20e6c75a-8879-4bbe-993b-88ad10e221ae', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'finley.jackson49@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for finley.jackson49@example.edu', 'Hi, could you update me on any missing documents for student ID 14c0fa81-2347-410c-9182-910107145267?', 'microsoft', 'f035cdb0-4f5d-4125-a766-4ac55f79331d', '2a673cd4-5226-4459-8b3d-371ac0c2defc', '2025-06-27T09:37:14.025500'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '20e6c75a-8879-4bbe-993b-88ad10e221ae', '14c0fa81-2347-410c-9182-910107145267'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '818967f4-6785-4c4c-b4b9-2ebaa362f7c6', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'finley.jackson49@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for finley.jackson49@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 14c0fa81-2347-410c-9182-910107145267).', 'microsoft', '146671c2-b91b-42d3-b1b2-a06a9a310bd4', 'e64f571e-0ebd-4fe5-a58d-fcc0544fd4e8', '2025-06-26T23:19:14.025524'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '818967f4-6785-4c4c-b4b9-2ebaa362f7c6', '14c0fa81-2347-410c-9182-910107145267'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '5d07a1c6-cd55-435f-922c-ef58da2011fb', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'finley.jackson49@example.edu', 'finaid@montevallo.edu', 'Missing documents for finley.jackson49@example.edu', 'Hello team, I need assistance with my loan disbursement for ID 14c0fa81-2347-410c-9182-910107145267.', 'microsoft', '5f1a989c-17e6-44bb-91c4-a4e0e99c297c', '87402441-cb7c-4413-b485-d13660a893e4', '2025-06-27T00:16:14.025554'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '5d07a1c6-cd55-435f-922c-ef58da2011fb', '14c0fa81-2347-410c-9182-910107145267'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '228fe0be-0b31-418a-87c6-18671abfec4d', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for micah.lopez20@example.edu', 'Hello team, I need assistance with my loan disbursement for ID 25560219-73f8-4f7b-98ae-96b0a9e1986f.', 'microsoft', '2a7f63f5-87bc-40ee-8ae2-87f3c4591f38', 'e0a66154-f01e-44fe-a935-ffa7d0448252', '2025-06-27T21:27:14.025578'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '228fe0be-0b31-418a-87c6-18671abfec4d', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '48a59ae8-4a8b-4cb9-9e22-ff458553fb33', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'finley.jackson49@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for finley.jackson49@example.edu', 'Hey, can you confirm receipt of my transcript for student ID 14c0fa81-2347-410c-9182-910107145267? Thanks.', 'microsoft', 'ccac0fbf-9861-4453-8520-4231182b6168', '9bc4b3c6-5aed-4a34-92eb-c92e39f1a5c3', '2025-06-26T13:11:14.025601'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '48a59ae8-4a8b-4cb9-9e22-ff458553fb33', '14c0fa81-2347-410c-9182-910107145267'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'bd9c6d39-5dfa-45db-9830-51b338948dcf', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'finley.jackson49@example.edu', 'finaid@montevallo.edu', 'Missing documents for finley.jackson49@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 14c0fa81-2347-410c-9182-910107145267).', 'microsoft', '9fa7b050-6ceb-4ac2-bad0-7b6ca655f344', '890e418a-d35b-4d32-96b9-9c17620d863c', '2025-06-25T20:18:14.025626'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'bd9c6d39-5dfa-45db-9830-51b338948dcf', '14c0fa81-2347-410c-9182-910107145267'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '45dff4ba-7de0-4cdc-b0a9-13d2cdaeae69', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'taylor.thompson60@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for taylor.thompson60@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID a870439b-ccf2-48ef-b635-9026027a1177).', 'microsoft', '2660b13a-5c38-4b32-bf71-c52ab25d2bfb', '39ef4367-06fe-4d58-9a74-42efba738b24', '2025-06-25T08:09:14.025649'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '45dff4ba-7de0-4cdc-b0a9-13d2cdaeae69', 'a870439b-ccf2-48ef-b635-9026027a1177'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '1d359643-77df-4ac5-825b-2d8716da4999', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for micah.lopez20@example.edu', 'Hello team, I need assistance with my loan disbursement for ID 25560219-73f8-4f7b-98ae-96b0a9e1986f.', 'microsoft', 'bfce2e17-0359-43eb-9a0f-bc588fd2c330', '39438235-44c2-42c4-8966-04ec10e3d55e', '2025-06-25T04:46:14.025672'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '1d359643-77df-4ac5-825b-2d8716da4999', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '905d1c72-b4d1-49e4-a014-90ddf18a1c50', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'FAFSA question for micah.lopez20@example.edu', 'Hello team, I need assistance with my loan disbursement for ID 25560219-73f8-4f7b-98ae-96b0a9e1986f.', 'microsoft', 'ff9100fd-7230-4dc6-bccd-e24cf5deefdf', '387d9c1f-d39c-4221-86bb-1918a6ab1e2d', '2025-06-26T03:55:14.025706'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '905d1c72-b4d1-49e4-a014-90ddf18a1c50', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'a1557eed-69a1-46c5-a5ca-ca6fcf861538', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.williams73@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for parker.williams73@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 78381907-b7ad-4c1d-881e-a3cd0ca092dd. Thanks.', 'microsoft', 'a225e1a5-2f63-455d-8f4d-12c3f517d54d', 'db91250e-0f4b-44de-b4d9-2709eb82f1eb', '2025-06-27T08:21:14.025730'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'a1557eed-69a1-46c5-a5ca-ca6fcf861538', '78381907-b7ad-4c1d-881e-a3cd0ca092dd'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '6b79e5a6-9354-4895-8571-367af843da1e', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for dakota.anderson41@example.edu', 'Hello team, I need assistance with my loan disbursement for ID c8bf63c3-f60c-4fc5-a8fd-cb9363993b99.', 'microsoft', '67c7a169-88d4-4b83-a5b8-cb3efae2186e', '555acaf4-9a48-4ecf-96f3-1513c8858e06', '2025-06-25T05:11:14.025754'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '6b79e5a6-9354-4895-8571-367af843da1e', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '885dea87-dc42-4515-b9d9-a1087d4aba2b', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'casey.martinez47@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for casey.martinez47@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is b5fc5a1f-095e-40fd-9744-7f0ae1479cc4. Thanks.', 'microsoft', 'ccfa8ea4-5608-45f5-bfb6-76ba239b8095', '69c9a0d2-1f31-498f-8755-907c8ad6d5e7', '2025-06-26T08:34:14.025777'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '885dea87-dc42-4515-b9d9-a1087d4aba2b', 'b5fc5a1f-095e-40fd-9744-7f0ae1479cc4'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'ef6ed6b2-071e-48c1-8aca-18ec65275325', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.davis52@example.edu', 'finaid@montevallo.edu', 'Missing documents for parker.davis52@example.edu', 'Hello team, I need assistance with my loan disbursement for ID 71f26f96-af68-4a9a-89c3-1186c2bed0e6.', 'microsoft', '4b2983da-adc3-4bb1-988e-bebbada7b934', '0441462c-b721-4939-99d0-edf27ac7e2bd', '2025-06-25T11:19:14.025801'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'ef6ed6b2-071e-48c1-8aca-18ec65275325', '71f26f96-af68-4a9a-89c3-1186c2bed0e6'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '1b1fb88d-0e09-496f-92a0-42abc2d8fc2f', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'FAFSA question for riley.smith97@example.edu', 'Hi, could you update me on any missing documents for student ID 7843791b-2a55-415c-9962-558938f63d28?', 'microsoft', 'ae20a7c8-0e4c-4a92-976e-d60dc1863a82', '3998d304-0303-4f3d-bdbc-fc76b2736ed6', '2025-06-27T20:47:14.025832'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '1b1fb88d-0e09-496f-92a0-42abc2d8fc2f', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'd3baaaf2-e457-4ef4-a9aa-bee605194501', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for dakota.anderson41@example.edu', 'Hey, can you confirm receipt of my transcript for student ID c8bf63c3-f60c-4fc5-a8fd-cb9363993b99? Thanks.', 'microsoft', '752464ba-c185-4047-8997-99ad6e7d5a3f', '369f47dc-bac0-45ad-9f19-af09815fb21b', '2025-06-26T07:28:14.025856'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'd3baaaf2-e457-4ef4-a9aa-bee605194501', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'c8d96f30-8d91-43c6-9a2d-c4b43b0c002f', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for micah.lopez20@example.edu', 'Hey, can you confirm receipt of my transcript for student ID 25560219-73f8-4f7b-98ae-96b0a9e1986f? Thanks.', 'microsoft', '195da66c-1d2d-4735-b167-ce2279dbb60e', '034df331-0ebc-425e-a2c7-041da5599e5e', '2025-06-26T17:43:14.025880'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'c8d96f30-8d91-43c6-9a2d-c4b43b0c002f', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '90f0491b-0fb2-49b4-b155-6918936478ad', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for micah.lopez20@example.edu', 'Hi, could you update me on any missing documents for student ID 25560219-73f8-4f7b-98ae-96b0a9e1986f?', 'microsoft', '54236144-8506-4353-b66c-5dc3abab760f', '16cbeb43-e769-44f5-a917-df864acd7e83', '2025-06-27T08:38:14.025903'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '90f0491b-0fb2-49b4-b155-6918936478ad', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'b29db34c-de38-4f02-8bed-5e79123ac369', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for micah.lopez20@example.edu', 'Hey, can you confirm receipt of my transcript for student ID 25560219-73f8-4f7b-98ae-96b0a9e1986f? Thanks.', 'microsoft', 'b05172e9-ef09-4748-9560-91067d3638fc', '68257384-f155-48db-9969-18c49b5f03b9', '2025-06-25T04:46:14.025927'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'b29db34c-de38-4f02-8bed-5e79123ac369', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '8d1f61ff-6390-470e-b548-9e906dd59bd5', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.davis52@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for parker.davis52@example.edu', 'Hi, could you update me on any missing documents for student ID 71f26f96-af68-4a9a-89c3-1186c2bed0e6?', 'microsoft', '07b8ba8e-028c-4fde-a940-3d60ad48333c', '02e2be1d-34eb-452d-b747-173632502467', '2025-06-25T18:16:14.025966'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '8d1f61ff-6390-470e-b548-9e906dd59bd5', '71f26f96-af68-4a9a-89c3-1186c2bed0e6'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'ab8e892a-b699-4ed9-b306-b69d9d7c6f19', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'casey.martinez47@example.edu', 'finaid@montevallo.edu', 'Missing documents for casey.martinez47@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID b5fc5a1f-095e-40fd-9744-7f0ae1479cc4).', 'microsoft', 'b5f848bb-a3c9-407b-b688-4e9f9bcad13c', '6c7c0810-dacc-42b3-b0b8-a3e8c79e205c', '2025-06-25T12:52:14.025990'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'ab8e892a-b699-4ed9-b306-b69d9d7c6f19', 'b5fc5a1f-095e-40fd-9744-7f0ae1479cc4'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '6c492baf-fa2a-40a1-b664-0dd8bb1ac6ca', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'taylor.thompson60@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for taylor.thompson60@example.edu', 'Hello team, I need assistance with my loan disbursement for ID a870439b-ccf2-48ef-b635-9026027a1177.', 'microsoft', 'd5780868-c973-43db-aa38-e9225428c616', '3048663f-e2fb-4bc8-933f-a715862db792', '2025-06-27T13:12:14.026015'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '6c492baf-fa2a-40a1-b664-0dd8bb1ac6ca', 'a870439b-ccf2-48ef-b635-9026027a1177'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'c7aed97c-4938-43f3-9b12-b86cf8fdf20e', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.williams73@example.edu', 'finaid@montevallo.edu', 'FAFSA question for parker.williams73@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 78381907-b7ad-4c1d-881e-a3cd0ca092dd. Thanks.', 'microsoft', 'a81b8058-4b33-440e-b240-6ba5bcb4f458', '69b7c568-2a80-434f-9b8e-63113ca23e10', '2025-06-26T21:10:14.026043'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'c7aed97c-4938-43f3-9b12-b86cf8fdf20e', '78381907-b7ad-4c1d-881e-a3cd0ca092dd'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '2754be1b-8cee-4987-ba32-63b1cf717c2f', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'emerson.white59@example.edu', 'finaid@montevallo.edu', 'Missing documents for emerson.white59@example.edu', 'Hi, could you update me on any missing documents for student ID f711290a-4d23-40dd-8010-e8c0d681b074?', 'microsoft', 'a7292179-e616-4def-a845-ad6059f5ab15', 'f97381fe-e437-4ee3-a51f-bfea851a7daf', '2025-06-27T04:02:14.026072'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '2754be1b-8cee-4987-ba32-63b1cf717c2f', 'f711290a-4d23-40dd-8010-e8c0d681b074'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'c551ad9d-7605-4db8-a64d-89ef35a8a550', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'taylor.thompson60@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for taylor.thompson60@example.edu', 'Hi, could you update me on any missing documents for student ID a870439b-ccf2-48ef-b635-9026027a1177?', 'microsoft', 'b44bc675-fb35-49d6-891a-6645aa1cb127', '607026c4-5920-4fa3-8447-7d6d37f1d6c7', '2025-06-25T22:33:14.026111'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'c551ad9d-7605-4db8-a64d-89ef35a8a550', 'a870439b-ccf2-48ef-b635-9026027a1177'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '33442b47-72ad-4957-8334-a855e6b70920', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'taylor.thompson60@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for taylor.thompson60@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is a870439b-ccf2-48ef-b635-9026027a1177. Thanks.', 'microsoft', 'd247a5f0-6e73-4432-827a-23385176f184', 'e98d2edf-d3ab-43b8-a909-132818cd8f78', '2025-06-27T20:56:14.026142'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '33442b47-72ad-4957-8334-a855e6b70920', 'a870439b-ccf2-48ef-b635-9026027a1177'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'ffaee788-ab3a-4353-9f2d-5315a653e5f6', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'FAFSA question for riley.smith97@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 7843791b-2a55-415c-9962-558938f63d28).', 'microsoft', 'aafc44f1-9205-4bb1-a73c-35191719c959', '0206979d-4ec7-4da4-b818-d34a6d2d2e73', '2025-06-25T22:45:14.026166'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'ffaee788-ab3a-4353-9f2d-5315a653e5f6', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'b74631e0-b6a3-4a84-8a4c-3ad8ecea05b1', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'taylor.thompson60@example.edu', 'finaid@montevallo.edu', 'FAFSA question for taylor.thompson60@example.edu', 'Hey, can you confirm receipt of my transcript for student ID a870439b-ccf2-48ef-b635-9026027a1177? Thanks.', 'microsoft', '55dc5e30-cbe0-4739-bc9a-6bdcb941d99a', '82b5b40c-540a-4070-b1ff-40984323b92e', '2025-06-25T18:20:14.026190'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'b74631e0-b6a3-4a84-8a4c-3ad8ecea05b1', 'a870439b-ccf2-48ef-b635-9026027a1177'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '7a5186e2-f0ab-4406-9d9c-eee19813ed01', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'kerry.johnson14@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for kerry.johnson14@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 6256be68-0512-42e9-afc2-8c2627cee1e7. Thanks.', 'microsoft', 'e7b71172-269f-45d7-805b-076495829aeb', '1af86de6-da1f-459a-92db-a1aeac98dfba', '2025-06-27T02:36:14.026213'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '7a5186e2-f0ab-4406-9d9c-eee19813ed01', '6256be68-0512-42e9-afc2-8c2627cee1e7'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '514ce3e6-5c2d-4935-9814-dd424f263b7a', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'emerson.white59@example.edu', 'finaid@montevallo.edu', 'Missing documents for emerson.white59@example.edu', 'Hello team, I need assistance with my loan disbursement for ID f711290a-4d23-40dd-8010-e8c0d681b074.', 'microsoft', 'b0a68ae6-9397-401a-9e83-e3f7353397e9', '40564b9c-9952-4482-b3ff-dea382cdc091', '2025-06-26T20:46:14.026238'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '514ce3e6-5c2d-4935-9814-dd424f263b7a', 'f711290a-4d23-40dd-8010-e8c0d681b074'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '3c80f88a-8edc-4bba-abd7-24def2f7992a', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'FAFSA question for dakota.anderson41@example.edu', 'Hey, can you confirm receipt of my transcript for student ID c8bf63c3-f60c-4fc5-a8fd-cb9363993b99? Thanks.', 'microsoft', 'a90db4b0-1135-43ab-b5dc-df1376a84e7a', '29918102-1d40-4819-a146-572937806a62', '2025-06-26T23:06:14.026260'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '3c80f88a-8edc-4bba-abd7-24def2f7992a', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '03695b18-c4ba-483d-9c84-98b9fe612b1d', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'finley.jackson49@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for finley.jackson49@example.edu', 'Hey, can you confirm receipt of my transcript for student ID 14c0fa81-2347-410c-9182-910107145267? Thanks.', 'microsoft', '186a7638-5ffd-453c-a6a7-c0c47c6eb473', 'fda639ff-8a0a-4ba5-81e5-621b9abc6d47', '2025-06-27T12:43:14.026284'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '03695b18-c4ba-483d-9c84-98b9fe612b1d', '14c0fa81-2347-410c-9182-910107145267'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '5992e142-09e3-46ac-be55-e83c2ea7849a', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.williams73@example.edu', 'finaid@montevallo.edu', 'Missing documents for parker.williams73@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 78381907-b7ad-4c1d-881e-a3cd0ca092dd).', 'microsoft', '3a742fd6-2e9f-4e4d-b1fd-f4695d27bd32', '713ed169-e147-4fc3-afd7-52fa6f84cf43', '2025-06-25T21:41:14.026307'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '5992e142-09e3-46ac-be55-e83c2ea7849a', '78381907-b7ad-4c1d-881e-a3cd0ca092dd'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '1a8875ea-d849-4cd3-8dc6-871bddab4156', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.williams73@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for parker.williams73@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 78381907-b7ad-4c1d-881e-a3cd0ca092dd).', 'microsoft', 'd9497484-ad72-4e30-b47f-e4c6717aaaa8', 'a73c6403-f10a-4fe4-8966-432e0fb0719a', '2025-06-25T01:21:14.026330'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '1a8875ea-d849-4cd3-8dc6-871bddab4156', '78381907-b7ad-4c1d-881e-a3cd0ca092dd'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '6f833a36-6297-4550-8b5a-bc6ee0626312', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for micah.lopez20@example.edu', 'Hi, could you update me on any missing documents for student ID 25560219-73f8-4f7b-98ae-96b0a9e1986f?', 'microsoft', '5f2383cd-20b6-4550-aae8-1ab6769c398d', '0bab6acd-8332-48d9-85fc-d1a7149f8c86', '2025-06-27T08:46:14.026354'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '6f833a36-6297-4550-8b5a-bc6ee0626312', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '2a98cd04-0674-4127-935d-21da7b017c62', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'emerson.white59@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for emerson.white59@example.edu', 'Hey, can you confirm receipt of my transcript for student ID f711290a-4d23-40dd-8010-e8c0d681b074? Thanks.', 'microsoft', '716164d3-bbb9-402a-b0f3-587a2f9754d0', '5a5558a8-5fc4-4f0b-bd31-12b78ffb4c1b', '2025-06-25T11:25:14.026376'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '2a98cd04-0674-4127-935d-21da7b017c62', 'f711290a-4d23-40dd-8010-e8c0d681b074'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '65813470-ea2a-4d91-9a10-8b1ea4ff08bf', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for riley.smith97@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 7843791b-2a55-415c-9962-558938f63d28. Thanks.', 'microsoft', '1aa80bfa-0d66-43a7-a4b8-822c54246eb1', '6c265ac4-5f5a-4a33-abdf-f0c02b6ae652', '2025-06-27T13:47:14.026420'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '65813470-ea2a-4d91-9a10-8b1ea4ff08bf', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '6525df8a-00c3-41d0-909f-8e2734d6b57c', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for riley.smith97@example.edu', 'Hi, could you update me on any missing documents for student ID 7843791b-2a55-415c-9962-558938f63d28?', 'microsoft', 'e94c3fee-6a92-4e80-aeb7-7daefa445f44', '3debe9e2-0e1e-4052-9ed2-5c00a9dbfe24', '2025-06-26T16:14:14.026447'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '6525df8a-00c3-41d0-909f-8e2734d6b57c', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'db4fb0a7-ace7-4d43-9b6e-683e85d954bb', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.williams73@example.edu', 'finaid@montevallo.edu', 'FAFSA question for parker.williams73@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 78381907-b7ad-4c1d-881e-a3cd0ca092dd. Thanks.', 'microsoft', '9e31289f-21c2-4a10-afa2-e86afbc7a240', '0ed869f7-7c97-48e7-909b-56ebd643712f', '2025-06-25T00:37:14.026498'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'db4fb0a7-ace7-4d43-9b6e-683e85d954bb', '78381907-b7ad-4c1d-881e-a3cd0ca092dd'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'fb4e3ffe-ec17-444e-98de-37de13ea4475', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'casey.martinez47@example.edu', 'finaid@montevallo.edu', 'FAFSA question for casey.martinez47@example.edu', 'Hey, can you confirm receipt of my transcript for student ID b5fc5a1f-095e-40fd-9744-7f0ae1479cc4? Thanks.', 'microsoft', '4e6943e1-7f85-4518-b209-b50940939d1e', '845296f8-387e-473b-99ee-330752848a6f', '2025-06-27T01:16:14.026538'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'fb4e3ffe-ec17-444e-98de-37de13ea4475', 'b5fc5a1f-095e-40fd-9744-7f0ae1479cc4'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '81a50927-0402-4cce-9478-e7bb8fdc1c62', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'taylor.thompson60@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for taylor.thompson60@example.edu', 'Hey, can you confirm receipt of my transcript for student ID a870439b-ccf2-48ef-b635-9026027a1177? Thanks.', 'microsoft', '4984ef4e-557f-48cd-b093-2bc1c03a8aa3', '639ef659-fec7-46f4-a9df-8f73b080cc32', '2025-06-26T21:09:14.026563'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '81a50927-0402-4cce-9478-e7bb8fdc1c62', 'a870439b-ccf2-48ef-b635-9026027a1177'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'c4da6a54-de14-4c65-8321-20ebe4a43db9', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for riley.smith97@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 7843791b-2a55-415c-9962-558938f63d28. Thanks.', 'microsoft', '9ce6008a-8fa3-44ce-b8eb-ace811937147', 'a971f138-9f0b-43e2-a5de-806e9067e132', '2025-06-25T11:10:14.026585'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'c4da6a54-de14-4c65-8321-20ebe4a43db9', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '150a531b-128a-48ee-94ce-fd7d8d83f3c1', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for dakota.anderson41@example.edu', 'Hello team, I need assistance with my loan disbursement for ID c8bf63c3-f60c-4fc5-a8fd-cb9363993b99.', 'microsoft', 'ecf51f3f-87c8-4ccd-a6d0-2b448e069395', '0257a304-7276-4636-9600-015c9f5d9a91', '2025-06-26T23:04:14.026609'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '150a531b-128a-48ee-94ce-fd7d8d83f3c1', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'fa9882f2-b9d1-4358-808f-8705742e25d8', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for riley.smith97@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 7843791b-2a55-415c-9962-558938f63d28. Thanks.', 'microsoft', '893c41e0-1fc9-4a29-b396-4313a530a598', 'fe6ecbb4-c035-4736-bb11-9b59706305fa', '2025-06-25T16:46:14.026636'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'fa9882f2-b9d1-4358-808f-8705742e25d8', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'c472620b-9fb9-4368-9bd4-688dcbe3d3de', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'casey.martinez47@example.edu', 'finaid@montevallo.edu', 'Missing documents for casey.martinez47@example.edu', 'Hello team, I need assistance with my loan disbursement for ID b5fc5a1f-095e-40fd-9744-7f0ae1479cc4.', 'microsoft', '8f6a8312-582d-41ff-8545-99d3e058a275', '895e2030-7ebd-4b5d-a1c2-8ffcea1d733a', '2025-06-26T04:53:14.026662'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'c472620b-9fb9-4368-9bd4-688dcbe3d3de', 'b5fc5a1f-095e-40fd-9744-7f0ae1479cc4'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '9ca1fd12-5eea-41c1-9ef9-b55bd44dc301', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for micah.lopez20@example.edu', 'Hello team, I need assistance with my loan disbursement for ID 25560219-73f8-4f7b-98ae-96b0a9e1986f.', 'microsoft', 'bd900f96-5686-4972-847c-5cf53f9ec2a1', '7e981ef4-9318-4b4d-b40c-8100ffb3ea11', '2025-06-27T05:53:14.026698'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '9ca1fd12-5eea-41c1-9ef9-b55bd44dc301', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '1cf39cad-b762-4978-8c3e-343286bfb677', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'FAFSA question for riley.smith97@example.edu', 'Hi, could you update me on any missing documents for student ID 7843791b-2a55-415c-9962-558938f63d28?', 'microsoft', '474161f7-3241-443a-80de-40e34f57d5e8', '00b8dfb6-e49a-4fe9-a6ff-e520cb7234e6', '2025-06-27T16:04:14.026749'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '1cf39cad-b762-4978-8c3e-343286bfb677', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'dd9335b9-d3bf-4307-80fb-5cd51a3a054a', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for dakota.anderson41@example.edu', 'Hi, could you update me on any missing documents for student ID c8bf63c3-f60c-4fc5-a8fd-cb9363993b99?', 'microsoft', '715b95bd-31a1-42da-8d90-610dcad3afb8', 'e40c1331-fb02-4ee7-a070-95b28c922c89', '2025-06-26T03:11:14.026776'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'dd9335b9-d3bf-4307-80fb-5cd51a3a054a', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '33f3103f-104a-428c-b053-c53c7616c911', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.davis52@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for parker.davis52@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 71f26f96-af68-4a9a-89c3-1186c2bed0e6).', 'microsoft', '8da575c3-7834-4ad6-b627-4a3c26cd92fe', 'dfea7624-93b4-4f55-b36e-96d111a0ed61', '2025-06-25T06:12:14.026799'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '33f3103f-104a-428c-b053-c53c7616c911', '71f26f96-af68-4a9a-89c3-1186c2bed0e6'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '67fd1859-37f6-423a-a61b-f2ea0bf72c0f', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'finley.jackson49@example.edu', 'finaid@montevallo.edu', 'Missing documents for finley.jackson49@example.edu', 'Hey, can you confirm receipt of my transcript for student ID 14c0fa81-2347-410c-9182-910107145267? Thanks.', 'microsoft', 'd7138691-b10c-4b26-a3af-795f4f5717ab', '1f0de955-9789-4c08-8cb7-0e9dd16cd670', '2025-06-27T20:28:14.026821'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '67fd1859-37f6-423a-a61b-f2ea0bf72c0f', '14c0fa81-2347-410c-9182-910107145267'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '00fdeff6-e024-4989-a8dd-b1570ff61d1f', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'kerry.johnson14@example.edu', 'finaid@montevallo.edu', 'FAFSA question for kerry.johnson14@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 6256be68-0512-42e9-afc2-8c2627cee1e7).', 'microsoft', 'c15c3b7b-108f-4eee-b72f-a7aa81f7228d', 'ee4002df-af98-494e-961b-bfeea991d858', '2025-06-25T10:56:14.026844'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '00fdeff6-e024-4989-a8dd-b1570ff61d1f', '6256be68-0512-42e9-afc2-8c2627cee1e7'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '85448b51-4de0-40cd-a46b-c1a8422b111f', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'Missing documents for dakota.anderson41@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is c8bf63c3-f60c-4fc5-a8fd-cb9363993b99. Thanks.', 'microsoft', 'af568570-4817-4d60-a964-219357d07de6', '41a5fc82-4b5b-4180-910b-a264d2d7925c', '2025-06-27T05:25:14.026866'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '85448b51-4de0-40cd-a46b-c1a8422b111f', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'f2462187-930c-4d4a-a6e1-a15131ebb476', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'Missing documents for dakota.anderson41@example.edu', 'Hey, can you confirm receipt of my transcript for student ID c8bf63c3-f60c-4fc5-a8fd-cb9363993b99? Thanks.', 'microsoft', 'b3a8e756-f8b1-48ba-b31b-822596a8079c', 'bf4928c5-e84d-4c1e-bd29-3dc4a47f797c', '2025-06-26T00:51:14.026888'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'f2462187-930c-4d4a-a6e1-a15131ebb476', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '2274168b-e955-470d-b364-e0c41a3aa606', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.williams73@example.edu', 'finaid@montevallo.edu', 'FAFSA question for parker.williams73@example.edu', 'Hey, can you confirm receipt of my transcript for student ID 78381907-b7ad-4c1d-881e-a3cd0ca092dd? Thanks.', 'microsoft', '394600a0-47db-4a15-adc4-a7d3f25fafe8', '9a3a3da4-d4d3-46d1-afbf-c528bba1d57b', '2025-06-25T14:34:14.026912'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '2274168b-e955-470d-b364-e0c41a3aa606', '78381907-b7ad-4c1d-881e-a3cd0ca092dd'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '804f491b-d306-45df-99c3-b86d9d7aed17', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for dakota.anderson41@example.edu', 'Hi, could you update me on any missing documents for student ID c8bf63c3-f60c-4fc5-a8fd-cb9363993b99?', 'microsoft', 'e1d0d6a7-c87a-425e-a659-675912d8c4eb', '7658a460-9513-4d51-93e8-b648911239b6', '2025-06-27T06:22:14.026964'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '804f491b-d306-45df-99c3-b86d9d7aed17', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '8b8aab9b-c7bb-4e8a-a4a1-26855710b8eb', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for micah.lopez20@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 25560219-73f8-4f7b-98ae-96b0a9e1986f).', 'microsoft', 'e80b1a3f-0ac0-4b86-b462-96300befc4f3', '0a668a39-b44d-4df6-8916-0f7a0641f59f', '2025-06-25T16:20:14.027296'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '8b8aab9b-c7bb-4e8a-a4a1-26855710b8eb', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '85ca7864-d454-4a00-aa0f-fb2efc28b1af', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'FAFSA question for riley.smith97@example.edu', 'Hello team, I need assistance with my loan disbursement for ID 7843791b-2a55-415c-9962-558938f63d28.', 'microsoft', '506f1e41-0b8b-4467-9aed-5f4cb6e4443d', '60603cc6-0e7a-4383-b143-c67bfc8db241', '2025-06-25T19:53:14.027352'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '85ca7864-d454-4a00-aa0f-fb2efc28b1af', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'c288c807-7b40-4e3d-a7ce-aeb27432f258', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'casey.martinez47@example.edu', 'finaid@montevallo.edu', 'FAFSA question for casey.martinez47@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID b5fc5a1f-095e-40fd-9744-7f0ae1479cc4).', 'microsoft', '65b24ad0-5e71-40e1-a3ef-1384129b7064', '7e975ffc-0146-4f3d-afc8-73a9f40be92d', '2025-06-27T08:08:14.027383'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'c288c807-7b40-4e3d-a7ce-aeb27432f258', 'b5fc5a1f-095e-40fd-9744-7f0ae1479cc4'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '7d091b1d-ca6b-42ec-bbf9-79520d2bdfc2', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'riley.smith97@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for riley.smith97@example.edu', 'Hey, can you confirm receipt of my transcript for student ID 7843791b-2a55-415c-9962-558938f63d28? Thanks.', 'microsoft', '9945a1e2-d2d1-412d-86e4-e55e7ef0614d', '6ba30a4d-ae88-4c67-a84a-982856ba8b9c', '2025-06-26T14:35:14.027420'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '7d091b1d-ca6b-42ec-bbf9-79520d2bdfc2', '7843791b-2a55-415c-9962-558938f63d28'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'dc9a726f-8534-4305-89d5-6cdbc8b8c244', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for micah.lopez20@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID 25560219-73f8-4f7b-98ae-96b0a9e1986f).', 'microsoft', '9fa1c872-40fc-42b7-9228-b47a4a8ec055', 'f0f184bc-1393-40b5-98e3-1fbed8595a1c', '2025-06-26T15:56:14.027458'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'dc9a726f-8534-4305-89d5-6cdbc8b8c244', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '4b793565-2941-4b05-a0cb-2117287b5ff4', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'FAFSA question for dakota.anderson41@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID c8bf63c3-f60c-4fc5-a8fd-cb9363993b99).', 'microsoft', '0175a833-9fdd-4443-9e4e-a2be3c093fa6', '0083ad65-6708-4190-b380-e83593ee058c', '2025-06-26T16:00:14.027484'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '4b793565-2941-4b05-a0cb-2117287b5ff4', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'b23e070f-b66e-4042-8536-c90e2b26fc85', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Missing documents for micah.lopez20@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 25560219-73f8-4f7b-98ae-96b0a9e1986f. Thanks.', 'microsoft', '39a4ab07-d5e7-456b-a32e-4a9a81e36104', 'b0534b18-15d4-439a-b0ec-c5a4a99a6eef', '2025-06-27T05:09:14.027535'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'b23e070f-b66e-4042-8536-c90e2b26fc85', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'b4a4516e-afbd-435f-8c30-17572de7e97a', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'dakota.anderson41@example.edu', 'finaid@montevallo.edu', 'Missing documents for dakota.anderson41@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is c8bf63c3-f60c-4fc5-a8fd-cb9363993b99. Thanks.', 'microsoft', '33eddbda-83c1-43d4-9547-e27fff8d1335', 'acddb5fe-6b6c-410c-af86-f5367e675123', '2025-06-27T09:15:14.027574'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'b4a4516e-afbd-435f-8c30-17572de7e97a', 'c8bf63c3-f60c-4fc5-a8fd-cb9363993b99'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'e13b1e80-fa21-4a72-aa79-4101633631f1', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'micah.lopez20@example.edu', 'finaid@montevallo.edu', 'Enrollment status update for micah.lopez20@example.edu', 'Hi, could you update me on any missing documents for student ID 25560219-73f8-4f7b-98ae-96b0a9e1986f?', 'microsoft', '4cfe9000-6c79-4883-9bfc-6245ee1a8b84', '1595823f-7cfd-48a2-95dc-a4d11544773e', '2025-06-27T18:14:14.027603'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'e13b1e80-fa21-4a72-aa79-4101633631f1', '25560219-73f8-4f7b-98ae-96b0a9e1986f'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '37cca540-397d-4bfc-a231-86a5679b69c8', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'casey.martinez47@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for casey.martinez47@example.edu', 'Good morning, I would like to know the status of my FAFSA submission (ID b5fc5a1f-095e-40fd-9744-7f0ae1479cc4).', 'microsoft', 'f6ca75e1-3a87-4b8b-9c53-0b32d2cdc0ec', '1a1f7209-6222-4adf-aba9-73ae5ac48b7b', '2025-06-26T18:48:14.027637'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '37cca540-397d-4bfc-a231-86a5679b69c8', 'b5fc5a1f-095e-40fd-9744-7f0ae1479cc4'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  '7e71c048-b2c6-47ac-9dcd-f9aed753199b', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'parker.davis52@example.edu', 'finaid@montevallo.edu', 'Loan disbursement inquiry for parker.davis52@example.edu', 'Hello team, I need assistance with my loan disbursement for ID 71f26f96-af68-4a9a-89c3-1186c2bed0e6.', 'microsoft', 'f3f067dc-b668-427d-8791-f731092e91d8', '41b30933-49d3-4fe3-be4e-57cdaf9f9a2e', '2025-06-25T04:57:14.027662'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  '7e71c048-b2c6-47ac-9dcd-f9aed753199b', '71f26f96-af68-4a9a-89c3-1186c2bed0e6'
+);
+
+
+INSERT INTO public.organization_inbound_messages (
+  id, organization_id, sender_address, recipient_address, subject, body, provider, message_id, thread_id, received_at
+) VALUES (
+  'a29d9062-585a-48c5-aca5-3f632f0670e4', '55a9b012-8dba-48c6-9cc6-ec3b774287d9', 'finley.jackson49@example.edu', 'finaid@montevallo.edu', 'Transcript upload confirmation for finley.jackson49@example.edu', 'Hello, I have a question regarding my financial aid award. My student ID is 14c0fa81-2347-410c-9182-910107145267. Thanks.', 'microsoft', '89a6ee63-1528-4f91-8e72-bcfcf1529ad1', '6595b005-33bb-4d1e-9bb3-03edfc60b8c1', '2025-06-25T15:03:14.027686'
+) ON CONFLICT (message_id) DO NOTHING;
+
+INSERT INTO public.organization_inbound_messages_students (
+  inbound_message_id, student_id
+) VALUES (
+  'a29d9062-585a-48c5-aca5-3f632f0670e4', '14c0fa81-2347-410c-9182-910107145267'
+);
+
