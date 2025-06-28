@@ -488,6 +488,53 @@ export type Database = {
           },
         ]
       }
+      student_eab_match: {
+        Row: {
+          college_match: string[] | null
+          college_offers: string[] | null
+          created_at: string
+          enrollment_status: string | null
+          id: string
+          intended_major: string | null
+          profile_complete: boolean
+          student_id: string
+          transcript_upload: boolean
+          updated_at: string
+        }
+        Insert: {
+          college_match?: string[] | null
+          college_offers?: string[] | null
+          created_at?: string
+          enrollment_status?: string | null
+          id?: string
+          intended_major?: string | null
+          profile_complete: boolean
+          student_id: string
+          transcript_upload: boolean
+          updated_at?: string
+        }
+        Update: {
+          college_match?: string[] | null
+          college_offers?: string[] | null
+          created_at?: string
+          enrollment_status?: string | null
+          id?: string
+          intended_major?: string | null
+          profile_complete?: boolean
+          student_id?: string
+          transcript_upload?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_eab_match_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       student_financial_aid: {
         Row: {
           award_status: string | null
@@ -495,6 +542,7 @@ export type Database = {
           created_at: string
           dependency_status: string | null
           fafsa_submission_date: string | null
+          fulfilled_requirements: string | null
           id: string
           outstanding_requirements: string | null
           remaining_aid_eligibility: number | null
@@ -507,6 +555,7 @@ export type Database = {
           created_at?: string
           dependency_status?: string | null
           fafsa_submission_date?: string | null
+          fulfilled_requirements?: string | null
           id?: string
           outstanding_requirements?: string | null
           remaining_aid_eligibility?: number | null
@@ -519,6 +568,7 @@ export type Database = {
           created_at?: string
           dependency_status?: string | null
           fafsa_submission_date?: string | null
+          fulfilled_requirements?: string | null
           id?: string
           outstanding_requirements?: string | null
           remaining_aid_eligibility?: number | null
@@ -652,11 +702,53 @@ export type Database = {
           },
         ]
       }
+      student_relationships: {
+        Row: {
+          created_at: string
+          email: string | null
+          ferpa_approved: boolean
+          id: string
+          name: string
+          relationship_type: string
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          ferpa_approved?: boolean
+          id?: string
+          name: string
+          relationship_type: string
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          ferpa_approved?: boolean
+          id?: string
+          name?: string
+          relationship_type?: string
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_relationships_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       students: {
         Row: {
           banner_student_id: string | null
           citizenship_status: string | null
           created_at: string
+          current_high_school: string | null
           email: string | null
           first_name: string
           id: string
@@ -670,6 +762,7 @@ export type Database = {
           banner_student_id?: string | null
           citizenship_status?: string | null
           created_at?: string
+          current_high_school?: string | null
           email?: string | null
           first_name: string
           id?: string
@@ -683,6 +776,7 @@ export type Database = {
           banner_student_id?: string | null
           citizenship_status?: string | null
           created_at?: string
+          current_high_school?: string | null
           email?: string | null
           first_name?: string
           id?: string
@@ -737,6 +831,17 @@ export type Database = {
       current_user_org_id: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      match_inbound_embeddings: {
+        Args: {
+          query_embeddings: string[]
+          match_count: number
+          org_id: string
+        }
+        Returns: {
+          message_id: string
+          similarity: number
+        }[]
       }
     }
     Enums: {

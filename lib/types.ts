@@ -16,5 +16,7 @@ export type StudentFinancialAid = Database["public"]["Tables"]["student_financia
 export type StudentInteractionsSummary = Database["public"]["Tables"]["student_interactions_summary"]["Row"];
 export type StudentLoan = Database["public"]["Tables"]["student_loans"]["Row"];
 export type StudentPayment = Database["public"]["Tables"]["student_payments"]["Row"];
+export type StudentEabMatch = Database["public"]["Tables"]["student_eab_match"]["Row"];
+export type StudentRelationship = Database["public"]["Tables"]["student_relationships"]["Row"];
 
 export type THEMES = "dark" | "light";
