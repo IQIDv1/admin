@@ -95,7 +95,7 @@ CREATE TABLE public.organization_outbound_messages_activity (
   created_at           timestamptz NOT NULL DEFAULT now(),
   CONSTRAINT organization_outbound_messages_activity_pkey
     PRIMARY KEY (id),
-  CONSTRAINT organization_outbound_messages_activity_outbound_message_id_fkey
+  CONSTRAINT organization_outbound_messages_activity_obm_id_fkey
     FOREIGN KEY (outbound_message_id)
     REFERENCES public.organization_outbound_messages(id)
     ON DELETE CASCADE
