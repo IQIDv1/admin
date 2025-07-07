@@ -8,9 +8,6 @@ import {
   Clock,
   MoreVertical,
   Search,
-  Clipboard,
-  Edit,
-  Trash2,
   Calendar,
   ChevronDown,
 } from "lucide-react";
@@ -44,6 +41,12 @@ import { createClient } from "@/lib/supabase/client";
 import { getOrganizationInboundMessages } from "@/lib/supabase/queries";
 import { cn } from "@/lib/utils";
 import type { Member } from "@/lib/types";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 // Local Interaction type for component state
 type Interaction = {
@@ -54,11 +57,67 @@ type Interaction = {
   subject: string;
   studentName: string;
   studentId: string;
-  auditTrail: string[];
+  auditTrail: {
+    inbound: { action: string; actionData: unknown; }[];
+  };
   status: "pending" | "completed";
   userActionTaken: string | null;
   suggestedReply: string | null;
 };
+
+const INBOUND_ACTION_DISPLAY: Record<string, string> = {
+  "interpreted_request": "Interpreted the Request",
+  "summarized_question": "Provided Email Summary",
+  "suggested_next_questions": "Anticipated Follow-up Questions",
+  "suggested_next_actions": "Suggested Follow-up Actions",
+};
+
+const InteractionAuditTrail = ({ interaction }: { interaction: Interaction }) => (
+  <>
+    <h4 className="font-semibold mb-2 mt-0 text-base text-gray-800/80">Audit Trail</h4>
+    <Accordion type="single" collapsible className="space-y-0">
+      {interaction.auditTrail.inbound.map((log, idx) =>
+        log.actionData != null ? (
+          <AccordionItem key={idx} value={`log-${idx}`}>
+            <AccordionTrigger className="py-1">
+              <div className="flex font-normal items-center gap-2 leading-normal text-gray-800/70 text-sm">
+                <CheckCircle2 className="h-4 w-4 text-green-500" />
+                {INBOUND_ACTION_DISPLAY[log.action] || log.action}
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="pb-2 text-gray-800/70">
+              {typeof log.actionData === 'string' ? (
+                <p className="px-1 py-2 text-sm">
+                  {log.actionData}
+                </p>
+              ) : Array.isArray(log.actionData) ? (
+                <ul className="list-disc pl-5 space-y-1 p-2 text-sm">
+                  {log.actionData.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              ) : (
+                <pre className="p-2 text-sm whitespace-pre-wrap">
+                  {JSON.stringify(log.actionData, null, 2)}
+                </pre>
+              )}
+            </AccordionContent>
+          </AccordionItem>
+        ) : (
+          <div
+            key={idx}
+            className="flex flex-1 items-center justify-between py-1"
+          >
+            <div className="flex items-center gap-2 leading-normal text-gray-800/80 text-sm">
+              <CheckCircle2 className="h-4 w-4 text-green-500" />
+              {INBOUND_ACTION_DISPLAY[log.action] || log.action}
+            </div>
+          </div>
+        )
+      )}
+    </Accordion>
+  </>
+);
 
 export default function InteractionsList({ currentUser }: { currentUser: Member }) {
   // State to hold fetched interactions
@@ -80,6 +139,11 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
         );
         const formatted: Interaction[] = data.map((msg) => {
           const firstStudent = msg.students[0]?.student;
+          const rawInboundActivities = msg.inbound_activities ?? [];
+          const inbound = rawInboundActivities.map((a) => ({
+            action: a.action,
+            actionData: a.action_data,
+          }));
           return {
             id: msg.id,
             body: msg.body,
@@ -90,7 +154,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
               ? `${firstStudent.first_name} ${firstStudent.last_name}`
               : "(unknown)",
             studentId: firstStudent?.id ?? "",
-            auditTrail: [],
+            auditTrail: { inbound },
             status: "pending",
             userActionTaken: null,
             suggestedReply: null,
@@ -219,11 +283,15 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
     ? interactions.find((i) => i.id === selectedInteraction)
     : null;
 
-
-  // Handle review click
+  // Handle review click for full screen mode
   const handleReviewClick = (interactionId: string) => {
     setSelectedInteraction(interactionId);
     setIsFullScreenMode(true);
+  };
+  // Toggle inline expansion of audit trail
+  const handleToggleExpand = (interactionId: string) => {
+    setIsFullScreenMode(false);
+    setSelectedInteraction(prev => (prev === interactionId ? null : interactionId));
   };
 
   // Handle exit full screen
@@ -410,14 +478,21 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
         {filteredInteractions.length > 0 ? (
           filteredInteractions.map((interaction) => (
             <Card key={interaction.id}>
-              <CardHeader className="p-4">
+              <CardHeader
+                className="p-4 cursor-pointer"
+                onClick={() => handleToggleExpand(interaction.id)}
+              >
                 <div className="flex items-start justify-between">
                   <div className="space-y-1.5">
                     <CardTitle className="text-base">
                       <div className="flex items-center gap-6 w-full">
                         <span
                           className="truncate text-primary w-36 block"
-                          title={interaction.studentId ? interaction.studentName : interaction.senderAddress}
+                          title={
+                            interaction.studentId
+                              ? interaction.studentName
+                              : interaction.senderAddress
+                          }
                         >
                           {interaction.studentId
                             ? interaction.studentName
@@ -449,56 +524,8 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                 </div>
               </CardHeader>
               {selectedInteraction === interaction.id && !isFullScreenMode && (
-                <CardContent className="border-t bg-muted/50 px-4 py-3">
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <h4 className="font-medium leading-none">Audit Trail</h4>
-                      <div className="text-sm text-muted-foreground">
-                        {interaction.auditTrail.map((action, i) => (
-                          <div key={i} className="flex items-center gap-2 py-1">
-                            <CheckCircle2 className="h-4 w-4 text-green-500" />
-                            <span>{action}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    {interaction.userActionTaken && (
-                      <>
-                        <Separator />
-                        <div className="space-y-2">
-                          <h4 className="font-medium leading-none">
-                            User Action Taken
-                          </h4>
-                          <div className="flex items-center gap-2 py-1">
-                            {interaction.userActionTaken ===
-                              "Copied to clipboard" && (
-                              <Clipboard className="h-4 w-4 text-blue-500" />
-                            )}
-                            {interaction.userActionTaken === "Edited" && (
-                              <Edit className="h-4 w-4 text-yellow-500" />
-                            )}
-                            {interaction.userActionTaken === "Discarded" && (
-                              <Trash2 className="h-4 w-4 text-red-500" />
-                            )}
-                            <span>{interaction.userActionTaken}</span>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                    {interaction.suggestedReply && (
-                      <>
-                        <Separator />
-                        <div className="space-y-2">
-                          <h4 className="font-medium leading-none">
-                            Suggested Reply
-                          </h4>
-                          <p className="text-sm text-muted-foreground">
-                            {interaction.suggestedReply}
-                          </p>
-                        </div>
-                      </>
-                    )}
-                  </div>
+                <CardContent className="border-t bg-muted/50 p-4">
+                  <InteractionAuditTrail interaction={interaction} />
                 </CardContent>
               )}
               <div className="flex items-center justify-between border-t p-4">
@@ -528,7 +555,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => handleReviewClick(interaction.id)}
+                  onClick={(e) => { e.stopPropagation(); handleReviewClick(interaction.id); }}
                   className="text-primary"
                 >
                   Review

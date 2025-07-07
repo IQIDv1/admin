@@ -76,11 +76,14 @@ export async function getOrganizationInboundMessages(
 ): Promise<
   (OrganizationInboundMessage & {
     students: (OrganizationInboundMessagesStudent & { student?: Student | null })[];
+    inbound_activities: { action: string; action_data: unknown; created_at: string }[];
   })[]
 > {
   let query = supabase
     .from("organization_inbound_messages")
-    .select(`*, students:organization_inbound_messages_students(*, student:students(*))`)
+    .select(
+      `*, students:organization_inbound_messages_students(*, student:students(*)), inbound_activities:organization_inbound_messages_activity(*)`
+    )
     .eq("organization_id", organizationId)
     .order("received_at", { ascending: false });
 
@@ -97,6 +100,7 @@ export async function getOrganizationInboundMessages(
   return data as (
     OrganizationInboundMessage & {
       students: (OrganizationInboundMessagesStudent & { student?: Student | null })[];
+      inbound_activities: { action: string; action_data: unknown; created_at: string }[];
     }
   )[];
 }
