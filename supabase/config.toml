@@ -59,7 +59,8 @@ sql_paths = [
   "./seed.sql",
   "./seed_students.sql",
   "./seed_inbound_messages.sql",
-  "./seed_inbound_messages_activity.sql"
+  "./seed_inbound_messages_activity.sql",
+  "./seed_outbound_messages.sql"
 ]
 
 [realtime]
