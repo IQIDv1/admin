@@ -195,6 +195,38 @@ export type Database = {
           },
         ]
       }
+      organization_inbound_messages_activity: {
+        Row: {
+          action: string
+          action_data: Json | null
+          created_at: string
+          id: string
+          inbound_message_id: string
+        }
+        Insert: {
+          action: string
+          action_data?: Json | null
+          created_at?: string
+          id?: string
+          inbound_message_id: string
+        }
+        Update: {
+          action?: string
+          action_data?: Json | null
+          created_at?: string
+          id?: string
+          inbound_message_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_inbound_messages_activity_inbound_message_id_fkey"
+            columns: ["inbound_message_id"]
+            isOneToOne: false
+            referencedRelation: "organization_inbound_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organization_inbound_messages_students: {
         Row: {
           created_at: string
@@ -326,7 +358,6 @@ export type Database = {
           inbound_message_id: string
           is_sent: boolean
           organization_id: string
-          provider_message_id: string | null
           sent_at: string | null
           updated_at: string
         }
@@ -336,7 +367,6 @@ export type Database = {
           inbound_message_id: string
           is_sent?: boolean
           organization_id: string
-          provider_message_id?: string | null
           sent_at?: string | null
           updated_at?: string
         }
@@ -346,7 +376,6 @@ export type Database = {
           inbound_message_id?: string
           is_sent?: boolean
           organization_id?: string
-          provider_message_id?: string | null
           sent_at?: string | null
           updated_at?: string
         }
@@ -363,6 +392,38 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organization_outbound_messages_activity: {
+        Row: {
+          action: string
+          action_data: Json
+          created_at: string
+          id: string
+          outbound_message_id: string
+        }
+        Insert: {
+          action: string
+          action_data: Json
+          created_at?: string
+          id?: string
+          outbound_message_id: string
+        }
+        Update: {
+          action?: string
+          action_data?: Json
+          created_at?: string
+          id?: string
+          outbound_message_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_outbound_messages_activity_obm_id_fkey"
+            columns: ["outbound_message_id"]
+            isOneToOne: false
+            referencedRelation: "organization_outbound_messages"
             referencedColumns: ["id"]
           },
         ]

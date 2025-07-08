@@ -2,6 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type {
   OrganizationInboundMessage,
   OrganizationInboundMessagesStudent,
+  OrganizationOutboundMessage,
   Student,
   StudentAcademic,
   StudentCurrentAid,
@@ -81,9 +82,13 @@ export async function getOrganizationInboundMessages(
 > {
   let query = supabase
     .from("organization_inbound_messages")
-    .select(
-      `*, students:organization_inbound_messages_students(*, student:students(*)), inbound_activities:organization_inbound_messages_activity(*)`
-    )
+    .select(`*,
+      students:organization_inbound_messages_students(*, student:students(*)),
+      inbound_activities:organization_inbound_messages_activity(action, action_data, created_at),
+      organization_outbound_message:organization_outbound_messages(*,
+        outbound_activities:organization_outbound_messages_activity(action, action_data, created_at)
+      )
+    `)
     .eq("organization_id", organizationId)
     .order("received_at", { ascending: false });
 
@@ -96,11 +101,22 @@ export async function getOrganizationInboundMessages(
   }
 
   const { data, error } = await query;
-  if (error) throw error;
-  return data as (
+  if (error) {
+    throw error;
+  }
+
+  const fixed = data.map((msg) => {
+    const outbound = msg.organization_outbound_message?.[0] ?? null;
+    return { ...msg, organization_outbound_message: outbound };
+  });
+
+  return fixed as (
     OrganizationInboundMessage & {
       students: (OrganizationInboundMessagesStudent & { student?: Student | null })[];
       inbound_activities: { action: string; action_data: unknown; created_at: string }[];
+      organization_outbound_message?: (OrganizationOutboundMessage & {
+        outbound_activities: { action: string; action_data: unknown; created_at: string }[];
+      }) | null;
     }
   )[];
 }
