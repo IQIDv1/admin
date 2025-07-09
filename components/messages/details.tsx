@@ -1,22 +1,36 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { History, Pen, Send, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { History, Pen, Send } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { getStudentDetails, type StudentDetails } from "@/lib/supabase/queries";
+import {
+  getStudentDetails,
+  type OutboundMessageVersionSummary,
+  type StudentDetails,
+} from "@/lib/supabase/queries";
 
-interface MessageDetailsProps {
-  message: {
-    body: string | null;
-    studentName: string;
-    studentId: string;
-    subject: string;
+// Local Interaction type for component state
+type Interaction = {
+  id: string;
+  body: string | null;
+  receivedAt: Date;
+  senderAddress: string;
+  subject: string;
+  studentName: string;
+  studentId: string;
+  auditTrail: {
+    inbound: { action: string; actionData: unknown; }[];
+    outbound?: { action: string; actionData: unknown; }[];
   };
+  status: "pending" | "completed";
+  suggestedReply: OutboundMessageVersionSummary | null;
+};
+interface MessageDetailsProps {
+  message: Interaction;
   onClose: () => void;
 }
 
@@ -188,7 +202,7 @@ export function MessageDetails({ message, onClose }: MessageDetailsProps) {
                     Detected Email: {message.subject}
                   </h3>
                   <Textarea
-                    className="min-h-[200px]"
+                    className="min-h-[200px] bg-muted/50"
                     readOnly
                     value={message.body || "No email content detected."}
                   />
@@ -196,7 +210,11 @@ export function MessageDetails({ message, onClose }: MessageDetailsProps) {
 
                 <div className="space-y-2">
                   <h3 className="text-lg font-medium">Draft Response:</h3>
-                  <Textarea className="min-h-[300px]" defaultValue="" />
+                  <Textarea
+                    className="min-h-[300px]"
+                    defaultValue={message.suggestedReply?.body || ""}
+                    placeholder="Type your response here..."
+                  />
                 </div>
 
                 <div className="flex justify-end gap-2">

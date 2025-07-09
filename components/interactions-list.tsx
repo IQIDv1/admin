@@ -4,12 +4,15 @@ import { useState, useEffect } from "react";
 import { format, isWithinInterval, parse } from "date-fns";
 import {
   ArrowRight,
+  Calendar,
   CheckCircle2,
+  ChevronDown,
+  Clipboard,
   Clock,
   MoreVertical,
   Search,
-  Calendar,
-  ChevronDown,
+  SquarePen,
+  Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -38,7 +41,10 @@ import {
 } from "@/components/ui/dialog";
 import { MessageDetails } from "@/components/messages/details";
 import { createClient } from "@/lib/supabase/client";
-import { getOrganizationInboundMessages } from "@/lib/supabase/queries";
+import {
+  getOrganizationInboundMessages,
+  type OutboundMessageVersionSummary,
+} from "@/lib/supabase/queries";
 import { cn } from "@/lib/utils";
 import type { Member } from "@/lib/types";
 import {
@@ -59,10 +65,10 @@ type Interaction = {
   studentId: string;
   auditTrail: {
     inbound: { action: string; actionData: unknown; }[];
+    outbound?: { action: string; actionData: unknown; }[];
   };
   status: "pending" | "completed";
-  userActionTaken: string | null;
-  suggestedReply: string | null;
+  suggestedReply: OutboundMessageVersionSummary | null;
 };
 
 const INBOUND_ACTION_DISPLAY: Record<string, string> = {
@@ -72,52 +78,150 @@ const INBOUND_ACTION_DISPLAY: Record<string, string> = {
   "suggested_next_actions": "Suggested Follow-up Actions",
 };
 
-const InteractionAuditTrail = ({ interaction }: { interaction: Interaction }) => (
-  <>
-    <h4 className="font-semibold mb-2 mt-0 text-base text-gray-800/80">Audit Trail</h4>
-    <Accordion type="single" collapsible className="space-y-0">
-      {interaction.auditTrail.inbound.map((log, idx) =>
-        log.actionData != null ? (
-          <AccordionItem key={idx} value={`log-${idx}`}>
+const OUTBOUND_ACTION_DISPLAY: Record<string, string> = {
+  "copied": "Copied to Clipboard",
+  "discarded": "Discarded Message",
+  "edited": "Edited Message",
+  "sent": "Sent Message",
+};
+
+const UserActionIcon = ({ action }: { action: string }) => {
+  switch (action) {
+    case "copied":
+      return <Clipboard className="h-4 w-4 text-blue-500" />;
+    case "discarded":
+      return <Trash2 className="h-4 w-4 text-red-500" />;
+    case "edited":
+      return <SquarePen className="h-4 w-4 text-yellow-500" />;
+    default:
+      return <CheckCircle2 className="h-4 w-4 text-green-500" />;
+  }
+};
+
+const UserActionsTaken = ({ interaction }: { interaction: Interaction }) => {
+  const renderActionData = (data: unknown): React.ReactNode => {
+    if (typeof data === 'object' && data !== null && !Array.isArray(data)) {
+      return (
+        <ul className="list-disc pl-5 space-y-1 p-2 text-sm">
+          {Object.entries(data).map(([key, value]) => (
+            <li key={key}>
+              {`${key}: ${typeof value === 'string' ? value : JSON.stringify(value)}`}
+            </li>
+          ))}
+        </ul>
+      );
+    } else if (typeof data === 'string') {
+      return (
+        <p className="px-1 py-2 text-sm">{data}</p>
+      );
+    } else if (Array.isArray(data)) {
+      return (
+        <ul className="list-disc pl-5 space-y-1 p-2 text-sm">
+          {data.map((item, index) => (
+            <li key={index}>{JSON.stringify(item)}</li>
+          ))}
+        </ul>
+      );
+    }
+    return <pre className="p-2 text-sm whitespace-pre-wrap">{JSON.stringify(data, null, 2)}</pre>;
+  };
+
+  return (
+    <div>
+      <h4 className="font-semibold mb-2 mt-0 text-base text-gray-800/80">User Actions Taken</h4>
+      <Accordion type="single" collapsible className="space-y-0">
+        {interaction.auditTrail.outbound?.map((log, idx) => (
+          <AccordionItem key={idx} value={`outbound-${idx}`}>
             <AccordionTrigger className="py-1">
-              <div className="flex font-normal items-center gap-2 leading-normal text-gray-800/70 text-sm">
-                <CheckCircle2 className="h-4 w-4 text-green-500" />
-                {INBOUND_ACTION_DISPLAY[log.action] || log.action}
+              <div className="flex items-center gap-2 text-gray-800/70 text-sm">
+                <UserActionIcon action={log.action} /> {OUTBOUND_ACTION_DISPLAY[log.action] || log.action}
               </div>
             </AccordionTrigger>
             <AccordionContent className="pb-2 text-gray-800/70">
-              {typeof log.actionData === 'string' ? (
-                <p className="px-1 py-2 text-sm">
-                  {log.actionData}
-                </p>
-              ) : Array.isArray(log.actionData) ? (
-                <ul className="list-disc pl-5 space-y-1 p-2 text-sm">
-                  {log.actionData.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              ) : (
-                <pre className="p-2 text-sm whitespace-pre-wrap">
-                  {JSON.stringify(log.actionData, null, 2)}
-                </pre>
-              )}
+              {log.actionData != null && renderActionData(log.actionData)}
             </AccordionContent>
           </AccordionItem>
-        ) : (
-          <div
-            key={idx}
-            className="flex flex-1 items-center justify-between py-1"
-          >
-            <div className="flex items-center gap-2 leading-normal text-gray-800/80 text-sm">
-              <CheckCircle2 className="h-4 w-4 text-green-500" />
-              {INBOUND_ACTION_DISPLAY[log.action] || log.action}
+        ))}
+      </Accordion>
+    </div>
+  );
+};
+
+const UserActionsTakenWrapper = ({ interaction }: { interaction: Interaction }) => {
+  if (Array.isArray(interaction.auditTrail.outbound) && interaction.auditTrail.outbound.length > 0) {
+    const hasInboundActions = Array.isArray(interaction.auditTrail.inbound) && interaction.auditTrail.inbound.length > 0;
+    if (hasInboundActions) {
+      return (
+        <>
+          <Separator />
+          <UserActionsTaken interaction={interaction} />
+        </>
+      );
+    }
+    return (
+      <UserActionsTaken interaction={interaction} />
+    );
+  }
+  return null;
+};
+
+const InteractionAuditTrail = ({ interaction }: { interaction: Interaction }) => {
+  return (
+    <div>
+      <h4 className="font-semibold mb-2 mt-0 text-base text-gray-800/80">Audit Trail</h4>
+      <Accordion type="single" collapsible className="space-y-0">
+        {interaction.auditTrail.inbound.map((log, idx) =>
+          log.actionData != null ? (
+            <AccordionItem key={idx} value={`log-${idx}`}>
+              <AccordionTrigger className="py-1">
+                <div className="flex font-normal items-center gap-2 leading-normal text-gray-800/70 text-sm">
+                  <CheckCircle2 className="h-4 w-4 text-green-500" />
+                  {INBOUND_ACTION_DISPLAY[log.action] || log.action}
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="pb-2 text-gray-800/70">
+                {typeof log.actionData === 'string' ? (
+                  <p className="px-1 py-2 text-sm">
+                    {log.actionData}
+                  </p>
+                ) : Array.isArray(log.actionData) ? (
+                  <ul className="list-disc pl-5 space-y-1 p-2 text-sm">
+                    {log.actionData.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <pre className="p-2 text-sm whitespace-pre-wrap">
+                    {JSON.stringify(log.actionData, null, 2)}
+                  </pre>
+                )}
+              </AccordionContent>
+            </AccordionItem>
+          ) : (
+            <div
+              key={idx}
+              className="flex flex-1 items-center justify-between py-1"
+            >
+              <div className="flex items-center gap-2 leading-normal text-gray-800/80 text-sm">
+                <CheckCircle2 className="h-4 w-4 text-green-500" />
+                {INBOUND_ACTION_DISPLAY[log.action] || log.action}
+              </div>
             </div>
-          </div>
-        )
-      )}
-    </Accordion>
-  </>
-);
+          )
+        )}
+      </Accordion>
+    </div>
+  );
+};
+
+const InteractionAuditTrailWrapper = ({ interaction }: { interaction: Interaction }) => {
+  if (Array.isArray(interaction.auditTrail.inbound) && interaction.auditTrail.inbound.length > 0) {
+    return (
+      <InteractionAuditTrail interaction={interaction} />
+    )
+  }
+  return null;
+};
 
 export default function InteractionsList({ currentUser }: { currentUser: Member }) {
   // State to hold fetched interactions
@@ -144,6 +248,11 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
             action: a.action,
             actionData: a.action_data,
           }));
+          const rawOutboundActivities = msg.organization_outbound_message?.outbound_activities ?? [];
+          const outbound = rawOutboundActivities.map((a) => ({
+            action: a.action,
+            actionData: a.action_data,
+          }));
           return {
             id: msg.id,
             body: msg.body,
@@ -154,10 +263,9 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
               ? `${firstStudent.first_name} ${firstStudent.last_name}`
               : "(unknown)",
             studentId: firstStudent?.id ?? "",
-            auditTrail: { inbound },
+            auditTrail: { inbound, outbound },
             status: "pending",
-            userActionTaken: null,
-            suggestedReply: null,
+            suggestedReply: msg.organization_outbound_message?.latest_version ?? null,
           };
         });
         setInteractions(formatted);
@@ -524,8 +632,9 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                 </div>
               </CardHeader>
               {selectedInteraction === interaction.id && !isFullScreenMode && (
-                <CardContent className="border-t bg-muted/50 p-4">
-                  <InteractionAuditTrail interaction={interaction} />
+                <CardContent className="border-t bg-muted/50 p-4 space-y-4">
+                  <InteractionAuditTrailWrapper interaction={interaction} />
+                  <UserActionsTakenWrapper interaction={interaction} />
                 </CardContent>
               )}
               <div className="flex items-center justify-between border-t p-4">

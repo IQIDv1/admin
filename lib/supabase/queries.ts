@@ -3,6 +3,7 @@ import type {
   OrganizationInboundMessage,
   OrganizationInboundMessagesStudent,
   OrganizationOutboundMessage,
+  OrganizationOutboundMessageVersion,
   Student,
   StudentAcademic,
   StudentCurrentAid,
@@ -11,6 +12,9 @@ import type {
   StudentLoan,
   StudentEabMatch,
 } from "@/lib/types";
+
+export type OutboundMessageVersionSummary =
+  Pick<OrganizationOutboundMessageVersion, "id" | "version" | "subject" | "body" | "liked" | "created_at" | "updated_at">;
 
 interface Filters {
   startDate?: string;
@@ -78,6 +82,10 @@ export async function getOrganizationInboundMessages(
   (OrganizationInboundMessage & {
     students: (OrganizationInboundMessagesStudent & { student?: Student | null })[];
     inbound_activities: { action: string; action_data: unknown; created_at: string }[];
+    organization_outbound_message?: (OrganizationOutboundMessage & {
+      latest_version?: OutboundMessageVersionSummary | null;
+      outbound_activities: { action: string; action_data: unknown; created_at: string }[];
+    }) | null;
   })[]
 > {
   let query = supabase
@@ -86,7 +94,8 @@ export async function getOrganizationInboundMessages(
       students:organization_inbound_messages_students(*, student:students(*)),
       inbound_activities:organization_inbound_messages_activity(action, action_data, created_at),
       organization_outbound_message:organization_outbound_messages(*,
-        outbound_activities:organization_outbound_messages_activity(action, action_data, created_at)
+        outbound_activities:organization_outbound_messages_activity(action, action_data, created_at),
+        versions:organization_outbound_message_versions(id, version, subject, body, liked, created_at, updated_at)
       )
     `)
     .eq("organization_id", organizationId)
@@ -106,17 +115,22 @@ export async function getOrganizationInboundMessages(
   }
 
   const fixed = data.map((msg) => {
-    const outbound = msg.organization_outbound_message?.[0] ?? null;
+    let outbound = msg.organization_outbound_message?.[0] ?? null;
+    if (outbound) {
+      const versions: OutboundMessageVersionSummary[] = outbound.versions || [];
+      let latest_version: OutboundMessageVersionSummary | null = null;
+      if (versions.length > 0) {
+        const maxVersion = versions.reduce(
+          (prev: OutboundMessageVersionSummary, curr: OutboundMessageVersionSummary) =>
+            prev.version > curr.version ? prev : curr
+        );
+        latest_version = { ...maxVersion };
+      }
+      outbound = { ...outbound, latest_version };
+      delete outbound.versions;
+    }
     return { ...msg, organization_outbound_message: outbound };
   });
 
-  return fixed as (
-    OrganizationInboundMessage & {
-      students: (OrganizationInboundMessagesStudent & { student?: Student | null })[];
-      inbound_activities: { action: string; action_data: unknown; created_at: string }[];
-      organization_outbound_message?: (OrganizationOutboundMessage & {
-        outbound_activities: { action: string; action_data: unknown; created_at: string }[];
-      }) | null;
-    }
-  )[];
+  return fixed;
 }
