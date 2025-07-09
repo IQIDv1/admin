@@ -1,17 +1,19 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { History, Pen, Send, X } from "lucide-react";
+import { History, Pen, X, Save, Clipboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import {
   getStudentDetails,
   type OutboundMessageVersionSummary,
   type StudentDetails,
 } from "@/lib/supabase/queries";
+import { saveOutboundResponse } from "@/lib/supabase/queries";
+import { useToast } from "@/components/ui/use-toast";
 
 // Local Interaction type for component state
 type Interaction = {
@@ -32,6 +34,7 @@ type Interaction = {
 interface MessageDetailsProps {
   message: Interaction;
   onClose: () => void;
+  onSaveMessage: () => void;
 }
 
 interface StudentInfoProps {
@@ -142,9 +145,46 @@ function StudentInfo({ studentDetails, studentId }: StudentInfoProps) {
   );
 }
 
-export function MessageDetails({ message, onClose }: MessageDetailsProps) {
+export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetailsProps) {
   const [studentDetails, setStudentDetails] = useState<StudentDetails | null>(null);
   const fetchedIdRef = useRef<string | null>(null);
+  const { toast } = useToast();
+  const [isEditing, setIsEditing] = useState(false);
+
+  // Track suggested reply versions locally
+  const [suggestedReplyState, setSuggestedReplyState] = useState<OutboundMessageVersionSummary | null>(message.suggestedReply);
+  const hasSuggested = Boolean(suggestedReplyState);
+
+  // Draft response state
+  const [draftResponse, setDraftResponse] = useState(suggestedReplyState?.body || "");
+  useEffect(() => {
+    setSuggestedReplyState(message.suggestedReply);
+  }, [message.suggestedReply]);
+  useEffect(() => {
+    setDraftResponse(suggestedReplyState?.body || "");
+  }, [suggestedReplyState]);
+
+   // Save handler
+  const handleSave = async () => {
+    try {
+      const supabase = createClient();
+      const subject = `Re: ${message.subject}`;
+      const { version } = await saveOutboundResponse(supabase, message.id, subject, draftResponse);
+      setSuggestedReplyState(version);
+      setIsEditing(false);
+      onSaveMessage();
+      toast({
+        title: 'Your response has been saved!',
+        variant: 'default'
+      });
+    } catch (err) {
+      console.error('Save error:', err);
+      toast({
+        title: 'There was an error saving your response. Please try again later.',
+        variant: 'destructive'
+      });
+    }
+  };
 
   useEffect(() => {
     // Only fetch once per student ID
@@ -184,19 +224,15 @@ export function MessageDetails({ message, onClose }: MessageDetailsProps) {
 
         <div className="flex flex-1 overflow-hidden">
           <div className="flex-1 overflow-auto p-6">
-            <Tabs value="detected" className="w-full">
-              <div className="flex justify-between items-center mb-4">
-                <TabsList>
-                  <TabsTrigger value="detected">Detected</TabsTrigger>
-                  <TabsTrigger value="paste">Paste an Email</TabsTrigger>
-                </TabsList>
+            <div className="w-full">
+              <div className="flex justify-end items-center mb-4">
                 <Button variant="outline" className="text-primary">
                   <History className="mr-2 h-4 w-4" />
                   Show History
                 </Button>
               </div>
 
-              <TabsContent value="detected" className="space-y-4">
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <h3 className="text-lg font-medium">
                     Detected Email: {message.subject}
@@ -211,31 +247,70 @@ export function MessageDetails({ message, onClose }: MessageDetailsProps) {
                 <div className="space-y-2">
                   <h3 className="text-lg font-medium">Draft Response:</h3>
                   <Textarea
-                    className="min-h-[300px]"
-                    defaultValue={message.suggestedReply?.body || ""}
+                    className={cn(
+                      "min-h-[300px]",
+                      {
+                        "bg-muted/50": hasSuggested && !isEditing,
+                      }
+                    )}
+                    value={draftResponse}
+                    onChange={(e) => setDraftResponse(e.target.value)}
                     placeholder="Type your response here..."
+                    readOnly={hasSuggested && !isEditing}
                   />
                 </div>
 
                 <div className="flex justify-end gap-2">
-                  <Button variant="outline">
-                    <Pen className="mr-2 h-4 w-4" />
-                    Clear
-                  </Button>
-                  <Button className="bg-purple hover:bg-purple-dark">
-                    <Send className="mr-2 h-4 w-4" />
-                    Send
-                  </Button>
+                  {isEditing ? (
+                    <>
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setDraftResponse(message.suggestedReply?.body || "");
+                          setIsEditing(false);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button variant="outline" onClick={handleSave}>
+                        <Save className="mr-2 h-4 w-4" />
+                        Save Response
+                      </Button>
+                      <Button disabled>
+                        <Clipboard className="mr-2 h-4 w-4" />
+                        Copy to Clipboard
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      {hasSuggested ? (
+                        <Button
+                          variant="outline"
+                          onClick={() => setIsEditing(true)}
+                        >
+                          <Pen className="mr-2 h-4 w-4" />
+                          Edit Response
+                        </Button>
+                      ) : draftResponse ? (
+                        <Button variant="outline" onClick={handleSave}>
+                          <Save className="mr-2 h-4 w-4" />
+                          Save Response
+                        </Button>
+                      ) : (
+                        <Button variant="outline" disabled>
+                          <Pen className="mr-2 h-4 w-4" />
+                          Edit Response
+                        </Button>
+                      )}
+                      <Button disabled={!hasSuggested}>
+                        <Clipboard className="mr-2 h-4 w-4" />
+                        Copy to Clipboard
+                      </Button>
+                    </>
+                  )}
                 </div>
-              </TabsContent>
-
-              <TabsContent value="paste" className="space-y-4">
-                <div className="space-y-2">
-                  <h3 className="text-lg font-medium">Paste an Email:</h3>
-                  <Textarea className="min-h-[200px]" placeholder="Paste the email content here..." />
-                </div>
-              </TabsContent>
-            </Tabs>
+              </div>
+            </div>
           </div>
 
           <div className="w-[350px] border-l p-6 overflow-y-auto">
