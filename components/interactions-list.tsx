@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { format, isWithinInterval, parse } from "date-fns";
 import {
   ArrowRight,
@@ -226,55 +226,45 @@ const InteractionAuditTrailWrapper = ({ interaction }: { interaction: Interactio
 export default function InteractionsList({ currentUser }: { currentUser: Member }) {
   // State to hold fetched interactions
   const [interactions, setInteractions] = useState<Interaction[]>([]);
-  const [selectedInteraction, setSelectedInteraction] = useState<string | null>(
-    null
-  );
+  // Track selected interaction and view states
+  const [selectedInteraction, setSelectedInteraction] = useState<string | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isFullScreenMode, setIsFullScreenMode] = useState(false);
+  // Function to fetch interactions list
+  const fetchInteractions = useCallback(async () => {
+    const supabase = createClient();
+    try {
+      const data = await getOrganizationInboundMessages(
+        supabase,
+        currentUser.organization_id
+      );
+      const formatted: Interaction[] = data.map((msg) => {
+        const firstStudent = msg.students[0]?.student;
+        const inbound = (msg.inbound_activities ?? []).map((a) => ({ action: a.action, actionData: a.action_data }));
+        const outbound = (msg.organization_outbound_message?.outbound_activities ?? []).map((a) => ({ action: a.action, actionData: a.action_data }));
+        return {
+          id: msg.id,
+          body: msg.body,
+          receivedAt: new Date(msg.received_at),
+          senderAddress: msg.sender_address,
+          subject: msg.subject ?? "",
+          studentName: firstStudent ? `${firstStudent.first_name} ${firstStudent.last_name}` : "(unknown)",
+          studentId: firstStudent?.id ?? "",
+          auditTrail: { inbound, outbound },
+          status: "pending",
+          suggestedReply: msg.organization_outbound_message?.latest_version ?? null,
+        };
+      });
+      setInteractions(formatted);
+    } catch (error) {
+      console.error("Error fetching interactions:", error);
+    }
+  }, [currentUser.organization_id]);
 
   // Fetch interactions on component mount
   useEffect(() => {
-    async function fetchInteractions() {
-      const supabase = createClient();
-      try {
-        const data = await getOrganizationInboundMessages(
-          supabase,
-          currentUser.organization_id
-        );
-        const formatted: Interaction[] = data.map((msg) => {
-          const firstStudent = msg.students[0]?.student;
-          const rawInboundActivities = msg.inbound_activities ?? [];
-          const inbound = rawInboundActivities.map((a) => ({
-            action: a.action,
-            actionData: a.action_data,
-          }));
-          const rawOutboundActivities = msg.organization_outbound_message?.outbound_activities ?? [];
-          const outbound = rawOutboundActivities.map((a) => ({
-            action: a.action,
-            actionData: a.action_data,
-          }));
-          return {
-            id: msg.id,
-            body: msg.body,
-            receivedAt: new Date(msg.received_at),
-            senderAddress: msg.sender_address,
-            subject: msg.subject ?? "",
-            studentName: firstStudent
-              ? `${firstStudent.first_name} ${firstStudent.last_name}`
-              : "(unknown)",
-            studentId: firstStudent?.id ?? "",
-            auditTrail: { inbound, outbound },
-            status: "pending",
-            suggestedReply: msg.organization_outbound_message?.latest_version ?? null,
-          };
-        });
-        setInteractions(formatted);
-      } catch (error) {
-        console.error("Error fetching interactions:", error);
-      }
-    }
     fetchInteractions();
-  }, [currentUser.organization_id]);
+  }, [fetchInteractions]);
 
   // Date range state
   const [startMonth, setStartMonth] = useState<string>("");
@@ -413,6 +403,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
       <MessageDetails
         message={selectedInteractionData}
         onClose={handleExitFullScreen}
+        onSaveMessage={fetchInteractions}
       />
     );
   }
