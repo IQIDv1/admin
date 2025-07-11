@@ -186,6 +186,23 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
     }
   };
 
+  // Copy handler
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(draftResponse);
+      toast({
+        title: 'Copied to clipboard!',
+        variant: 'default'
+      });
+    } catch (err) {
+      console.error('Copy error:', err);
+      toast({
+        title: 'We were unable to copy the response to the clipboard.',
+        variant: 'destructive'
+      });
+    }
+  };
+
   useEffect(() => {
     // Only fetch once per student ID
     if (fetchedIdRef.current !== message.studentId) {
@@ -302,7 +319,7 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
                           Edit Response
                         </Button>
                       )}
-                      <Button disabled={!hasSuggested}>
+                      <Button onClick={handleCopy} disabled={!hasSuggested}>
                         <Clipboard className="mr-2 h-4 w-4" />
                         Copy to Clipboard
                       </Button>
