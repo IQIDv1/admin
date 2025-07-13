@@ -1,14 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
-  Bell,
-  LayoutDashboard,
   Mail,
   Settings,
   LogOut,
   PieChart,
-  Plug,
   MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";

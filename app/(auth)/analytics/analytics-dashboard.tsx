@@ -24,7 +24,7 @@ export default function AnalyticsDashboard() {
             Analytics
           </h2>
           <p className="text-sm text-muted-foreground">
-            Monitor and analyze your agent's performance metrics
+            Monitor and analyze your agent&apos;s performance metrics
           </p>
         </div>
       </div>

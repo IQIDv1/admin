@@ -22,9 +22,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { AlertCircle, Check, Info, Save } from "lucide-react";
+import { Check, Info, Save } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useTheme } from "next-themes";
+// import { useTheme } from "next-themes";
 import { THEMES } from "@/lib/constants";
 import { THEMES as THEMES_TYPE } from "@/lib/types";
 
@@ -37,10 +37,10 @@ export default function SettingsPanel() {
   // Form state
   const [theme, setTheme] = useState<THEMES_TYPE>(THEMES.LIGHT);
   // const { theme, setTheme } = useTheme();
-  const nextTheme = useTheme();
+  // const nextTheme = useTheme();
 
-  const [language, setLanguage] = useState("en");
-  const [compactView, setCompactView] = useState(false);
+  // const [language, setLanguage] = useState("en");
+  // const [compactView, setCompactView] = useState(false);
   const [email, setEmail] = useState("admin@university.edu");
   const [name, setName] = useState("Financial Aid Admin");
 
@@ -134,7 +134,7 @@ export default function SettingsPanel() {
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Settings</h2>
           <p className="text-sm text-muted-foreground">
-            Configure your system's behavior, notifications, and integration
+            Configure your system&apos;s behavior, notifications, and integration
             settings
           </p>
         </div>
