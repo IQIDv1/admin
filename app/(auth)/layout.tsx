@@ -25,7 +25,7 @@ export default async function AuthenticatedLayout({
   if (memberError || !memberData) {
     try {
       await supabase.auth.signOut();
-    } catch (error) {}
+    } catch {}
     redirect("/login?error=unauthorized");
   }
 

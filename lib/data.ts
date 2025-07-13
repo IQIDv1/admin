@@ -23,12 +23,12 @@ export async function fetchMemberData(): Promise<Member | void> {
     if (memberError || !memberData) {
       try {
         await supabaseClient.auth.signOut();
-      } catch (error) {}
+      } catch {}
       throw new Error();
     }
 
     return memberData;
-  } catch (error) {
+  } catch {
     redirect("/login?error=unauthorized");
   }
 }
