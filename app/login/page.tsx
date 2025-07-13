@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,7 +44,7 @@ const authLocalDev = async (supabase: SupabaseClient) => {
   }
 };
 
-export default function Login() {
+const Login = function Login() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasMounted, setHasMounted] = useState<boolean>(false);
@@ -204,5 +204,14 @@ export default function Login() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+
+export default function LoginWrapped() {
+  return (
+    <Suspense>
+      <Login />
+    </Suspense>
   );
 }
