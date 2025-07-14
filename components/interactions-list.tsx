@@ -355,26 +355,38 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
     setIsFilterOpen(false);
   };
 
-  // Filter interactions based on date range
-  const filteredInteractions = interactions.filter((interaction) => {
-    if (!startDate) return true;
+  // State for status filter: 'all', 'pending', or 'completed'
+  const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'completed'>('all');
 
-    const interactionDate = interaction.receivedAt;
+  // Filter interactions based on date range and status
+  const filteredInteractions = interactions
+    .filter((interaction) => {
+      if (!startDate) {
+        return true;
+      }
 
-    if (endDate) {
-      return isWithinInterval(interactionDate, {
-        start: startDate,
-        end: endDate,
-      });
-    }
+      const interactionDate = interaction.receivedAt;
 
-    // If only start date is selected, match that specific day
-    return (
-      interactionDate.getDate() === startDate.getDate() &&
-      interactionDate.getMonth() === startDate.getMonth() &&
-      interactionDate.getFullYear() === startDate.getFullYear()
-    );
-  });
+      if (endDate) {
+        return isWithinInterval(interactionDate, {
+          start: startDate,
+          end: endDate,
+        });
+      }
+
+      // If only start date is selected, match that specific day
+      return (
+        interactionDate.getDate() === startDate.getDate() &&
+        interactionDate.getMonth() === startDate.getMonth() &&
+        interactionDate.getFullYear() === startDate.getFullYear()
+      );
+    })
+    .filter((interaction) => {
+      if (statusFilter === 'all') {
+        return true;
+      }
+      return interaction.status === statusFilter;
+    });
 
   // Get the selected interaction data
   const selectedInteractionData = selectedInteraction
@@ -553,7 +565,10 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
             </DialogContent>
           </Dialog>
 
-          <Select defaultValue="all">
+          <Select
+            value={statusFilter}
+            onValueChange={(value: string) => setStatusFilter(value as 'all' | 'pending' | 'completed')}
+          >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
