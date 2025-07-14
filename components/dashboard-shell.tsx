@@ -6,7 +6,6 @@ import {
   Settings,
   LogOut,
   PieChart,
-  MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -84,13 +83,6 @@ export default function DashboardShell({
   const { toast } = useToast();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const reggyChats = [
-    { id: "chat1", title: "Financial Aid", href: "/reggy/chat1" },
-    { id: "chat2", title: "Course Registration", href: "/reggy/chat2" },
-    { id: "chat3", title: "Housing", href: "/reggy/chat3" },
-    { id: "chat4", title: "Academic Advising", href: "/reggy/chat4" },
-  ];
-
   const [links] = useState<Link[]>([
     {
       title: "Interactions",
@@ -98,15 +90,6 @@ export default function DashboardShell({
       icon: Mail,
       // variant: pathname === "/" ? "default" : "ghost",
       href: "/",
-    },
-    {
-      title: "Reggy",
-      label: "",
-      icon: MessageSquare,
-      // variant: pathname.startsWith("/reggy") ? "default" : "ghost",
-      href: "/reggy",
-      isExpandable: true,
-      children: reggyChats,
     },
     {
       title: "Analytics",
