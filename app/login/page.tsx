@@ -28,6 +28,20 @@ const loginSchema = z.object({
     .transform((val) => val.toLowerCase()),
 });
 
+const getURL = () => {
+  let url =
+     // Set this to your site URL in production env.
+    process?.env?.NEXT_PUBLIC_SITE_URL ??
+     // Automatically set by Vercel.
+    process?.env?.NEXT_PUBLIC_VERCEL_URL ??
+    'http://localhost:3000/';
+  // Make sure to include `https://` when not localhost.
+  url = url.startsWith('http') ? url : `https://${url}`;
+  // Make sure to include a trailing `/`.
+  url = url.endsWith('/') ? url : `${url}/`;
+  return url;
+}
+
 const authLocalDev = async (supabase: SupabaseClient) => {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: LOCAL_DEV_EMAIL,
@@ -39,8 +53,7 @@ const authLocalDev = async (supabase: SupabaseClient) => {
   }
   if (data.user) {
     console.log("Local auth successful:", data.user);
-    // Redirect to the root of the current origin
-    window.location.href = window.location.origin;
+    window.location.href = getURL();
   }
 };
 
@@ -104,13 +117,13 @@ const Login = function Login() {
       }
 
       // Construct redirect URL based on current location
-      const origin = window.location.origin;
+      const baseUrl = getURL();
 
       const { data: signInData, error: signInError } =
         await supabase.auth.signInWithSSO({
           domain,
           options: {
-            redirectTo: `${origin}/api/auth/callback?attempted_email=${email}`,
+            redirectTo: `${baseUrl}/api/auth/callback?attempted_email=${email}`,
           },
         });
 
