@@ -74,20 +74,3 @@ export const STATES = [
   "wisconsin",
   "wyoming",
 ] as const;
-
-export const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "";
-
-// export const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-// export const NEXT_PUBLIC_SUPABASE_ANON_KEY =
-//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-// export const NEXT_PUBLIC_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-// export const OPENAI_API_KEY = process.env.OPENAI_API_KEY!;
-
-// if (
-//   !SUPABASE_SERVICE_ROLE_KEY ||
-//   !NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-//   !NEXT_PUBLIC_SUPABASE_URL ||
-//   !OPENAI_API_KEY
-// ) {
-//   throw new Error("Missing required environment variables");
-// }

@@ -12,7 +12,6 @@ import {
   APP_NAME,
   LOCAL_DEV_EMAIL,
   LOCAL_DEV_PASSWORD,
-  NEXT_PUBLIC_SITE_URL
 } from "@/lib/constants";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
@@ -40,7 +39,8 @@ const authLocalDev = async (supabase: SupabaseClient) => {
   }
   if (data.user) {
     console.log("Local auth successful:", data.user);
-    window.location.href = `${NEXT_PUBLIC_SITE_URL}`;
+    // Redirect to the root of the current origin
+    window.location.href = window.location.origin;
   }
 };
 
@@ -103,11 +103,14 @@ const Login = function Login() {
         return await authLocalDev(supabase);
       }
 
+      // Construct redirect URL based on current location
+      const origin = window.location.origin;
+
       const { data: signInData, error: signInError } =
         await supabase.auth.signInWithSSO({
           domain,
           options: {
-            redirectTo: `${NEXT_PUBLIC_SITE_URL}/api/auth/callback?attempted_email=${email}`,
+            redirectTo: `${origin}/api/auth/callback?attempted_email=${email}`,
           },
         });
 
