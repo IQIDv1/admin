@@ -251,7 +251,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
           studentName: firstStudent ? `${firstStudent.first_name} ${firstStudent.last_name}` : "(unknown)",
           studentId: firstStudent?.id ?? "",
           auditTrail: { inbound, outbound },
-          status: "pending",
+          status: msg.organization_outbound_message?.latest_version ? "completed" : "pending",
           suggestedReply: msg.organization_outbound_message?.latest_version ?? null,
         };
       });
