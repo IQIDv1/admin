@@ -357,6 +357,15 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
 
   // State for status filter: 'all', 'pending', or 'completed'
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'completed'>('all');
+  // Search filter state and debounced value
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>('');
+
+  // Debounce search input to avoid frequent updates
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedSearchTerm(searchInput), 300);
+    return () => clearTimeout(handler);
+  }, [searchInput]);
 
   // Filter interactions based on date range and status
   const filteredInteractions = interactions
@@ -386,6 +395,16 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
         return true;
       }
       return interaction.status === statusFilter;
+    })
+    .filter((interaction) => {
+      if (!(debouncedSearchTerm && debouncedSearchTerm.trim().length > 0)) {
+        return true;
+      }
+      const term = debouncedSearchTerm.toLowerCase();
+      return (
+        interaction.subject.toLowerCase().includes(term) ||
+        (interaction.body ?? '').toLowerCase().includes(term)
+      );
     });
 
   // Get the selected interaction data
@@ -584,6 +603,8 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
               type="search"
               placeholder="Search interactions..."
               className="w-[200px] pl-8"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
           </div>
         </div>
