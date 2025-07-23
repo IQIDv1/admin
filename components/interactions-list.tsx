@@ -614,8 +614,14 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
           filteredInteractions.map((interaction) => (
             <Card key={interaction.id}>
               <CardHeader
-                className="p-4 cursor-pointer"
-                onClick={() => handleToggleExpand(interaction.id)}
+                className={cn("p-4", {
+                  "cursor-pointer": interaction.status === "completed"
+                })}
+                onClick={() => {
+                  if (interaction.status === "completed") {
+                    handleToggleExpand(interaction.id);
+                  }
+                }}
               >
                 <div className="flex items-start justify-between">
                   <div className="space-y-1.5">
@@ -652,7 +658,9 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View full history</DropdownMenuItem>
+                      { interaction.status === "completed" && (
+                        <DropdownMenuItem>View full history</DropdownMenuItem>
+                      )}
                       <DropdownMenuItem>Export conversation</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -685,18 +693,22 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                     ) : (
                       <CheckCircle2 className="h-4 w-4" />
                     )}
-                    {interaction.status === "pending" ? "Pending" : "Completed"}
+                    {interaction.status === "pending" ? "Processing" : "Ready for Review"}
                   </span>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={(e) => { e.stopPropagation(); handleReviewClick(interaction.id); }}
-                  className="text-primary"
-                >
-                  Review
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                { interaction.status === "completed"
+                  ? (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={(e) => { e.stopPropagation(); handleReviewClick(interaction.id); }}
+                      className="text-primary"
+                    >
+                      Review
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  )
+                  : null }
               </div>
             </Card>
           ))
