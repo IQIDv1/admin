@@ -28,7 +28,7 @@ type Interaction = {
     inbound: { action: string; actionData: unknown; }[];
     outbound?: { action: string; actionData: unknown; }[];
   };
-  status: "pending" | "completed";
+  status: "skipped" | "pending" | "completed";
   suggestedReply: OutboundMessageVersionSummary | null;
 };
 interface MessageDetailsProps {

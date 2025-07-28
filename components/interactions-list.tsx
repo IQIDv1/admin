@@ -11,6 +11,7 @@ import {
   Clock,
   MoreVertical,
   Search,
+  SkipForward,
   SquarePen,
   Trash2,
 } from "lucide-react";
@@ -67,7 +68,7 @@ type Interaction = {
     inbound: { action: string; actionData: unknown; }[];
     outbound?: { action: string; actionData: unknown; }[];
   };
-  status: "pending" | "completed";
+  status: "skipped" | "pending" | "completed";
   suggestedReply: OutboundMessageVersionSummary | null;
 };
 
@@ -243,6 +244,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
         const firstStudent = msg.students[0]?.student;
         const inbound = (msg.inbound_activities ?? []).map((a) => ({ action: a.action, actionData: a.action_data }));
         const outbound = (msg.organization_outbound_message?.outbound_activities ?? []).map((a) => ({ action: a.action, actionData: a.action_data }));
+        const isMessageSkipped = inbound.some(a => a.action === "skipped_evaluation");
         return {
           id: msg.id,
           body: msg.body,
@@ -252,7 +254,11 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
           studentName: firstStudent ? `${firstStudent.first_name} ${firstStudent.last_name}` : "(unknown)",
           studentId: firstStudent?.id ?? "",
           auditTrail: { inbound, outbound },
-          status: msg.organization_outbound_message?.latest_version ? "completed" : "pending",
+          status: msg.organization_outbound_message?.latest_version
+            ? "completed"
+            : isMessageSkipped
+              ? "skipped"
+              : "pending",
           suggestedReply: msg.organization_outbound_message?.latest_version ?? null,
         };
       });
@@ -686,15 +692,23 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                       "flex items-center gap-1",
                       interaction.status === "pending"
                         ? "text-yellow-500"
-                        : "text-green-500"
+                        : interaction.status === "skipped"
+                          ? "text-gray-500"
+                          : "text-green-500"
                     )}
                   >
                     {interaction.status === "pending" ? (
                       <Clock className="h-4 w-4" />
+                    ) : interaction.status === "skipped" ? (
+                      <SkipForward className="h-4 w-4" />
                     ) : (
                       <CheckCircle2 className="h-4 w-4" />
                     )}
-                    {interaction.status === "pending" ? "Processing" : "Ready for Review"}
+                    {interaction.status === "pending"
+                      ? "Processing"
+                      : interaction.status === "skipped"
+                        ? "Skipped Evaluation"
+                        : "Ready for Review"}
                   </span>
                 </div>
                 { interaction.status === "completed"
