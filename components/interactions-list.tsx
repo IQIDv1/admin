@@ -73,6 +73,7 @@ type Interaction = {
 
 const INBOUND_ACTION_DISPLAY: Record<string, string> = {
   "interpreted_request": "Interpreted the Request",
+  "skipped_evaluation": "Skipped Evaluation",
   "summarized_question": "Provided Email Summary",
   "suggested_next_questions": "Anticipated Follow-up Questions",
   "suggested_next_actions": "Suggested Follow-up Actions",
