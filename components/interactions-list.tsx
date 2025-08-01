@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useCallback } from "react";
-import { format, isWithinInterval, parse } from "date-fns";
+import { useState, useEffect, useCallback } from 'react';
+import { format, isWithinInterval, parse } from 'date-fns';
 import {
   ArrowRight,
   Calendar,
@@ -13,47 +13,47 @@ import {
   Search,
   SkipForward,
   SquarePen,
-  Trash2,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+  Trash2
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+  SelectValue
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import { MessageDetails } from "@/components/messages/details";
-import { createClient } from "@/lib/supabase/client";
+  DialogFooter
+} from '@/components/ui/dialog';
+import { MessageDetails } from '@/components/messages/details';
+import { createClient } from '@/lib/supabase/client';
 import {
   getOrganizationInboundMessages,
-  type OutboundMessageVersionSummary,
-} from "@/lib/supabase/queries";
-import { cn } from "@/lib/utils";
-import type { Member } from "@/lib/types";
+  type OutboundMessageVersionSummary
+} from '@/lib/supabase/queries';
+import { cn } from '@/lib/utils';
+import type { Member } from '@/lib/types';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+  AccordionTrigger
+} from '@/components/ui/accordion';
 
 // Local Interaction type for component state
 type Interaction = {
@@ -65,35 +65,35 @@ type Interaction = {
   studentName: string;
   studentId: string;
   auditTrail: {
-    inbound: { action: string; actionData: unknown; }[];
-    outbound?: { action: string; actionData: unknown; }[];
+    inbound: { action: string; actionData: unknown }[];
+    outbound?: { action: string; actionData: unknown }[];
   };
-  status: "skipped" | "pending" | "completed";
+  status: 'skipped' | 'pending' | 'completed';
   suggestedReply: OutboundMessageVersionSummary | null;
 };
 
 const INBOUND_ACTION_DISPLAY: Record<string, string> = {
-  "interpreted_request": "Interpreted the Request",
-  "skipped_evaluation": "Skipped Evaluation",
-  "summarized_question": "Provided Email Summary",
-  "suggested_next_questions": "Anticipated Follow-up Questions",
-  "suggested_next_actions": "Suggested Follow-up Actions",
+  interpreted_request: 'Interpreted the Request',
+  skipped_evaluation: 'Skipped Evaluation',
+  summarized_question: 'Provided Email Summary',
+  suggested_next_questions: 'Anticipated Follow-up Questions',
+  suggested_next_actions: 'Suggested Follow-up Actions'
 };
 
 const OUTBOUND_ACTION_DISPLAY: Record<string, string> = {
-  "copied": "Copied to Clipboard",
-  "discarded": "Discarded Message",
-  "edited": "Edited Message",
-  "sent": "Sent Message",
+  copied: 'Copied to Clipboard',
+  discarded: 'Discarded Message',
+  edited: 'Edited Message',
+  sent: 'Sent Message'
 };
 
 const UserActionIcon = ({ action }: { action: string }) => {
   switch (action) {
-    case "copied":
+    case 'copied':
       return <Clipboard className="h-4 w-4 text-blue-500" />;
-    case "discarded":
+    case 'discarded':
       return <Trash2 className="h-4 w-4 text-red-500" />;
-    case "edited":
+    case 'edited':
       return <SquarePen className="h-4 w-4 text-yellow-500" />;
     default:
       return <CheckCircle2 className="h-4 w-4 text-green-500" />;
@@ -113,9 +113,7 @@ const UserActionsTaken = ({ interaction }: { interaction: Interaction }) => {
         </ul>
       );
     } else if (typeof data === 'string') {
-      return (
-        <p className="px-1 py-2 text-sm">{data}</p>
-      );
+      return <p className="px-1 py-2 text-sm">{data}</p>;
     } else if (Array.isArray(data)) {
       return (
         <ul className="list-disc pl-5 space-y-1 p-2 text-sm">
@@ -133,10 +131,11 @@ const UserActionsTaken = ({ interaction }: { interaction: Interaction }) => {
       <h4 className="font-semibold mb-2 mt-0 text-base text-gray-800/80">User Actions Taken</h4>
       <Accordion type="single" collapsible className="space-y-0">
         {interaction.auditTrail.outbound?.map((log, idx) => (
-          <AccordionItem key={idx} value={`outbound-${idx}`}>
+          <AccordionItem className="border-b-0" key={idx} value={`outbound-${idx}`}>
             <AccordionTrigger className="py-1">
               <div className="flex items-center gap-2 text-gray-800/70 text-sm">
-                <UserActionIcon action={log.action} /> {OUTBOUND_ACTION_DISPLAY[log.action] || log.action}
+                <UserActionIcon action={log.action} />{' '}
+                {OUTBOUND_ACTION_DISPLAY[log.action] || log.action}
               </div>
             </AccordionTrigger>
             <AccordionContent className="pb-2 text-gray-800/70">
@@ -150,8 +149,12 @@ const UserActionsTaken = ({ interaction }: { interaction: Interaction }) => {
 };
 
 const UserActionsTakenWrapper = ({ interaction }: { interaction: Interaction }) => {
-  if (Array.isArray(interaction.auditTrail.outbound) && interaction.auditTrail.outbound.length > 0) {
-    const hasInboundActions = Array.isArray(interaction.auditTrail.inbound) && interaction.auditTrail.inbound.length > 0;
+  if (
+    Array.isArray(interaction.auditTrail.outbound) &&
+    interaction.auditTrail.outbound.length > 0
+  ) {
+    const hasInboundActions =
+      Array.isArray(interaction.auditTrail.inbound) && interaction.auditTrail.inbound.length > 0;
     if (hasInboundActions) {
       return (
         <>
@@ -160,9 +163,7 @@ const UserActionsTakenWrapper = ({ interaction }: { interaction: Interaction }) 
         </>
       );
     }
-    return (
-      <UserActionsTaken interaction={interaction} />
-    );
+    return <UserActionsTaken interaction={interaction} />;
   }
   return null;
 };
@@ -174,7 +175,7 @@ const InteractionAuditTrail = ({ interaction }: { interaction: Interaction }) =>
       <Accordion type="single" collapsible className="space-y-0">
         {interaction.auditTrail.inbound.map((log, idx) =>
           log.actionData != null ? (
-            <AccordionItem key={idx} value={`log-${idx}`}>
+            <AccordionItem className="border-b-0" key={idx} value={`log-${idx}`}>
               <AccordionTrigger className="py-1">
                 <div className="flex font-normal items-center gap-2 leading-normal text-gray-800/70 text-sm">
                   <CheckCircle2 className="h-4 w-4 text-green-500" />
@@ -183,9 +184,7 @@ const InteractionAuditTrail = ({ interaction }: { interaction: Interaction }) =>
               </AccordionTrigger>
               <AccordionContent className="pb-2 text-gray-800/70">
                 {typeof log.actionData === 'string' ? (
-                  <p className="px-1 py-2 text-sm">
-                    {log.actionData}
-                  </p>
+                  <p className="px-1 py-2 text-sm">{log.actionData}</p>
                 ) : Array.isArray(log.actionData) ? (
                   <ul className="list-disc pl-5 space-y-1 p-2 text-sm">
                     {log.actionData.map((item, i) => (
@@ -200,10 +199,7 @@ const InteractionAuditTrail = ({ interaction }: { interaction: Interaction }) =>
               </AccordionContent>
             </AccordionItem>
           ) : (
-            <div
-              key={idx}
-              className="flex flex-1 items-center justify-between py-1"
-            >
+            <div key={idx} className="flex flex-1 items-center justify-between py-1">
               <div className="flex items-center gap-2 leading-normal text-gray-800/80 text-sm">
                 <CheckCircle2 className="h-4 w-4 text-green-500" />
                 {INBOUND_ACTION_DISPLAY[log.action] || log.action}
@@ -218,9 +214,7 @@ const InteractionAuditTrail = ({ interaction }: { interaction: Interaction }) =>
 
 const InteractionAuditTrailWrapper = ({ interaction }: { interaction: Interaction }) => {
   if (Array.isArray(interaction.auditTrail.inbound) && interaction.auditTrail.inbound.length > 0) {
-    return (
-      <InteractionAuditTrail interaction={interaction} />
-    )
+    return <InteractionAuditTrail interaction={interaction} />;
   }
   return null;
 };
@@ -236,35 +230,39 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
   const fetchInteractions = useCallback(async () => {
     const supabase = createClient();
     try {
-      const data = await getOrganizationInboundMessages(
-        supabase,
-        currentUser.organization_id
-      );
+      const data = await getOrganizationInboundMessages(supabase, currentUser.organization_id);
       const formatted: Interaction[] = data.map((msg) => {
         const firstStudent = msg.students[0]?.student;
-        const inbound = (msg.inbound_activities ?? []).map((a) => ({ action: a.action, actionData: a.action_data }));
-        const outbound = (msg.organization_outbound_message?.outbound_activities ?? []).map((a) => ({ action: a.action, actionData: a.action_data }));
-        const isMessageSkipped = inbound.some(a => a.action === "skipped_evaluation");
+        const inbound = (msg.inbound_activities ?? []).map((a) => ({
+          action: a.action,
+          actionData: a.action_data
+        }));
+        const outbound = (msg.organization_outbound_message?.outbound_activities ?? []).map(
+          (a) => ({ action: a.action, actionData: a.action_data })
+        );
+        const isMessageSkipped = inbound.some((a) => a.action === 'skipped_evaluation');
         return {
           id: msg.id,
           body: msg.body,
           receivedAt: new Date(msg.received_at),
           senderAddress: msg.sender_address,
-          subject: msg.subject ?? "",
-          studentName: firstStudent ? `${firstStudent.first_name} ${firstStudent.last_name}` : "(unknown)",
-          studentId: firstStudent?.id ?? "",
+          subject: msg.subject ?? '',
+          studentName: firstStudent
+            ? `${firstStudent.first_name} ${firstStudent.last_name}`
+            : '(unknown)',
+          studentId: firstStudent?.id ?? '',
           auditTrail: { inbound, outbound },
           status: msg.organization_outbound_message?.latest_version
-            ? "completed"
+            ? 'completed'
             : isMessageSkipped
-              ? "skipped"
-              : "pending",
-          suggestedReply: msg.organization_outbound_message?.latest_version ?? null,
+              ? 'skipped'
+              : 'pending',
+          suggestedReply: msg.organization_outbound_message?.latest_version ?? null
         };
       });
       setInteractions(formatted);
     } catch (error) {
-      console.error("Error fetching interactions:", error);
+      console.error('Error fetching interactions:', error);
     }
   }, [currentUser.organization_id]);
 
@@ -274,12 +272,12 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
   }, [fetchInteractions]);
 
   // Date range state
-  const [startMonth, setStartMonth] = useState<string>("");
-  const [startDay, setStartDay] = useState<string>("");
-  const [startYear, setStartYear] = useState<string>("");
-  const [endMonth, setEndMonth] = useState<string>("");
-  const [endDay, setEndDay] = useState<string>("");
-  const [endYear, setEndYear] = useState<string>("");
+  const [startMonth, setStartMonth] = useState<string>('');
+  const [startDay, setStartDay] = useState<string>('');
+  const [startYear, setStartYear] = useState<string>('');
+  const [endMonth, setEndMonth] = useState<string>('');
+  const [endDay, setEndDay] = useState<string>('');
+  const [endYear, setEndYear] = useState<string>('');
 
   // Derived state for the actual date objects
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -290,7 +288,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
     if (startYear && startMonth && startDay) {
       try {
         const dateStr = `${startYear}-${startMonth}-${startDay}`;
-        const date = parse(dateStr, "yyyy-MM-dd", new Date());
+        const date = parse(dateStr, 'yyyy-MM-dd', new Date());
         setStartDate(date);
       } catch {
         setStartDate(null);
@@ -304,7 +302,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
     if (endYear && endMonth && endDay) {
       try {
         const dateStr = `${endYear}-${endMonth}-${endDay}`;
-        const date = parse(dateStr, "yyyy-MM-dd", new Date());
+        const date = parse(dateStr, 'yyyy-MM-dd', new Date());
         // Set to end of day
         date.setHours(23, 59, 59, 999);
         setEndDate(date);
@@ -317,46 +315,39 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
   }, [endYear, endMonth, endDay]);
 
   // Generate arrays for days, months, and years
-  const days = Array.from({ length: 31 }, (_, i) =>
-    String(i + 1).padStart(2, "0")
-  );
+  const days = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0'));
   const months = [
-    { value: "01", label: "January" },
-    { value: "02", label: "February" },
-    { value: "03", label: "March" },
-    { value: "04", label: "April" },
-    { value: "05", label: "May" },
-    { value: "06", label: "June" },
-    { value: "07", label: "July" },
-    { value: "08", label: "August" },
-    { value: "09", label: "September" },
-    { value: "10", label: "October" },
-    { value: "11", label: "November" },
-    { value: "12", label: "December" },
+    { value: '01', label: 'January' },
+    { value: '02', label: 'February' },
+    { value: '03', label: 'March' },
+    { value: '04', label: 'April' },
+    { value: '05', label: 'May' },
+    { value: '06', label: 'June' },
+    { value: '07', label: 'July' },
+    { value: '08', label: 'August' },
+    { value: '09', label: 'September' },
+    { value: '10', label: 'October' },
+    { value: '11', label: 'November' },
+    { value: '12', label: 'December' }
   ];
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 5 }, (_, i) =>
-    String(currentYear - 2 + i)
-  );
+  const years = Array.from({ length: 5 }, (_, i) => String(currentYear - 2 + i));
 
   // Format the date range for display
   const formatDateRange = () => {
-    if (!startDate) return "Filter by Date Range";
-    if (!endDate) return `From ${format(startDate, "MMM dd, yyyy")}`;
-    return `${format(startDate, "MMM dd, yyyy")} - ${format(
-      endDate,
-      "MMM dd, yyyy"
-    )}`;
+    if (!startDate) return 'Filter by Date Range';
+    if (!endDate) return `From ${format(startDate, 'MMM dd, yyyy')}`;
+    return `${format(startDate, 'MMM dd, yyyy')} - ${format(endDate, 'MMM dd, yyyy')}`;
   };
 
   // Clear all date selections
   const clearDateRange = () => {
-    setStartMonth("");
-    setStartDay("");
-    setStartYear("");
-    setEndMonth("");
-    setEndDay("");
-    setEndYear("");
+    setStartMonth('');
+    setStartDay('');
+    setStartYear('');
+    setEndMonth('');
+    setEndDay('');
+    setEndYear('');
     setStartDate(null);
     setEndDate(null);
     setIsFilterOpen(false);
@@ -386,7 +377,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
       if (endDate) {
         return isWithinInterval(interactionDate, {
           start: startDate,
-          end: endDate,
+          end: endDate
         });
       }
 
@@ -427,7 +418,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
   // Toggle inline expansion of audit trail
   const handleToggleExpand = (interactionId: string) => {
     setIsFullScreenMode(false);
-    setSelectedInteraction(prev => (prev === interactionId ? null : interactionId));
+    setSelectedInteraction((prev) => (prev === interactionId ? null : interactionId));
   };
 
   // Handle exit full screen
@@ -451,20 +442,13 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h2 className="text-2xl font-semibold tracking-tight">
-            Interactions
-          </h2>
+          <h2 className="text-2xl font-semibold tracking-tight">Interactions</h2>
           <p className="text-sm text-muted-foreground">
             Review and manage recent student interactions
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="text-primary hover:bg-purple hover:text-white flex items-center gap-2"
-            onClick={() => setIsFilterOpen(true)}
-          >
+          <Button variant="outline" onClick={() => setIsFilterOpen(true)}>
             <Calendar className="h-4 w-4" />
             {formatDateRange()}
             <ChevronDown className="h-3 w-3 opacity-50" />
@@ -473,9 +457,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
           <Dialog open={isFilterOpen} onOpenChange={setIsFilterOpen}>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle className="text-primary">
-                  Select Date Range
-                </DialogTitle>
+                <DialogTitle className="text-primary">Select Date Range</DialogTitle>
                 <DialogDescription>
                   Choose start and end dates to filter interactions
                 </DialogDescription>
@@ -486,7 +468,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                   <h4 className="text-sm font-medium mb-2">Start Date</h4>
                   <div className="grid grid-cols-3 gap-2">
                     <Select value={startMonth} onValueChange={setStartMonth}>
-                      <SelectTrigger>
+                      <SelectTrigger variant="secondary">
                         <SelectValue placeholder="Month" />
                       </SelectTrigger>
                       <SelectContent>
@@ -499,7 +481,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                     </Select>
 
                     <Select value={startDay} onValueChange={setStartDay}>
-                      <SelectTrigger>
+                      <SelectTrigger variant="secondary">
                         <SelectValue placeholder="Day" />
                       </SelectTrigger>
                       <SelectContent>
@@ -512,7 +494,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                     </Select>
 
                     <Select value={startYear} onValueChange={setStartYear}>
-                      <SelectTrigger>
+                      <SelectTrigger variant="secondary">
                         <SelectValue placeholder="Year" />
                       </SelectTrigger>
                       <SelectContent>
@@ -530,7 +512,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                   <h4 className="text-sm font-medium mb-2">End Date</h4>
                   <div className="grid grid-cols-3 gap-2">
                     <Select value={endMonth} onValueChange={setEndMonth}>
-                      <SelectTrigger>
+                      <SelectTrigger variant="secondary">
                         <SelectValue placeholder="Month" />
                       </SelectTrigger>
                       <SelectContent>
@@ -543,7 +525,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                     </Select>
 
                     <Select value={endDay} onValueChange={setEndDay}>
-                      <SelectTrigger>
+                      <SelectTrigger variant="secondary">
                         <SelectValue placeholder="Day" />
                       </SelectTrigger>
                       <SelectContent>
@@ -556,7 +538,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                     </Select>
 
                     <Select value={endYear} onValueChange={setEndYear}>
-                      <SelectTrigger>
+                      <SelectTrigger variant="secondary">
                         <SelectValue placeholder="Year" />
                       </SelectTrigger>
                       <SelectContent>
@@ -572,17 +554,12 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
               </div>
 
               <DialogFooter>
-                <Button
-                  variant="outline"
-                  onClick={clearDateRange}
-                  className="text-primary hover:bg-purple/10"
-                >
+                <Button variant="outline" onClick={clearDateRange}>
                   Clear
                 </Button>
                 <Button
                   variant="default"
                   onClick={() => setIsFilterOpen(false)}
-                  className="bg-purple hover:bg-purple-dark text-white"
                   disabled={!startDate}
                 >
                   Apply Filter
@@ -593,9 +570,11 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
 
           <Select
             value={statusFilter}
-            onValueChange={(value: string) => setStatusFilter(value as 'all' | 'pending' | 'completed')}
+            onValueChange={(value: string) =>
+              setStatusFilter(value as 'all' | 'pending' | 'completed')
+            }
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger variant="outline" className="w-[180px]">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -621,11 +600,11 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
           filteredInteractions.map((interaction) => (
             <Card key={interaction.id}>
               <CardHeader
-                className={cn("p-4", {
-                  "cursor-pointer": interaction.status === "completed"
+                className={cn('p-4', {
+                  'cursor-pointer': interaction.status === 'completed'
                 })}
                 onClick={() => {
-                  if (interaction.status === "completed") {
+                  if (interaction.status === 'completed') {
                     handleToggleExpand(interaction.id);
                   }
                 }}
@@ -646,26 +625,21 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                             ? interaction.studentName
                             : interaction.senderAddress}
                         </span>
-                        <span
-                          className="truncate w-64 block"
-                          title={interaction.subject}
-                        >
+                        <span className="truncate w-64 block" title={interaction.subject}>
                           {interaction.subject}
                         </span>
                       </div>
                     </CardTitle>
-                    <p className="text-sm text-muted-foreground line-clamp-2">
-                      {interaction.body}
-                    </p>
+                    <p className="text-sm text-muted-foreground line-clamp-2">{interaction.body}</p>
                   </div>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0 shrink-0">
                         <MoreVertical className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      { interaction.status === "completed" && (
+                      {interaction.status === 'completed' && (
                         <DropdownMenuItem>View full history</DropdownMenuItem>
                       )}
                       <DropdownMenuItem>Export conversation</DropdownMenuItem>
@@ -683,47 +657,47 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                 <div className="flex items-center gap-3 text-sm">
                   <Clock className="h-4 w-4 text-muted-foreground" />
                   <span className="text-muted-foreground">
-                    {format(interaction.receivedAt, "MMM d, yyyy")}{" "}
-                    {format(interaction.receivedAt, "h:mm a").toUpperCase()}
+                    {format(interaction.receivedAt, 'MMM d, yyyy')}{' '}
+                    {format(interaction.receivedAt, 'h:mm a').toUpperCase()}
                   </span>
                   <Separator orientation="vertical" className="h-4" />
                   <span
                     className={cn(
-                      "flex items-center gap-1",
-                      interaction.status === "pending"
-                        ? "text-yellow-500"
-                        : interaction.status === "skipped"
-                          ? "text-gray-500"
-                          : "text-green-500"
+                      'flex items-center gap-1',
+                      interaction.status === 'pending'
+                        ? 'text-yellow-500'
+                        : interaction.status === 'skipped'
+                          ? 'text-gray-500'
+                          : 'text-green-500'
                     )}
                   >
-                    {interaction.status === "pending" ? (
+                    {interaction.status === 'pending' ? (
                       <Clock className="h-4 w-4" />
-                    ) : interaction.status === "skipped" ? (
+                    ) : interaction.status === 'skipped' ? (
                       <SkipForward className="h-4 w-4" />
                     ) : (
                       <CheckCircle2 className="h-4 w-4" />
                     )}
-                    {interaction.status === "pending"
-                      ? "Processing"
-                      : interaction.status === "skipped"
-                        ? "Skipped Evaluation"
-                        : "Ready for Review"}
+                    {interaction.status === 'pending'
+                      ? 'Processing'
+                      : interaction.status === 'skipped'
+                        ? 'Skipped Evaluation'
+                        : 'Ready for Review'}
                   </span>
                 </div>
-                { interaction.status === "completed"
-                  ? (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={(e) => { e.stopPropagation(); handleReviewClick(interaction.id); }}
-                      className="text-primary"
-                    >
-                      Review
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  )
-                  : null }
+                {interaction.status === 'completed' ? (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleReviewClick(interaction.id);
+                    }}
+                  >
+                    Review
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                ) : null}
               </div>
             </Card>
           ))
@@ -734,16 +708,13 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
             <p className="text-sm text-muted-foreground mt-1">
               {startDate && endDate ? (
                 <>
-                  No interactions found between{" "}
-                  {format(startDate, "MMMM dd, yyyy")} and{" "}
-                  {format(endDate, "MMMM dd, yyyy")}
+                  No interactions found between {format(startDate, 'MMMM dd, yyyy')} and{' '}
+                  {format(endDate, 'MMMM dd, yyyy')}
                 </>
               ) : startDate ? (
-                <>
-                  No interactions found for {format(startDate, "MMMM dd, yyyy")}
-                </>
+                <>No interactions found for {format(startDate, 'MMMM dd, yyyy')}</>
               ) : (
-                "No interactions match your filters"
+                'No interactions match your filters'
               )}
             </p>
             <Button

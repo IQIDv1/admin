@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef } from "react";
-import { History, Pen, X, Save, Clipboard } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
+import React, { useState, useEffect, useRef } from 'react';
+import { History, Pen, X, Save, Clipboard } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
+import { createClient } from '@/lib/supabase/client';
 import {
   getStudentDetails,
   type OutboundMessageVersionSummary,
-  type StudentDetails,
-} from "@/lib/supabase/queries";
-import { saveOutboundResponse } from "@/lib/supabase/queries";
-import { useToast } from "@/components/ui/use-toast";
+  type StudentDetails
+} from '@/lib/supabase/queries';
+import { saveOutboundResponse } from '@/lib/supabase/queries';
+import { useToast } from '@/components/ui/use-toast';
 
 // Local Interaction type for component state
 type Interaction = {
@@ -25,10 +25,10 @@ type Interaction = {
   studentName: string;
   studentId: string;
   auditTrail: {
-    inbound: { action: string; actionData: unknown; }[];
-    outbound?: { action: string; actionData: unknown; }[];
+    inbound: { action: string; actionData: unknown }[];
+    outbound?: { action: string; actionData: unknown }[];
   };
-  status: "skipped" | "pending" | "completed";
+  status: 'skipped' | 'pending' | 'completed';
   suggestedReply: OutboundMessageVersionSummary | null;
 };
 interface MessageDetailsProps {
@@ -44,9 +44,13 @@ interface StudentInfoProps {
 
 function formatUSD(value: number) {
   if (!isNaN(value)) {
-    return value.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+    return value.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    });
   }
-  return "N/A";
+  return 'N/A';
 }
 
 function StudentInfo({ studentDetails, studentId }: StudentInfoProps) {
@@ -74,10 +78,8 @@ function StudentInfo({ studentDetails, studentId }: StudentInfoProps) {
             <h4 className="font-medium">FAFSA Submission Date:</h4>
             <p>
               {studentDetails.financialAid?.fafsa_submission_date
-                ? new Date(
-                    studentDetails.financialAid.fafsa_submission_date
-                  ).toLocaleDateString()
-                : "No financial aid information available."}
+                ? new Date(studentDetails.financialAid.fafsa_submission_date).toLocaleDateString()
+                : 'No financial aid information available.'}
             </p>
           </div>
 
@@ -86,18 +88,18 @@ function StudentInfo({ studentDetails, studentId }: StudentInfoProps) {
             <p>
               {typeof studentDetails.financialAid?.cost_of_attendance === 'number'
                 ? formatUSD(studentDetails.financialAid.cost_of_attendance)
-                : "N/A"}
+                : 'N/A'}
             </p>
           </div>
 
           <div>
             <h4 className="font-medium">Award Status:</h4>
-            <p>{studentDetails.financialAid?.award_status || "N/A"}</p>
+            <p>{studentDetails.financialAid?.award_status || 'N/A'}</p>
           </div>
 
           <div>
             <h4 className="font-medium">Enrollment Status:</h4>
-            <p>{studentDetails.academic?.enrollment_status || "N/A"}</p>
+            <p>{studentDetails.academic?.enrollment_status || 'N/A'}</p>
           </div>
 
           <div>
@@ -105,19 +107,22 @@ function StudentInfo({ studentDetails, studentId }: StudentInfoProps) {
             {studentDetails.currentAid ? (
               <ul className="list-disc pl-5 space-y-1">
                 <li>
-                  Federal Pell Grant: {typeof studentDetails.currentAid.federal_pell_grant === 'number'
+                  Federal Pell Grant:{' '}
+                  {typeof studentDetails.currentAid.federal_pell_grant === 'number'
                     ? formatUSD(studentDetails.currentAid.federal_pell_grant)
-                    : "N/A"}
+                    : 'N/A'}
                 </li>
                 <li>
-                  Federal Direct Subsidized: {typeof studentDetails.currentAid.federal_direct_subsidized === 'number'
+                  Federal Direct Subsidized:{' '}
+                  {typeof studentDetails.currentAid.federal_direct_subsidized === 'number'
                     ? formatUSD(studentDetails.currentAid.federal_direct_subsidized)
-                    : "N/A"}
+                    : 'N/A'}
                 </li>
                 <li>
-                  Federal Direct Unsubsidized: {typeof studentDetails.currentAid.federal_direct_unsubsidized === 'number'
+                  Federal Direct Unsubsidized:{' '}
+                  {typeof studentDetails.currentAid.federal_direct_unsubsidized === 'number'
                     ? formatUSD(studentDetails.currentAid.federal_direct_unsubsidized)
-                    : "N/A"}
+                    : 'N/A'}
                 </li>
               </ul>
             ) : (
@@ -129,11 +134,9 @@ function StudentInfo({ studentDetails, studentId }: StudentInfoProps) {
             <h4 className="font-medium">Outstanding Requirements:</h4>
             {studentDetails.financialAid?.outstanding_requirements ? (
               <ul className="list-disc pl-5 space-y-1">
-                {studentDetails.financialAid.outstanding_requirements
-                  .split(",")
-                  .map((req, idx) => (
-                    <li key={idx}>{req.trim()}</li>
-                  ))}
+                {studentDetails.financialAid.outstanding_requirements.split(',').map((req, idx) => (
+                  <li key={idx}>{req.trim()}</li>
+                ))}
               </ul>
             ) : (
               <p>No outstanding requirements.</p>
@@ -152,19 +155,20 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
   const [isEditing, setIsEditing] = useState(false);
 
   // Track suggested reply versions locally
-  const [suggestedReplyState, setSuggestedReplyState] = useState<OutboundMessageVersionSummary | null>(message.suggestedReply);
+  const [suggestedReplyState, setSuggestedReplyState] =
+    useState<OutboundMessageVersionSummary | null>(message.suggestedReply);
   const hasSuggested = Boolean(suggestedReplyState);
 
   // Draft response state
-  const [draftResponse, setDraftResponse] = useState(suggestedReplyState?.body || "");
+  const [draftResponse, setDraftResponse] = useState(suggestedReplyState?.body || '');
   useEffect(() => {
     setSuggestedReplyState(message.suggestedReply);
   }, [message.suggestedReply]);
   useEffect(() => {
-    setDraftResponse(suggestedReplyState?.body || "");
+    setDraftResponse(suggestedReplyState?.body || '');
   }, [suggestedReplyState]);
 
-   // Save handler
+  // Save handler
   const handleSave = async () => {
     try {
       const supabase = createClient();
@@ -213,7 +217,7 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
           const details = await getStudentDetails(supabase, message.studentId);
           setStudentDetails(details);
         } catch (err) {
-          console.error("Error fetching student details:", err);
+          console.error('Error fetching student details:', err);
           setStudentDetails(null);
         }
       };
@@ -230,11 +234,11 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
   return (
     <div className="fixed inset-0 z-50 bg-background">
       <div className="flex h-full flex-col">
-        <header className="flex h-[52px] items-center justify-between border-b px-6">
+        <header className="bg-purple-600 flex h-12 items-center justify-between border-b px-6">
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-semibold text-primary">Write Email</h1>
+            <h1 className="text-xl font-semibold text-primary-foreground">Write Email</h1>
           </div>
-          <Button variant="ghost" size="icon" onClick={onCloseHandler}>
+          <Button variant="outline" size="icon" onClick={onCloseHandler}>
             <X className="h-5 w-5" />
           </Button>
         </header>
@@ -243,7 +247,7 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
           <div className="flex-1 overflow-auto p-6">
             <div className="w-full">
               <div className="flex justify-end items-center mb-4">
-                <Button variant="outline" className="text-primary">
+                <Button variant="outline">
                   <History className="mr-2 h-4 w-4" />
                   Show History
                 </Button>
@@ -251,25 +255,20 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <h3 className="text-lg font-medium">
-                    Detected Email: {message.subject}
-                  </h3>
+                  <h3 className="text-lg font-medium">Detected Email: {message.subject}</h3>
                   <Textarea
                     className="min-h-[200px] bg-muted/50"
                     readOnly
-                    value={message.body || "No email content detected."}
+                    value={message.body || 'No email content detected.'}
                   />
                 </div>
 
                 <div className="space-y-2">
                   <h3 className="text-lg font-medium">Draft Response:</h3>
                   <Textarea
-                    className={cn(
-                      "min-h-[300px]",
-                      {
-                        "bg-muted/50": hasSuggested && !isEditing,
-                      }
-                    )}
+                    className={cn('min-h-[300px]', {
+                      'bg-muted/50': hasSuggested && !isEditing
+                    })}
                     value={draftResponse}
                     onChange={(e) => setDraftResponse(e.target.value)}
                     placeholder="Type your response here..."
@@ -283,7 +282,7 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
                       <Button
                         variant="outline"
                         onClick={() => {
-                          setDraftResponse(message.suggestedReply?.body || "");
+                          setDraftResponse(message.suggestedReply?.body || '');
                           setIsEditing(false);
                         }}
                       >
@@ -301,10 +300,7 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
                   ) : (
                     <>
                       {hasSuggested ? (
-                        <Button
-                          variant="outline"
-                          onClick={() => setIsEditing(true)}
-                        >
+                        <Button variant="outline" onClick={() => setIsEditing(true)}>
                           <Pen className="mr-2 h-4 w-4" />
                           Edit Response
                         </Button>
@@ -332,10 +328,7 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
 
           <div className="w-[350px] border-l p-6 overflow-y-auto">
             <div className="space-y-6">
-              <StudentInfo
-                studentDetails={studentDetails}
-                studentId={message.studentId}
-              />
+              <StudentInfo studentDetails={studentDetails} studentId={message.studentId} />
 
               <Separator />
 
@@ -346,8 +339,8 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
                   <div className="bg-slate-50 p-4 rounded-md">
                     <h4 className="font-medium text-primary">Banner (SIS)</h4>
                     <p className="text-sm mb-2">
-                      Student enrollment status, financial aid package
-                      details, and outstanding requirements
+                      Student enrollment status, financial aid package details, and outstanding
+                      requirements
                     </p>
                     <Button variant="link" className="text-blue-500 p-0 h-auto">
                       View Data
@@ -366,9 +359,7 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
 
                   <div className="bg-slate-50 p-4 rounded-md">
                     <h4 className="font-medium text-primary">PeopleSoft API</h4>
-                    <p className="text-sm mb-2">
-                      Student account balance and financial aid status
-                    </p>
+                    <p className="text-sm mb-2">Student account balance and financial aid status</p>
                     <Button variant="link" className="text-blue-500 p-0 h-auto">
                       View Data
                     </Button>
@@ -376,9 +367,7 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
 
                   <div className="bg-slate-50 p-4 rounded-md">
                     <h4 className="font-medium text-primary">Outlook API</h4>
-                    <p className="text-sm mb-2">
-                      Recent email communications with the student
-                    </p>
+                    <p className="text-sm mb-2">Recent email communications with the student</p>
                     <Button variant="link" className="text-blue-500 p-0 h-auto">
                       View Data
                     </Button>

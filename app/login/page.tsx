@@ -1,38 +1,33 @@
-"use client";
+'use client';
 
-import type React from "react";
-import { Suspense, useState, useEffect } from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  APP_LOGO,
-  APP_NAME,
-  LOCAL_DEV_EMAIL,
-  LOCAL_DEV_PASSWORD,
-} from "@/lib/constants";
-import { Loader2 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
-import { createClient } from "@/lib/supabase/client";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { useSearchParams } from "next/navigation";
-import { z } from "zod";
+import type React from 'react';
+import { Suspense, useState, useEffect } from 'react';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { APP_LOGO, APP_NAME, LOCAL_DEV_EMAIL, LOCAL_DEV_PASSWORD } from '@/lib/constants';
+import { Loader2 } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
+import { createClient } from '@/lib/supabase/client';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { useSearchParams } from 'next/navigation';
+import { z } from 'zod';
 
 const loginSchema = z.object({
   email: z
     .string()
     .trim()
-    .email("Invalid email address")
-    .transform((val) => val.toLowerCase()),
+    .email('Invalid email address')
+    .transform((val) => val.toLowerCase())
 });
 
 const getURL = () => {
   let url =
-     // Set this to your site URL in production env.
+    // Set this to your site URL in production env.
     process?.env?.NEXT_PUBLIC_SITE_URL ??
-     // Automatically set by Vercel.
+    // Automatically set by Vercel.
     process?.env?.NEXT_PUBLIC_VERCEL_URL ??
     'http://localhost:3000/';
   // Make sure to include `https://` when not localhost.
@@ -40,19 +35,19 @@ const getURL = () => {
   // Make sure to include a trailing `/`.
   url = url.endsWith('/') ? url : `${url}/`;
   return url;
-}
+};
 
 const authLocalDev = async (supabase: SupabaseClient) => {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: LOCAL_DEV_EMAIL,
-    password: LOCAL_DEV_PASSWORD,
+    password: LOCAL_DEV_PASSWORD
   });
   if (error) {
-    console.error("Local auth error:", error);
-    throw new Error("Local authentication failed");
+    console.error('Local auth error:', error);
+    throw new Error('Local authentication failed');
   }
   if (data.user) {
-    console.log("Local auth successful:", data.user);
+    console.log('Local auth successful:', data.user);
     window.location.href = getURL();
   }
 };
@@ -71,73 +66,72 @@ const Login = function Login() {
 
     setIsLoading(true);
 
-    let errorMessage = "Something went wrong";
+    let errorMessage = 'Something went wrong';
 
     try {
       const formData = new FormData(e.currentTarget);
       const formObject = Object.fromEntries(formData.entries());
       const validation = loginSchema.safeParse(formObject);
-      const email: string = validation.data?.email || "";
-      const domain: string = email.split("@")[1] || "";
+      const email: string = validation.data?.email || '';
+      const domain: string = email.split('@')[1] || '';
 
       if (!validation.success) {
         const errors = validation.error.format();
         errorMessage = errors.email?._errors[0]
           ? errors.email?._errors[0]
           : !domain
-          ? "Invalid email"
-          : "Something went wrong";
+            ? 'Invalid email'
+            : 'Something went wrong';
 
         throw new Error();
       }
 
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        body: JSON.stringify({ domain }),
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ domain })
       });
 
       if (!response.ok) {
         const data = await response.json();
-        console.log("error msg", data);
+        console.log('error msg', data);
         if (data?.error) errorMessage = data.error;
         throw new Error();
       }
 
       const data = await response.json();
       if (!data || !data.success) {
-        errorMessage = "Invalid domain";
+        errorMessage = 'Invalid domain';
         throw new Error();
       }
 
       // Bypass SSO for local development
       const nodeEnv = process.env.NEXT_PUBLIC_NODE_ENV;
       const appEnv = process.env.NEXT_PUBLIC_APP_ENV;
-      if (nodeEnv === "development" && appEnv === "local") {
+      if (nodeEnv === 'development' && appEnv === 'local') {
         return await authLocalDev(supabase);
       }
 
       // Construct redirect URL based on current location
       const baseUrl = getURL();
 
-      const { data: signInData, error: signInError } =
-        await supabase.auth.signInWithSSO({
-          domain,
-          options: {
-            redirectTo: `${baseUrl}/api/auth/callback?attempted_email=${email}`,
-          },
-        });
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithSSO({
+        domain,
+        options: {
+          redirectTo: `${baseUrl}/api/auth/callback?attempted_email=${email}`
+        }
+      });
 
       if (signInData?.url) window.location.href = signInData.url;
       else {
-        console.log("Sign in error", signInError);
-        errorMessage = "Login failed";
+        console.log('Sign in error', signInError);
+        errorMessage = 'Login failed';
         throw new Error();
       }
     } catch (error) {
       console.log(error);
       toast({
         title: errorMessage,
-        variant: "destructive",
+        variant: 'destructive'
       });
     } finally {
       setIsLoading(false);
@@ -151,44 +145,36 @@ const Login = function Login() {
   useEffect(() => {
     if (!hasMounted || hasDisplayedError) return;
 
-    const errorParam = searchParams.get("error");
+    const errorParam = searchParams.get('error');
 
     if (errorParam) {
-      let message = "Login failed";
-      if (errorParam === "unauthorized") {
-        message = "You must be invited to access this organization.";
-      } else if (errorParam === "deactivated") {
+      let message = 'Login failed';
+      if (errorParam === 'unauthorized') {
+        message = 'You must be invited to access this organization.';
+      } else if (errorParam === 'deactivated') {
+        message = 'Your account has been deactivated. Please contact your admin.';
+      } else if (errorParam === 'organization_domain') {
+        message = 'No organization found under your domain.';
+      } else if (errorParam === 'email_mismatch') {
         message =
-          "Your account has been deactivated. Please contact your admin.";
-      } else if (errorParam === "organization_domain") {
-        message = "No organization found under your domain.";
-      } else if (errorParam === "email_mismatch") {
-        message =
-          "The email you entered does not match the email you are logged into with your provider.";
+          'The email you entered does not match the email you are logged into with your provider.';
       }
       setHasDisplayedError(true);
-      console.log("error message", message);
+      console.log('error message', message);
 
-      toast({ title: message, variant: "destructive" });
+      toast({ title: message, variant: 'destructive' });
       const newParams = new URLSearchParams(window.location.search);
-      newParams.delete("error");
+      newParams.delete('error');
       const newUrl =
-        window.location.pathname +
-        (newParams.toString() ? `?${newParams.toString()}` : "");
-      window.history.replaceState({}, "", newUrl);
+        window.location.pathname + (newParams.toString() ? `?${newParams.toString()}` : '');
+      window.history.replaceState({}, '', newUrl);
     }
   }, [searchParams, hasMounted, hasDisplayedError, toast]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background">
       <div className="mb-8">
-        <Image
-          src={APP_LOGO}
-          alt="IQ/ID Logo"
-          width={180}
-          height={60}
-          priority
-        />
+        <Image src={APP_LOGO} alt="IQ/ID Logo" width={180} height={60} priority />
       </div>
       <Card className="w-[350px]">
         <CardHeader>
@@ -213,7 +199,7 @@ const Login = function Login() {
                   Signing in...
                 </>
               ) : (
-                "Sign in with SSO"
+                'Sign in with SSO'
               )}
             </Button>
           </form>
@@ -221,8 +207,7 @@ const Login = function Login() {
       </Card>
     </div>
   );
-}
-
+};
 
 export default function LoginWrapped() {
   return (

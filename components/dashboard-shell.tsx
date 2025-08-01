@@ -1,33 +1,24 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import {
-  Mail,
-  Settings,
-  LogOut,
-  PieChart,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
-import { Button } from "@/components/ui/button";
-import { useToast } from "./ui/use-toast";
+import { useState } from 'react';
+import { Mail, Settings, LogOut, PieChart } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Link, Nav } from "@/components/nav";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import type React from "react";
-import { APP_NAME } from "@/lib/constants";
-import { createClient } from "@/lib/supabase/client";
-import { Member } from "@/lib/types";
-import { useRouter } from "next/navigation";
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import { Link, Nav } from '@/components/nav';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import type React from 'react';
+import { APP_NAME } from '@/lib/constants';
+import { createClient } from '@/lib/supabase/client';
+import { Member } from '@/lib/types';
+import { useRouter } from 'next/navigation';
 
 interface DashboardShellProps {
   children: React.ReactNode;
@@ -74,10 +65,7 @@ interface DashboardShellProps {
 //   },
 // ];
 
-export default function DashboardShell({
-  children,
-  member,
-}: DashboardShellProps) {
+export default function DashboardShell({ children, member }: DashboardShellProps) {
   const supabase = createClient();
   const router = useRouter();
   const { toast } = useToast();
@@ -85,18 +73,18 @@ export default function DashboardShell({
 
   const [links] = useState<Link[]>([
     {
-      title: "Interactions",
-      label: "",
+      title: 'Interactions',
+      label: '',
       icon: Mail,
       // variant: pathname === "/" ? "default" : "ghost",
-      href: "/",
+      href: '/'
     },
     {
-      title: "Analytics",
-      label: "",
+      title: 'Analytics',
+      label: '',
       icon: PieChart,
       // variant: pathname === "/analytics" ? "default" : "ghost",
-      href: "/analytics",
+      href: '/analytics'
     },
     // {
     //   title: "Integrations",
@@ -106,12 +94,12 @@ export default function DashboardShell({
     //   href: "/integrations",
     // },
     {
-      title: "Settings",
-      label: "",
+      title: 'Settings',
+      label: '',
       icon: Settings,
       // variant: pathname === "/settings" ? "default" : "ghost",
-      href: "/settings",
-    },
+      href: '/settings'
+    }
   ]);
 
   const handleLogout = async () => {
@@ -119,15 +107,15 @@ export default function DashboardShell({
 
     if (error) {
       toast({
-        title: "Failed to log out",
-        variant: "destructive",
+        title: 'Failed to log out',
+        variant: 'destructive'
       });
     } else {
       toast({
-        title: "Logged out successfully",
-        variant: "default",
+        title: 'Logged out successfully',
+        variant: 'default'
       });
-      router.push("/login");
+      router.push('/login');
     }
   };
 
@@ -135,7 +123,7 @@ export default function DashboardShell({
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
         direction="horizontal"
-        autoSaveId={"dashboard-layout"}
+        autoSaveId={'dashboard-layout'}
         className="h-full min-h-[100vh] max-h-[100vh] items-stretch"
       >
         <ResizablePanel
@@ -146,17 +134,15 @@ export default function DashboardShell({
           onCollapse={() => setIsCollapsed(true)}
           onExpand={() => setIsCollapsed(false)}
           className={cn(
-            // "flex flex-col bg-background",
-            "flex flex-col bg-background",
-            isCollapsed &&
-              "min-w-[50px] transition-all duration-300 ease-in-out"
+            'flex flex-col bg-background',
+            isCollapsed && 'min-w-[50px] transition-all duration-300 ease-in-out'
           )}
         >
           <div className="flex h-[52px] items-center justify-center">
             <span
               className={cn(
-                "text-xl font-bold text-primary cursor-default",
-                isCollapsed ? "hidden" : "block"
+                'text-xl font-bold text-primary cursor-default',
+                isCollapsed ? 'hidden' : 'block'
               )}
             >
               {APP_NAME}
@@ -167,22 +153,15 @@ export default function DashboardShell({
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={80}>
           <div className="flex h-full flex-col">
-            <header className="flex h-[52px] items-center justify-between border-b px-6">
-              {/* <div className="flex items-center gap-2">
-                <h1 className="text-xl font-semibold text-primary">Dashboard</h1>
-              </div> */}
+            <header className="bg-purple-600 flex h-12 items-center justify-between border-b px-6">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 rounded-full bg-primary text-primary-foreground ml-auto"
-                  >
+                  <Button variant="outline" size="icon" className="h-8 w-8 rounded-full ml-auto">
                     {member.first_name[0]
                       ? member.first_name[0]
                       : member.email
-                      ? member.email[0].toUpperCase()
-                      : "U"}
+                        ? member.email[0].toUpperCase()
+                        : 'U'}
                     {/* {member .name
                       ? user.name[0]
                       : user.email
@@ -195,9 +174,7 @@ export default function DashboardShell({
                     <p className="font-medium truncate">
                       {member.first_name} {member.last_name}
                     </p>
-                    <p className="text-xs text-muted-foreground truncate">
-                      {member.email}
-                    </p>
+                    <p className="text-xs text-muted-foreground truncate">{member.email}</p>
                   </div>
                   {/* <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />

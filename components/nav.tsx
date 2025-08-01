@@ -1,31 +1,20 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import type { LucideIcon } from "lucide-react";
-import {
-  ChevronDown,
-  ChevronRight,
-  MoreHorizontal,
-  Plus,
-  MessageSquare,
-} from "lucide-react";
-import { usePathname } from "next/navigation";
+import { useState } from 'react';
+import Link from 'next/link';
+import type { LucideIcon } from 'lucide-react';
+import { ChevronDown, ChevronRight, MoreHorizontal, Plus, MessageSquare } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  TooltipProvider,
-} from "@/components/ui/tooltip";
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
 
 export interface Link {
   title: string;
@@ -49,13 +38,13 @@ interface NavProps {
 export function Nav({ links, isCollapsed }: NavProps) {
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({
-    Reggy: true, // Start with Reggy expanded
+    Reggy: true // Start with Reggy expanded
   });
 
   const toggleExpand = (title: string) => {
     setExpandedItems((prev) => ({
       ...prev,
-      [title]: !prev[title],
+      [title]: !prev[title]
     }));
   };
 
@@ -69,7 +58,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
         <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
           {links.map((link, index) => {
             const isExpanded = expandedItems[link.title] || false;
-            const variant = pathname === link.href ? "default" : "ghost";
+            const variant = pathname === link.href ? 'default' : 'ghost';
 
             return (
               <div key={index}>
@@ -80,10 +69,10 @@ export function Nav({ links, isCollapsed }: NavProps) {
                       className={cn(
                         buttonVariants({
                           variant,
-                          size: isCollapsed ? "icon" : "sm",
+                          size: isCollapsed ? 'icon' : 'sm'
                         }),
-                        "h-9 w-full justify-start",
-                        isCollapsed && "pl-2"
+                        'h-9 w-full justify-start',
+                        isCollapsed && 'pl-2'
 
                         // variant === "default" &&
                         //   "bg-background text-primary hover:bg-purple hover:text-white"
@@ -93,11 +82,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                       {!isCollapsed && (
                         <>
                           <span className="flex-1 text-left">{link.title}</span>
-                          {link.label && (
-                            <span className="ml-auto text-xs">
-                              {link.label}
-                            </span>
-                          )}
+                          {link.label && <span className="ml-auto text-xs">{link.label}</span>}
                           {isExpanded ? (
                             <ChevronDown className="ml-1 h-4 w-4" />
                           ) : (
@@ -115,10 +100,10 @@ export function Nav({ links, isCollapsed }: NavProps) {
                               href={child.href}
                               className={cn(
                                 buttonVariants({
-                                  variant: "ghost",
-                                  size: "sm",
+                                  variant: 'ghost',
+                                  size: 'sm'
                                 }),
-                                "h-8 justify-start w-full pl-2"
+                                'h-8 justify-start w-full pl-2'
                               )}
                             >
                               <MessageSquare className="mr-2 h-3 w-3" />
@@ -141,8 +126,8 @@ export function Nav({ links, isCollapsed }: NavProps) {
                         <Link
                           href="/reggy/new"
                           className={cn(
-                            buttonVariants({ variant: "ghost", size: "sm" }),
-                            "h-8 justify-start w-full pl-2"
+                            buttonVariants({ variant: 'ghost', size: 'sm' }),
+                            'h-8 justify-start w-full pl-2'
                           )}
                         >
                           <Plus className="mr-2 h-3 w-3" />
@@ -159,9 +144,9 @@ export function Nav({ links, isCollapsed }: NavProps) {
                         className={cn(
                           buttonVariants({
                             variant,
-                            size: "icon",
+                            size: 'icon'
                           }),
-                          "h-9 w-9"
+                          'h-9 w-9'
                           // variant === "default" &&
                           //   "bg-background text-primary "
                         )}
@@ -170,32 +155,25 @@ export function Nav({ links, isCollapsed }: NavProps) {
                         <span className="sr-only">{link.title}</span>
                       </Link>
                     </TooltipTrigger>
-                    <TooltipContent
-                      side="right"
-                      className="flex items-center gap-4"
-                    >
+                    <TooltipContent side="right" className="flex items-center gap-4">
                       {link.title}
-                      {link.label && (
-                        <span className="ml-auto">{link.label}</span>
-                      )}
+                      {link.label && <span className="ml-auto">{link.label}</span>}
                     </TooltipContent>
                   </Tooltip>
                 ) : (
                   <Link
                     href={link.href}
                     className={cn(
-                      buttonVariants({ variant, size: "sm" }),
+                      buttonVariants({ variant, size: 'sm' }),
                       // variant === "default" &&
                       //   "bg-background text-primary hover:text-primary hover:bg-purple/10",
-                      "justify-start",
-                      "w-full"
+                      'justify-start',
+                      'w-full'
                     )}
                   >
                     <link.icon className="mr-2 h-4 w-4" />
                     {link.title}
-                    {link.label && (
-                      <span className="ml-auto">{link.label}</span>
-                    )}
+                    {link.label && <span className="ml-auto">{link.label}</span>}
                   </Link>
                 )}
               </div>

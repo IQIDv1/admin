@@ -1,22 +1,20 @@
-import { createServerClient } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
-import { Database } from "../database.types";
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
+import { Database } from '../database.types';
 
-const publicOnlyRoutes = ["/login"];
-const protectedRoutes = ["/settings", "/analytics"];
+const publicOnlyRoutes = ['/login'];
+const protectedRoutes = ['/settings', '/analytics'];
 
 export async function updateSession(request: NextRequest) {
-  const NEXT_PUBLIC_SUPABASE_ANON_KEY: string =
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-  const NEXT_PUBLIC_SUPABASE_URL: string =
-    process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  const NEXT_PUBLIC_SUPABASE_ANON_KEY: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+  const NEXT_PUBLIC_SUPABASE_URL: string = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 
   if (!NEXT_PUBLIC_SUPABASE_ANON_KEY || !NEXT_PUBLIC_SUPABASE_URL) {
-    throw new Error("Missing Supabase Environment Variables");
+    throw new Error('Missing Supabase Environment Variables');
   }
 
   let supabaseResponse = NextResponse.next({
-    request,
+    request
   });
 
   const supabase = createServerClient<Database>(
@@ -29,17 +27,15 @@ export async function updateSession(request: NextRequest) {
         },
         setAll(cookiesToSet) {
           // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-          cookiesToSet.forEach(({ name, value, options }) =>
-            request.cookies.set(name, value)
-          );
+          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value));
           supabaseResponse = NextResponse.next({
-            request,
+            request
           });
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options)
           );
-        },
-      },
+        }
+      }
     }
   );
   // IMPORTANT: Avoid writing any logic between createServerClient and
@@ -49,16 +45,15 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
   const isPublicOnly = publicOnlyRoutes.some((r) => pathname.startsWith(r));
-  const isProtected =
-    pathname === "/" || protectedRoutes.some((r) => pathname.startsWith(r));
+  const isProtected = pathname === '/' || protectedRoutes.some((r) => pathname.startsWith(r));
 
   if (!data.user && isProtected) {
     // no user, potentially respond by redirecting the user to the login page
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL('/login', request.url));
   }
   if (data.user && isPublicOnly) {
     // redirect logged in users away from the login page
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
