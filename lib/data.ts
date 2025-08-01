@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
-import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
-import { DATABASE_TABLES } from "@/lib/constants";
-import { Member } from "./types";
+import { redirect } from 'next/navigation';
+import { createClient, createServiceRoleClient } from '@/lib/supabase/server';
+import { DATABASE_TABLES } from '@/lib/constants';
+import { Member } from './types';
 
 export async function fetchMemberData(): Promise<Member | void> {
   const supabaseClient = await createClient();
@@ -13,12 +13,11 @@ export async function fetchMemberData(): Promise<Member | void> {
       throw new Error();
     }
 
-    const { data: memberData, error: memberError } =
-      await supabaseServiceRoleClient
-        .from(DATABASE_TABLES.MEMBERS)
-        .select("*")
-        .eq("id", data.user.id)
-        .single();
+    const { data: memberData, error: memberError } = await supabaseServiceRoleClient
+      .from(DATABASE_TABLES.MEMBERS)
+      .select('*')
+      .eq('id', data.user.id)
+      .single();
 
     if (memberError || !memberData) {
       try {
@@ -29,6 +28,6 @@ export async function fetchMemberData(): Promise<Member | void> {
 
     return memberData;
   } catch {
-    redirect("/login?error=unauthorized");
+    redirect('/login?error=unauthorized');
   }
 }

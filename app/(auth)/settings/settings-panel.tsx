@@ -1,38 +1,30 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Separator } from '@/components/ui/separator';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-import { Check, Info, Save } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+  SelectValue
+} from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
+import { Check, Info, Save } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 // import { useTheme } from "next-themes";
-import { THEMES } from "@/lib/constants";
-import { THEMES as THEMES_TYPE } from "@/lib/types";
+import { THEMES } from '@/lib/constants';
+import { THEMES as THEMES_TYPE } from '@/lib/types';
 
 export default function SettingsPanel() {
-  const [activeTab, setActiveTab] = useState("general");
-  const [saveStatus, setSaveStatus] = useState<
-    null | "saving" | "success" | "error"
-  >(null);
+  const [activeTab, setActiveTab] = useState('general');
+  const [saveStatus, setSaveStatus] = useState<null | 'saving' | 'success' | 'error'>(null);
 
   // Form state
   const [theme, setTheme] = useState<THEMES_TYPE>(THEMES.LIGHT);
@@ -41,10 +33,10 @@ export default function SettingsPanel() {
 
   // const [language, setLanguage] = useState("en");
   // const [compactView, setCompactView] = useState(false);
-  const [email, setEmail] = useState("admin@university.edu");
-  const [name, setName] = useState("Financial Aid Admin");
+  const [email, setEmail] = useState('admin@university.edu');
+  const [name, setName] = useState('Financial Aid Admin');
 
-  const [responseTone, setResponseTone] = useState("professional");
+  const [responseTone, setResponseTone] = useState('professional');
   const [responseLength, setResponseLength] = useState([50]);
   // const [autoRespond, setAutoRespond] = useState(true);
 
@@ -60,10 +52,8 @@ export default function SettingsPanel() {
   // const [slackNotifications, setSlackNotifications] = useState(false);
   // const [slackWebhook, setSlackWebhook] = useState("");
 
-  const [emailProvider, setEmailProvider] = useState("microsoft365");
-  const [emailAddress, setEmailAddress] = useState(
-    "financialaid@university.edu"
-  );
+  const [emailProvider, setEmailProvider] = useState('microsoft365');
+  const [emailAddress, setEmailAddress] = useState('financialaid@university.edu');
   // const [sisProvider, setSisProvider] = useState("banner");
   // const [apiEndpoint, setApiEndpoint] = useState(
   //   "https://sis-api.university.edu/v1"
@@ -75,55 +65,53 @@ export default function SettingsPanel() {
     viewAll: true,
     editSettings: true,
     manageUsers: true,
-    viewAnalytics: true,
+    viewAnalytics: true
   });
 
   const [staffPermissions, setStaffPermissions] = useState({
     viewAll: true,
     editSettings: false,
     manageUsers: false,
-    viewAnalytics: true,
+    viewAnalytics: true
   });
 
   const [readonlyPermissions, setReadonlyPermissions] = useState({
     viewAll: true,
     editSettings: false,
     manageUsers: false,
-    viewAnalytics: false,
+    viewAnalytics: false
   });
 
   // Team members
   const [teamMembers, setTeamMembers] = useState([
     {
-      name: "Sarah Johnson",
-      email: "sarah.johnson@university.edu",
-      role: "admin",
+      name: 'Sarah Johnson',
+      email: 'sarah.johnson@university.edu',
+      role: 'admin'
     },
     {
-      name: "Michael Chen",
-      email: "michael.chen@university.edu",
-      role: "staff",
+      name: 'Michael Chen',
+      email: 'michael.chen@university.edu',
+      role: 'staff'
     },
     {
-      name: "Jessica Rodriguez",
-      email: "jessica.rodriguez@university.edu",
-      role: "readonly",
-    },
+      name: 'Jessica Rodriguez',
+      email: 'jessica.rodriguez@university.edu',
+      role: 'readonly'
+    }
   ]);
 
   const updateTeamMemberRole = (email: string, role: string) => {
     setTeamMembers(
-      teamMembers.map((member) =>
-        member.email === email ? { ...member, role } : member
-      )
+      teamMembers.map((member) => (member.email === email ? { ...member, role } : member))
     );
   };
 
   const handleSave = () => {
-    setSaveStatus("saving");
+    setSaveStatus('saving');
     // Simulate API call
     setTimeout(() => {
-      setSaveStatus("success");
+      setSaveStatus('success');
       setTimeout(() => setSaveStatus(null), 3000);
     }, 1000);
   };
@@ -134,18 +122,17 @@ export default function SettingsPanel() {
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">Settings</h2>
           <p className="text-sm text-muted-foreground">
-            Configure your system&apos;s behavior, notifications, and integration
-            settings
+            Configure your system&apos;s behavior, notifications, and integration settings
           </p>
         </div>
         <Button
           onClick={handleSave}
           className="bg-purple hover:bg-purple/90"
-          disabled={saveStatus === "saving"}
+          disabled={saveStatus === 'saving'}
         >
-          {saveStatus === "saving" ? (
-            "Saving..."
-          ) : saveStatus === "success" ? (
+          {saveStatus === 'saving' ? (
+            'Saving...'
+          ) : saveStatus === 'success' ? (
             <>
               <Check className="mr-2 h-4 w-4" /> Saved
             </>
@@ -157,29 +144,21 @@ export default function SettingsPanel() {
         </Button>
       </div>
 
-      {saveStatus === "success" && (
+      {saveStatus === 'success' && (
         <Alert className="bg-green-50 text-green-800 border-green-200">
           <Check className="h-4 w-4 text-green-600" />
           <AlertTitle>Success</AlertTitle>
-          <AlertDescription>
-            Your settings have been saved successfully.
-          </AlertDescription>
+          <AlertDescription>Your settings have been saved successfully.</AlertDescription>
         </Alert>
       )}
 
-      <Tabs
-        value={activeTab}
-        onValueChange={setActiveTab}
-        className="space-y-4"
-      >
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList className="flex flex-wrap w-full min-h-fit">
           {/* <TabsList className="grid grid-cols-5 w-full"> */}
           <TabsTrigger
             value="general"
             className={`${
-              activeTab === "general"
-                ? "bg-purple text-white"
-                : "text-primary hover:bg-purple/10"
+              activeTab === 'general' ? 'bg-purple text-white' : 'text-primary hover:bg-purple/10'
             } transition-colors flex-1`}
           >
             General
@@ -187,9 +166,7 @@ export default function SettingsPanel() {
           <TabsTrigger
             value="agent"
             className={`${
-              activeTab === "agent"
-                ? "bg-purple text-white"
-                : "text-primary hover:bg-purple/10"
+              activeTab === 'agent' ? 'bg-purple text-white' : 'text-primary hover:bg-purple/10'
             } transition-colors flex-1`}
           >
             Agent Behavior
@@ -207,9 +184,9 @@ export default function SettingsPanel() {
           <TabsTrigger
             value="integrations"
             className={`${
-              activeTab === "integrations"
-                ? "bg-purple text-white"
-                : "text-primary hover:bg-purple/10"
+              activeTab === 'integrations'
+                ? 'bg-purple text-white'
+                : 'text-primary hover:bg-purple/10'
             } transition-colors flex-1`}
           >
             Integrations
@@ -217,9 +194,7 @@ export default function SettingsPanel() {
           <TabsTrigger
             value="access"
             className={`${
-              activeTab === "access"
-                ? "bg-purple text-white"
-                : "text-primary hover:bg-purple/10"
+              activeTab === 'access' ? 'bg-purple text-white' : 'text-primary hover:bg-purple/10'
             } transition-colors flex-1`}
           >
             Access Control
@@ -231,17 +206,12 @@ export default function SettingsPanel() {
           <Card>
             <CardHeader>
               <CardTitle>User Interface</CardTitle>
-              <CardDescription>
-                Customize how the dashboard looks and feels
-              </CardDescription>
+              <CardDescription>Customize how the dashboard looks and feels</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="theme">Theme</Label>
-                <Select
-                  value={theme}
-                  onValueChange={(val: THEMES_TYPE) => setTheme(val)}
-                >
+                <Select value={theme} onValueChange={(val: THEMES_TYPE) => setTheme(val)}>
                   <SelectTrigger id="theme">
                     <SelectValue placeholder="Select theme" />
                   </SelectTrigger>
@@ -262,19 +232,11 @@ export default function SettingsPanel() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <Input
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+                <Input id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="name">Display Name</Label>
-                <Input
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+                <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
               </div>
             </CardContent>
           </Card>
@@ -285,9 +247,7 @@ export default function SettingsPanel() {
           <Card>
             <CardHeader>
               <CardTitle>Response Configuration</CardTitle>
-              <CardDescription>
-                Configure how the agent responds to inquiries
-              </CardDescription>
+              <CardDescription>Configure how the agent responds to inquiries</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -494,9 +454,7 @@ export default function SettingsPanel() {
           <Card>
             <CardHeader>
               <CardTitle>Email Integration</CardTitle>
-              <CardDescription>
-                Configure your email service connection
-              </CardDescription>
+              <CardDescription>Configure your email service connection</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -593,9 +551,7 @@ export default function SettingsPanel() {
           <Card>
             <CardHeader>
               <CardTitle>User Roles</CardTitle>
-              <CardDescription>
-                Manage access levels for different user types
-              </CardDescription>
+              <CardDescription>Manage access levels for different user types</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -603,31 +559,27 @@ export default function SettingsPanel() {
                 <div className="rounded-md border p-4">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="admin-view-all">
-                        View All Interactions
-                      </Label>
+                      <Label htmlFor="admin-view-all">View All Interactions</Label>
                       <Switch
                         id="admin-view-all"
                         checked={adminPermissions.viewAll}
                         onCheckedChange={(checked) =>
                           setAdminPermissions({
                             ...adminPermissions,
-                            viewAll: checked,
+                            viewAll: checked
                           })
                         }
                       />
                     </div>
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="admin-edit-settings">
-                        Edit System Settings
-                      </Label>
+                      <Label htmlFor="admin-edit-settings">Edit System Settings</Label>
                       <Switch
                         id="admin-edit-settings"
                         checked={adminPermissions.editSettings}
                         onCheckedChange={(checked) =>
                           setAdminPermissions({
                             ...adminPermissions,
-                            editSettings: checked,
+                            editSettings: checked
                           })
                         }
                       />
@@ -640,22 +592,20 @@ export default function SettingsPanel() {
                         onCheckedChange={(checked) =>
                           setAdminPermissions({
                             ...adminPermissions,
-                            manageUsers: checked,
+                            manageUsers: checked
                           })
                         }
                       />
                     </div>
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="admin-view-analytics">
-                        View Analytics
-                      </Label>
+                      <Label htmlFor="admin-view-analytics">View Analytics</Label>
                       <Switch
                         id="admin-view-analytics"
                         checked={adminPermissions.viewAnalytics}
                         onCheckedChange={(checked) =>
                           setAdminPermissions({
                             ...adminPermissions,
-                            viewAnalytics: checked,
+                            viewAnalytics: checked
                           })
                         }
                       />
@@ -669,31 +619,27 @@ export default function SettingsPanel() {
                 <div className="rounded-md border p-4">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="staff-view-all">
-                        View All Interactions
-                      </Label>
+                      <Label htmlFor="staff-view-all">View All Interactions</Label>
                       <Switch
                         id="staff-view-all"
                         checked={staffPermissions.viewAll}
                         onCheckedChange={(checked) =>
                           setStaffPermissions({
                             ...staffPermissions,
-                            viewAll: checked,
+                            viewAll: checked
                           })
                         }
                       />
                     </div>
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="staff-edit-settings">
-                        Edit System Settings
-                      </Label>
+                      <Label htmlFor="staff-edit-settings">Edit System Settings</Label>
                       <Switch
                         id="staff-edit-settings"
                         checked={staffPermissions.editSettings}
                         onCheckedChange={(checked) =>
                           setStaffPermissions({
                             ...staffPermissions,
-                            editSettings: checked,
+                            editSettings: checked
                           })
                         }
                       />
@@ -706,22 +652,20 @@ export default function SettingsPanel() {
                         onCheckedChange={(checked) =>
                           setStaffPermissions({
                             ...staffPermissions,
-                            manageUsers: checked,
+                            manageUsers: checked
                           })
                         }
                       />
                     </div>
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="staff-view-analytics">
-                        View Analytics
-                      </Label>
+                      <Label htmlFor="staff-view-analytics">View Analytics</Label>
                       <Switch
                         id="staff-view-analytics"
                         checked={staffPermissions.viewAnalytics}
                         onCheckedChange={(checked) =>
                           setStaffPermissions({
                             ...staffPermissions,
-                            viewAnalytics: checked,
+                            viewAnalytics: checked
                           })
                         }
                       />
@@ -735,61 +679,53 @@ export default function SettingsPanel() {
                 <div className="rounded-md border p-4">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="readonly-view-all">
-                        View All Interactions
-                      </Label>
+                      <Label htmlFor="readonly-view-all">View All Interactions</Label>
                       <Switch
                         id="readonly-view-all"
                         checked={readonlyPermissions.viewAll}
                         onCheckedChange={(checked) =>
                           setReadonlyPermissions({
                             ...readonlyPermissions,
-                            viewAll: checked,
+                            viewAll: checked
                           })
                         }
                       />
                     </div>
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="readonly-edit-settings">
-                        Edit System Settings
-                      </Label>
+                      <Label htmlFor="readonly-edit-settings">Edit System Settings</Label>
                       <Switch
                         id="readonly-edit-settings"
                         checked={readonlyPermissions.editSettings}
                         onCheckedChange={(checked) =>
                           setReadonlyPermissions({
                             ...readonlyPermissions,
-                            editSettings: checked,
+                            editSettings: checked
                           })
                         }
                       />
                     </div>
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="readonly-manage-users">
-                        Manage Users
-                      </Label>
+                      <Label htmlFor="readonly-manage-users">Manage Users</Label>
                       <Switch
                         id="readonly-manage-users"
                         checked={readonlyPermissions.manageUsers}
                         onCheckedChange={(checked) =>
                           setReadonlyPermissions({
                             ...readonlyPermissions,
-                            manageUsers: checked,
+                            manageUsers: checked
                           })
                         }
                       />
                     </div>
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="readonly-view-analytics">
-                        View Analytics
-                      </Label>
+                      <Label htmlFor="readonly-view-analytics">View Analytics</Label>
                       <Switch
                         id="readonly-view-analytics"
                         checked={readonlyPermissions.viewAnalytics}
                         onCheckedChange={(checked) =>
                           setReadonlyPermissions({
                             ...readonlyPermissions,
-                            viewAnalytics: checked,
+                            viewAnalytics: checked
                           })
                         }
                       />
@@ -803,9 +739,7 @@ export default function SettingsPanel() {
           <Card>
             <CardHeader>
               <CardTitle>Team Members</CardTitle>
-              <CardDescription>
-                Manage users who have access to the system
-              </CardDescription>
+              <CardDescription>Manage users who have access to the system</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="rounded-md border">
@@ -814,16 +748,12 @@ export default function SettingsPanel() {
                     <div className="flex items-center justify-between p-4">
                       <div>
                         <p className="font-medium">{member.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {member.email}
-                        </p>
+                        <p className="text-sm text-muted-foreground">{member.email}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         <Select
                           value={member.role}
-                          onValueChange={(value) =>
-                            updateTeamMemberRole(member.email, value)
-                          }
+                          onValueChange={(value) => updateTeamMemberRole(member.email, value)}
                         >
                           <SelectTrigger className="w-[130px]">
                             <SelectValue placeholder="Select role" />
@@ -853,11 +783,11 @@ export default function SettingsPanel() {
         <Button
           onClick={handleSave}
           className="bg-purple hover:bg-purple/90"
-          disabled={saveStatus === "saving"}
+          disabled={saveStatus === 'saving'}
         >
-          {saveStatus === "saving" ? (
-            "Saving..."
-          ) : saveStatus === "success" ? (
+          {saveStatus === 'saving' ? (
+            'Saving...'
+          ) : saveStatus === 'success' ? (
             <>
               <Check className="mr-2 h-4 w-4" /> Saved
             </>
