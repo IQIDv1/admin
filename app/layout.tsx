@@ -30,9 +30,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable}`} suppressHydrationWarning>
       <body>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-          <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-            {children}
-          </main>
+          <main className="min-h-screen bg-white">{children}</main>
           <Toaster position="top-right" />
         </ThemeProvider>
       </body>

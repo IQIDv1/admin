@@ -196,7 +196,11 @@ export default function DashboardShell({ children, member }: DashboardShellProps
               </div> */}
             </header>
             <main className="flex-1 overflow-auto">
-              <div className="container mx-auto p-6">{children}</div>
+              <div className="container p-4">
+                <div className="space-y-6 w-full bg-gradient-to-br from-slate-50 to-blue-50 p-6 rounded-xl">
+                  {children}
+                </div>
+              </div>
             </main>
           </div>
         </ResizablePanel>

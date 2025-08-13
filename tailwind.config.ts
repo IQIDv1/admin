@@ -4,6 +4,26 @@ import tailwindcssAnimate from 'tailwindcss-animate';
 const config = {
   darkMode: ['class'],
   content: ['app/**/*.{ts,tsx}', 'components/**/*.{ts,tsx}', '*.{js,ts,jsx,tsx,mdx}'],
+  safelist: [
+    'bg-gray-50',
+    'bg-gray-100',
+    'border-gray-200',
+    'text-gray-800',
+    'text-gray-900',
+    'bg-yellow-50',
+    'bg-yellow-100',
+    'border-yellow-200',
+    'text-yellow-800',
+    'text-yellow-900',
+    'bg-green-50',
+    'bg-green-200',
+    'border-green-200',
+    'text-green-800',
+    'text-green-900',
+    'hover:bg-gray-100',
+    'hover:bg-yellow-100',
+    'hover:bg-green-100'
+  ],
   theme: {
     container: {
       center: true,

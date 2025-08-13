@@ -87,16 +87,48 @@ const OUTBOUND_ACTION_DISPLAY: Record<string, string> = {
   sent: 'Sent Message'
 };
 
+type COLOR_OPTIONS = {
+  bg: string;
+  bgHover: string;
+  border: string;
+  text: string;
+  title: string;
+};
+
+const STATUS_TO_COLOR_MAP: Record<string, COLOR_OPTIONS> = {
+  skipped: {
+    bg: 'bg-gray-50',
+    bgHover: 'bg-gray-100',
+    border: 'border-gray-200',
+    text: 'text-gray-800',
+    title: 'text-gray-900'
+  },
+  pending: {
+    bg: 'bg-yellow-50',
+    bgHover: 'bg-yellow-100',
+    border: 'border-yellow-200',
+    text: 'text-yellow-800',
+    title: 'text-yellow-900'
+  },
+  completed: {
+    bg: 'bg-green-50',
+    bgHover: 'bg-green-100',
+    border: 'border-green-200',
+    text: 'text-green-800',
+    title: 'text-green-900'
+  }
+};
+
 const UserActionIcon = ({ action }: { action: string }) => {
   switch (action) {
     case 'copied':
-      return <Clipboard className="h-4 w-4 text-blue-500" />;
+      return <Clipboard className="h-4 w-4 text-blue-600" />;
     case 'discarded':
-      return <Trash2 className="h-4 w-4 text-red-500" />;
+      return <Trash2 className="h-4 w-4 text-red-600" />;
     case 'edited':
-      return <SquarePen className="h-4 w-4 text-yellow-500" />;
+      return <SquarePen className="h-4 w-4 text-yellow-600" />;
     default:
-      return <CheckCircle2 className="h-4 w-4 text-green-500" />;
+      return <CheckCircle2 className="h-4 w-4 text-green-600" />;
   }
 };
 
@@ -178,7 +210,7 @@ const InteractionAuditTrail = ({ interaction }: { interaction: Interaction }) =>
             <AccordionItem className="border-b-0" key={idx} value={`log-${idx}`}>
               <AccordionTrigger className="py-1">
                 <div className="flex font-normal items-center gap-2 leading-normal text-gray-800/70 text-sm">
-                  <CheckCircle2 className="h-4 w-4 text-green-500" />
+                  <CheckCircle2 className="h-4 w-4 text-green-600" />
                   {INBOUND_ACTION_DISPLAY[log.action] || log.action}
                 </div>
               </AccordionTrigger>
@@ -201,7 +233,7 @@ const InteractionAuditTrail = ({ interaction }: { interaction: Interaction }) =>
           ) : (
             <div key={idx} className="flex flex-1 items-center justify-between py-1">
               <div className="flex items-center gap-2 leading-normal text-gray-800/80 text-sm">
-                <CheckCircle2 className="h-4 w-4 text-green-500" />
+                <CheckCircle2 className="h-4 w-4 text-green-600" />
                 {INBOUND_ACTION_DISPLAY[log.action] || log.action}
               </div>
             </div>
@@ -584,7 +616,7 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
             </SelectContent>
           </Select>
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2 top-[50%] transform -translate-y-1/2 h-4 w-4 text-purple-600" />
             <Input
               type="search"
               placeholder="Search interactions..."
@@ -598,9 +630,9 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
       <div className="grid gap-4">
         {filteredInteractions.length > 0 ? (
           filteredInteractions.map((interaction) => (
-            <Card key={interaction.id}>
+            <Card className="shadow-lg shadow-slate-200" key={interaction.id}>
               <CardHeader
-                className={cn('p-4', {
+                className={cn('p-0 rounded-t-lg overflow-hidden', {
                   'cursor-pointer': interaction.status === 'completed'
                 })}
                 onClick={() => {
@@ -610,41 +642,66 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                 }}
               >
                 <div className="flex items-start justify-between">
-                  <div className="space-y-1.5">
-                    <CardTitle className="text-base">
-                      <div className="flex items-center gap-6 w-full">
-                        <span
-                          className="truncate text-primary w-36 block"
-                          title={
-                            interaction.studentId
+                  <div className="space-y-1.5 w-full">
+                    <CardTitle
+                      className={cn(
+                        STATUS_TO_COLOR_MAP[interaction.status].bg,
+                        'border-b',
+                        STATUS_TO_COLOR_MAP[interaction.status].border,
+                        STATUS_TO_COLOR_MAP[interaction.status].title,
+                        'p-4 text-base'
+                      )}
+                    >
+                      <div className="flex items-center gap-6 justify-between w-full">
+                        <div className="flex items-center gap-6 text-base">
+                          <span
+                            className="truncate w-40 block"
+                            title={
+                              interaction.studentId
+                                ? interaction.studentName
+                                : interaction.senderAddress
+                            }
+                          >
+                            {interaction.studentId
                               ? interaction.studentName
-                              : interaction.senderAddress
-                          }
-                        >
-                          {interaction.studentId
-                            ? interaction.studentName
-                            : interaction.senderAddress}
-                        </span>
-                        <span className="truncate w-64 block" title={interaction.subject}>
-                          {interaction.subject}
-                        </span>
+                              : interaction.senderAddress}
+                          </span>
+                          <span className="truncate w-80 block" title={interaction.subject}>
+                            {interaction.subject}
+                          </span>
+                        </div>
+
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className={cn(
+                                `bg-transparent hover:${STATUS_TO_COLOR_MAP[interaction.status].bgHover}`,
+                                'h-8 w-8 p-0 shrink-0'
+                              )}
+                            >
+                              <MoreVertical
+                                className={cn(
+                                  STATUS_TO_COLOR_MAP[interaction.status].text,
+                                  'h-4 w-4'
+                                )}
+                              />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            {interaction.status === 'completed' && (
+                              <DropdownMenuItem>View full history</DropdownMenuItem>
+                            )}
+                            <DropdownMenuItem>Export conversation</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
                     </CardTitle>
-                    <p className="text-sm text-muted-foreground line-clamp-2">{interaction.body}</p>
+                    <p className="block line-clamp-2 text-sm text-muted-foreground p-4 pt-2.5">
+                      {interaction.body}
+                    </p>
                   </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0 shrink-0">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      {interaction.status === 'completed' && (
-                        <DropdownMenuItem>View full history</DropdownMenuItem>
-                      )}
-                      <DropdownMenuItem>Export conversation</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
                 </div>
               </CardHeader>
               {selectedInteraction === interaction.id && !isFullScreenMode && (
@@ -665,10 +722,10 @@ export default function InteractionsList({ currentUser }: { currentUser: Member 
                     className={cn(
                       'flex items-center gap-1',
                       interaction.status === 'pending'
-                        ? 'text-yellow-500'
+                        ? 'text-yellow-600'
                         : interaction.status === 'skipped'
-                          ? 'text-gray-500'
-                          : 'text-green-500'
+                          ? 'text-gray-600'
+                          : 'text-green-600'
                     )}
                   >
                     {interaction.status === 'pending' ? (
