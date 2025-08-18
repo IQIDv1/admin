@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { History, Pen, X, Save, Clipboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
@@ -236,7 +237,7 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
       <div className="flex h-full flex-col">
         <header className="bg-purple-600 flex h-12 items-center justify-between border-b px-6">
           <div className="flex items-center gap-2">
-            <h1 className="text-xl font-semibold text-primary-foreground">Write Email</h1>
+            <h1 className="text-xl font-semibold text-primary-foreground">Message Details</h1>
           </div>
           <Button variant="outline" size="icon" onClick={onCloseHandler}>
             <X className="h-5 w-5" />
@@ -253,15 +254,21 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
                 </Button>
               </div>
 
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <h3 className="text-lg font-medium">Detected Email: {message.subject}</h3>
-                  <Textarea
-                    className="min-h-[200px] bg-muted/50"
-                    readOnly
-                    value={message.body || 'No email content detected.'}
-                  />
-                </div>
+              <div className="space-y-8">
+                <Card className="border-0 shadow-lg shadow-slate-200 space-y-2">
+                  <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 rounded-t-lg">
+                    <CardTitle className="text-blue-900 truncate w-full">
+                      Detected Email: {message.subject}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pb-6 pt-4 px-6">
+                    <Textarea
+                      className="min-h-[200px] font-mono"
+                      readOnly
+                      value={message.body || 'No email content detected.'}
+                    />
+                  </CardContent>
+                </Card>
 
                 <div className="space-y-2">
                   <h3 className="text-lg font-medium">Draft Response:</h3>

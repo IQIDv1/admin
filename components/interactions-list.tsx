@@ -104,11 +104,11 @@ const STATUS_TO_COLOR_MAP: Record<string, COLOR_OPTIONS> = {
     title: 'text-gray-900'
   },
   pending: {
-    bg: 'bg-yellow-50',
-    bgHover: 'bg-yellow-100',
-    border: 'border-yellow-200',
-    text: 'text-yellow-800',
-    title: 'text-yellow-900'
+    bg: 'bg-orange-50',
+    bgHover: 'bg-orange-100',
+    border: 'border-orange-200',
+    text: 'text-orange-800',
+    title: 'text-orange-900'
   },
   completed: {
     bg: 'bg-green-50',
@@ -126,7 +126,7 @@ const UserActionIcon = ({ action }: { action: string }) => {
     case 'discarded':
       return <Trash2 className="h-4 w-4 text-red-600" />;
     case 'edited':
-      return <SquarePen className="h-4 w-4 text-yellow-600" />;
+      return <SquarePen className="h-4 w-4 text-orange-600" />;
     default:
       return <CheckCircle2 className="h-4 w-4 text-green-600" />;
   }
