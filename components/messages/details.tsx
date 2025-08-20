@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { History, Pen, X, Save, Clipboard } from 'lucide-react';
+import { Clipboard, History, Mail, Pen, X, Save, Sparkles, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -15,6 +15,11 @@ import {
 } from '@/lib/supabase/queries';
 import { saveOutboundResponse } from '@/lib/supabase/queries';
 import { useToast } from '@/components/ui/use-toast';
+
+import { MessageContext } from '@/components/messages/context';
+import type { MessageContextProps } from '@/components/messages/context';
+// This is temporary
+// import { contextData } from '@/components/messages/contextStubData';
 
 // Local Interaction type for component state
 type Interaction = {
@@ -52,6 +57,57 @@ function formatUSD(value: number) {
     });
   }
   return 'N/A';
+}
+
+const CATEGORIES_TO_MAP = ['personal_information'];
+const CATEGORY_CONFIG = {
+  personal_information: {
+    category: 'Personal Information',
+    color: 'bg-blue-50 border-blue-200',
+    icon: User,
+    iconColor: 'text-blue-600',
+    items: {
+      studentName: {
+        label: 'Student Name',
+        value: (student: StudentDetails['student']) => `${student.first_name} ${student.last_name}`
+      },
+      studentId: {
+        label: 'Student ID',
+        value: (student: StudentDetails['student']) => student.banner_student_id
+      }
+    }
+  }
+};
+
+function loadContextData(details: StudentDetails) {
+  const contextData: MessageContextProps['contextData'] = [];
+
+  if (CATEGORIES_TO_MAP.includes('personal_information') && details.student) {
+    const student = details.student;
+    contextData.push({
+      ...CATEGORY_CONFIG['personal_information'],
+      items: Object.entries(CATEGORY_CONFIG['personal_information'].items)
+        .map(([, item]) => {
+          const value = item.value(student);
+          if (value) {
+            return {
+              dataPoint: [item.label, value].filter(Boolean).join(': '),
+              confidence: 'high',
+              sources: [
+                {
+                  name: 'Student Profile',
+                  details: `${item.label} extracted from profile`,
+                  verified: true
+                }
+              ]
+            };
+          }
+        })
+        .filter(Boolean) as MessageContextProps['contextData'][0]['items']
+    });
+  }
+
+  return contextData;
 }
 
 function StudentInfo({ studentDetails, studentId }: StudentInfoProps) {
@@ -257,7 +313,8 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
               <div className="space-y-8">
                 <Card className="border-0 shadow-lg shadow-slate-200 space-y-2">
                   <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 rounded-t-lg">
-                    <CardTitle className="text-blue-900 truncate w-full">
+                    <CardTitle className="flex flex-row gap-2 items-center text-blue-900 truncate w-full">
+                      <Mail className="w-5 h-5" />
                       Detected Email: {message.subject}
                     </CardTitle>
                   </CardHeader>
@@ -270,65 +327,87 @@ export function MessageDetails({ message, onClose, onSaveMessage }: MessageDetai
                   </CardContent>
                 </Card>
 
-                <div className="space-y-2">
-                  <h3 className="text-lg font-medium">Draft Response:</h3>
-                  <Textarea
-                    className={cn('min-h-[300px]', {
-                      'bg-muted/50': hasSuggested && !isEditing
-                    })}
-                    value={draftResponse}
-                    onChange={(e) => setDraftResponse(e.target.value)}
-                    placeholder="Type your response here..."
-                    readOnly={hasSuggested && !isEditing}
-                  />
-                </div>
-
-                <div className="flex justify-end gap-2">
-                  {isEditing ? (
-                    <>
-                      <Button
-                        variant="outline"
-                        onClick={() => {
-                          setDraftResponse(message.suggestedReply?.body || '');
-                          setIsEditing(false);
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                      <Button variant="outline" onClick={handleSave}>
-                        <Save className="mr-2 h-4 w-4" />
-                        Save Response
-                      </Button>
-                      <Button disabled>
-                        <Clipboard className="mr-2 h-4 w-4" />
-                        Copy to Clipboard
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      {hasSuggested ? (
-                        <Button variant="outline" onClick={() => setIsEditing(true)}>
-                          <Pen className="mr-2 h-4 w-4" />
-                          Edit Response
-                        </Button>
-                      ) : draftResponse ? (
-                        <Button variant="outline" onClick={handleSave}>
-                          <Save className="mr-2 h-4 w-4" />
-                          Save Response
-                        </Button>
+                <Card className="border-0 shadow-lg shadow-slate-200 space-y-2">
+                  <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50 border-b border-green-100 rounded-t-lg">
+                    <CardTitle className="flex flex-row gap-2 items-center text-green-900 truncate w-full">
+                      <Pen className="w-5 h-5" />
+                      Draft Response:
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pb-6 pt-4 px-6 space-y-6">
+                    <Textarea
+                      className={cn('min-h-[300px] p-6', {
+                        'bg-gradient-to-br from-white to-gray-50 border-gray-200 text-gray-800 shadow-inner':
+                          isEditing || !hasSuggested
+                      })}
+                      value={draftResponse}
+                      onChange={(e) => setDraftResponse(e.target.value)}
+                      placeholder="Type your response here..."
+                      readOnly={hasSuggested && !isEditing}
+                    />
+                    <div className="flex justify-end gap-2">
+                      {isEditing ? (
+                        <>
+                          <Button
+                            variant="outline"
+                            onClick={() => {
+                              setDraftResponse(message.suggestedReply?.body || '');
+                              setIsEditing(false);
+                            }}
+                          >
+                            Cancel
+                          </Button>
+                          <Button variant="outline" onClick={handleSave}>
+                            <Save className="mr-2 h-4 w-4" />
+                            Save Response
+                          </Button>
+                          <Button disabled>
+                            <Clipboard className="mr-2 h-4 w-4" />
+                            Copy to Clipboard
+                          </Button>
+                        </>
                       ) : (
-                        <Button variant="outline" disabled>
-                          <Pen className="mr-2 h-4 w-4" />
-                          Edit Response
-                        </Button>
+                        <>
+                          {hasSuggested ? (
+                            <Button variant="outline" onClick={() => setIsEditing(true)}>
+                              <Pen className="mr-2 h-4 w-4" />
+                              Edit Response
+                            </Button>
+                          ) : draftResponse ? (
+                            <Button variant="outline" onClick={handleSave}>
+                              <Save className="mr-2 h-4 w-4" />
+                              Save Response
+                            </Button>
+                          ) : (
+                            <Button variant="outline" disabled>
+                              <Pen className="mr-2 h-4 w-4" />
+                              Edit Response
+                            </Button>
+                          )}
+                          <Button onClick={handleCopy} disabled={!hasSuggested}>
+                            <Clipboard className="mr-2 h-4 w-4" />
+                            Copy to Clipboard
+                          </Button>
+                        </>
                       )}
-                      <Button onClick={handleCopy} disabled={!hasSuggested}>
-                        <Clipboard className="mr-2 h-4 w-4" />
-                        Copy to Clipboard
-                      </Button>
-                    </>
-                  )}
-                </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-0 shadow-lg shadow-slate-200 space-y-2">
+                  <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 border-b border-purple-100 rounded-t-lg">
+                    <CardTitle className="flex flex-row gap-2 items-center text-purple-900 truncate w-full">
+                      <Sparkles className="w-5 h-5" />
+                      AI Context Analysis
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pb-6 pt-4 px-6">
+                    {/* Content to be added later */}
+                    {studentDetails ? (
+                      <MessageContext contextData={loadContextData(studentDetails)} />
+                    ) : null}
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
